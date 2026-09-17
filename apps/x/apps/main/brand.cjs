@@ -23,4 +23,10 @@ module.exports = {
   updateRepo: pick('updateRepo'),
   deepLinkScheme: pick('deepLinkScheme'),
   upstream: pick('upstream'),
+  assistantName: pick('assistantName'),
+  mentionHandle: pick('mentionHandle'),
+  companyName: pick('companyName'),
+  siteUrl: pick('siteUrl'),
+  docsUrl: pick('docsUrl'),
+  supportUrl: pick('supportUrl'),
 };

@@ -1,6 +1,6 @@
 {
     "name": "rowboat",
-    "productName": "Spinrun Desktop",
+    "productName": "Spinrun",
     "description": "AI coworker with memory",
     "type": "module",
     "version": "0.1.0",
