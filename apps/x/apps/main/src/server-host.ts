@@ -176,7 +176,7 @@ function createDesktopEventsClient(baseUrl: string, key: string): EventsClient {
               | { accepted?: boolean; message?: string }
               | null;
             if (!res.ok || !body) {
-              return { accepted: false, message: 'Could not reach the Rowboat server to complete sign-in' };
+              return { accepted: false, message: 'Could not reach the Spinrun server to complete sign-in' };
             }
             return { accepted: body.accepted === true, message: body.message };
           },
@@ -434,7 +434,7 @@ export async function connectRemoteServer(url: string, token: string): Promise<{
   }
   if (!key) return { success: false, error: 'Enter the server’s access code' };
   if (!(await isRowboatServer(baseUrl))) {
-    return { success: false, error: 'No Rowboat server answered at that address' };
+    return { success: false, error: 'No Spinrun server answered at that address' };
   }
   try {
     const res = await fetch(`${baseUrl}/rpc/sessions:list`, {

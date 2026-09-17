@@ -28,7 +28,7 @@ export const providerDisplayNames: Record<string, string> = {
   openrouter: 'OpenRouter',
   aigateway: 'AI Gateway',
   'openai-compatible': 'OpenAI-Compatible',
-  rowboat: 'Rowboat',
+  rowboat: 'Spinrun',
   // Matches what other subscription clients call this provider; the auth
   // itself is "Sign in with ChatGPT" (Plus/Pro subscription).
   codex: 'OpenAI Codex',
@@ -249,7 +249,7 @@ export function ModelSelector({
   // Driving the value ourselves re-anchors the highlight on the new group.
   const [commandValue, setCommandValue] = useState('')
   // Search text; case-insensitive substring test on the model id AND the
-  // provider name — typing "rowboat" surfaces the whole Rowboat group.
+  // provider name — typing "rowboat" surfaces the whole Spinrun group.
   const [query, setQuery] = useState('')
   const queryValue = query.trim().toLowerCase()
   const groupMatchesFilter = useCallback((g: ModelPickerGroup) =>

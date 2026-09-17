@@ -16,7 +16,7 @@ import {
     appOrigin,
 } from './constants.js';
 
-// Rowboat Apps server (spec §6–§7). Adapted from the deleted local-sites
+// Spinrun Apps server (spec §6–§7). Adapted from the deleted local-sites
 // server: one HTTP server on 127.0.0.1:3210, routing by Host header to
 // per-app origins (<slug>.apps.localhost). Serves static files from each
 // app's dist/ and the same-origin Host API under /_rowboat/*.
@@ -827,7 +827,7 @@ export async function init(): Promise<void> {
                 const s = expressApp.listen(APPS_PORT, host, () => resolve(s));
                 s.on('error', (error: NodeJS.ErrnoException) => reject(error));
             });
-            // EADDRINUSE almost always means a previous Rowboat instance is
+            // EADDRINUSE almost always means a previous Spinrun instance is
             // still shutting down and holding the port (quick relaunch). Retry
             // on the SAME port for a while — never scan for alternate ports
             // (§6.1), origins embed the port — instead of disabling apps for

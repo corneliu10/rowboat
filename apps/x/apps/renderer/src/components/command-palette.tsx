@@ -50,7 +50,7 @@ import { formatFeedTime, resolveMentions } from '@/lib/spaces-presentation'
 import { spaceVisitedAt, useSpaceVisitsVersion } from '@/lib/spaces-visits'
 import { cn } from '@/lib/utils'
 
-// The app's one ⌘K: Spotlight for Rowboat. Navigation and search in a single
+// The app's one ⌘K: Spotlight for Spinrun. Navigation and search in a single
 // box — type a few letters and the best thing to open is first, whatever it
 // is: a section, a space, a person, a discussion, a chat, a code chat, a note
 // (ranked locally, instantly), and under that what the text turned up across

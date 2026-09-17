@@ -28,7 +28,7 @@ const TEAM = [
 
 const ROADBOARD_README = `# Roadboard
 
-The Rowboat team roadmap, as a space.
+The Spinrun team roadmap, as a space.
 
 - [roadmap.md](roadmap.md) — the living roadmap. Edit directly or push via your agent.
 - Standups land here: push what you shipped, your agent merges it in.
@@ -153,7 +153,7 @@ const harbor = await startHarbor({
   ...(auth && process.env.AUTH_PUBLISHABLE_KEY
     ? { consent: { publishableKey: process.env.AUTH_PUBLISHABLE_KEY } }
     : {}),
-  orgName: process.env.HARBOR_ORG ?? 'Rowboat Labs (dev)',
+  orgName: process.env.HARBOR_ORG ?? 'Spinrun (dev)',
   ...(process.env.HARBOR_ALLOWED_DOMAINS
     ? { allowedEmailDomains: process.env.HARBOR_ALLOWED_DOMAINS.split(',').map((d) => d.trim()).filter(Boolean) }
     : {}),

@@ -17,7 +17,7 @@ const ProviderConnectionSchema = z.object({
   mode: z.enum(['byok', 'rowboat']).optional(),
   error: z.string().nullable().optional(),
   /**
-   * `rowboat` only. One session, two uses (2026-09-14): the Rowboat account
+   * `rowboat` only. One session, two uses (2026-09-14): the Spinrun account
    * is ALSO the identity every managed Spaces org trusts, so a person who
    * joins a space while choosing to stay signed out of the app still holds
    * a session here. `spacesOnly: true` marks that state — the tokens exist,

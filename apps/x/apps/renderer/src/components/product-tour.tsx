@@ -54,8 +54,8 @@ const TOUR_STEPS: TourStep[] = [
   {
     id: 'welcome',
     title: 'All aboard! ⚓',
-    text: "I'm your captain for the next minute. The lights are down and the water's in, so let me row you across Rowboat, one stop at a time. Use Next or your arrow keys.",
-    voiceText: "I'm your captain for the next minute. The lights are down and the water's in, so let me row you across Rowboat, one stop at a time.",
+    text: "I'm your captain for the next minute. The lights are down and the water's in, so let me row you across Spinrun, one stop at a time. Use Next or your arrow keys.",
+    voiceText: "I'm your captain for the next minute. The lights are down and the water's in, so let me row you across Spinrun, one stop at a time.",
   },
   {
     id: 'spaces',
@@ -73,7 +73,7 @@ const TOUR_STEPS: TourStep[] = [
     hat: 'mailcap',
     vignette: 'email',
     title: 'Email',
-    text: 'Read and triage your inbox right here. Rowboat sorts out what is important, labels the rest, and gets replies ready for you to send.',
+    text: 'Read and triage your inbox right here. Spinrun sorts out what is important, labels the rest, and gets replies ready for you to send.',
   },
   {
     id: 'meetings',
@@ -99,7 +99,7 @@ const TOUR_STEPS: TourStep[] = [
     hat: 'gradcap',
     vignette: 'brain',
     title: 'Brain',
-    text: 'Brain is your knowledge base. Notes, files, and everything Rowboat learns for you, all connected and searchable.',
+    text: 'Brain is your knowledge base. Notes, files, and everything Spinrun learns for you, all connected and searchable.',
   },
 
   {
@@ -108,7 +108,7 @@ const TOUR_STEPS: TourStep[] = [
     navigate: 'workspaces',
     hat: 'explorer',
     title: 'Projects',
-    text: 'Projects keep local files and related chats together. Pick a chat in the rail to work with Rowboat, or open a file alongside it.',
+    text: 'Projects keep local files and related chats together. Pick a chat in the rail to work with Spinrun, or open a file alongside it.',
   },
   {
     id: 'agents',
@@ -130,7 +130,7 @@ const TOUR_STEPS: TourStep[] = [
     id: 'composer',
     targetId: 'chat-composer',
     navigate: 'assistant',
-    title: 'Talk to Rowboat',
+    title: 'Talk to Spinrun',
     text: 'And this is where we talk! Type, dictate with the mic, or start a call and I will talk it through with you out loud. The Assistant at the top of the sidebar always brings you back here.',
   },
   {

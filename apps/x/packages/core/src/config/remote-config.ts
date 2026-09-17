@@ -15,7 +15,7 @@ interface RemoteConfig {
     appUrl: string;
     supabaseUrl: string;
     websocketApiUrl: string;
-    /** Rowboat Spaces managed apex (org creation) — null until a fleet exists for this environment. */
+    /** Spinrun Spaces managed apex (org creation) — null until a fleet exists for this environment. */
     spacesApexUrl: string | null;
 }
 

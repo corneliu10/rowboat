@@ -54,13 +54,13 @@ describe('ModelSelector', () => {
         variant="field"
         value={{ provider: 'openai', model: 'gpt-5.4' }}
         onChange={onChange}
-        defaultOption={{ label: 'Rowboat default' }}
+        defaultOption={{ label: 'Spinrun default' }}
       />,
     )
     await waitFor(() => expect(screen.getByRole('button')).toHaveTextContent('gpt-5.4'))
 
     await openMenu()
-    const sentinel = await screen.findByText('Rowboat default')
+    const sentinel = await screen.findByText('Spinrun default')
     fireEvent.click(sentinel)
     expect(onChange).toHaveBeenCalledWith(null)
   })

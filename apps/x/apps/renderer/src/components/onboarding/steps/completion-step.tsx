@@ -28,7 +28,7 @@ export function CompletionStep({ state }: CompletionStepProps) {
         </h2>
         {space.needed && (
           <p className="text-base text-muted-foreground leading-relaxed">
-            A place for your team and their Rowboat assistants to work together.
+            A place for your team and their Spinrun assistants to work together.
           </p>
         )}
       </motion.div>
@@ -75,7 +75,7 @@ export function CompletionStep({ state }: CompletionStepProps) {
           size="lg"
           className="w-full h-12 text-base font-medium"
         >
-          Start using Rowboat
+          Start using Spinrun
         </Button>
       </motion.div>
       <Button

@@ -11,7 +11,7 @@ export type ActingMode = z.infer<typeof ActingMode>;
 export const Attribution = z.object({
   memberId: MemberId,
   actingMode: ActingMode,
-  /** Display-only agent label, e.g. "Rowboat", "Claude Code". Never an identity. */
+  /** Display-only agent label, e.g. "Spinrun", "Claude Code". Never an identity. */
   agentName: z.string().max(64).optional(),
 });
 export type Attribution = z.infer<typeof Attribution>;

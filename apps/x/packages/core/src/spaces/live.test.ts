@@ -6,7 +6,7 @@ const SPACE_ULID = '01ARZ3NDEKTSV4RRFFQ69G5FAV';
 
 // Recovery tests: every wedge here was a REAL production state — the live
 // client dark forever while REST kept working, which silently killed all
-// presence ("Rowboat is working…" chips included) and live frames.
+// presence ("Spinrun is working…" chips included) and live frames.
 
 class FakeWebSocket {
   static OPEN = 1;

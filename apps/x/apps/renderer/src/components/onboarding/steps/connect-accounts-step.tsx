@@ -103,7 +103,7 @@ export function ConnectAccountsStep({ state }: ConnectAccountsStepProps) {
         Connect Your Accounts
       </h2>
       <p className="text-base text-muted-foreground text-center leading-relaxed mb-8">
-        Rowboat gets smarter the more it knows about your work. Connect your accounts to get started. You can find more tools in Settings.
+        Spinrun gets smarter the more it knows about your work. Connect your accounts to get started. You can find more tools in Settings.
       </p>
 
       {providersLoading ? (
@@ -132,7 +132,7 @@ export function ConnectAccountsStep({ state }: ConnectAccountsStepProps) {
               ) : (
                 <ProviderCard
                   name="Google"
-                  description="Rowboat uses your email and calendar to provide personalized, context-aware assistance"
+                  description="Spinrun uses your email and calendar to provide personalized, context-aware assistance"
                   icon={<GmailIcon />}
                   iconBg="bg-red-500/10"
                   iconColor="text-red-500"
@@ -150,7 +150,7 @@ export function ConnectAccountsStep({ state }: ConnectAccountsStepProps) {
               {providers.includes('microsoft') && (
                 <ProviderCard
                   name="Microsoft Outlook"
-                  description="Rowboat uses your email and calendar to provide personalized, context-aware assistance"
+                  description="Spinrun uses your email and calendar to provide personalized, context-aware assistance"
                   icon={<OutlookIcon />}
                   iconBg="bg-sky-500/10"
                   iconColor="text-sky-500"

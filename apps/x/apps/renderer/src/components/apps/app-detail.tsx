@@ -197,7 +197,7 @@ export function AppDetail({ folder, onClose }: { folder: string; onClose: () => 
                 </>
               ) : app.publish ? (
                 <>
-                  <p className="text-muted-foreground">Local app — published to the Rowboat catalog.</p>
+                  <p className="text-muted-foreground">Local app — published to the Spinrun catalog.</p>
                   <InfoRow k="Repository" v={app.publish.repo} mono link={`https://github.com/${app.publish.repo}`} />
                   {app.publish.lastPublishedVersion && (
                     <InfoRow

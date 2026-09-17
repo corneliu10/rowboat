@@ -1,5 +1,5 @@
 /**
- * Single switch for the managed (Rowboat-hosted) LLM provider ("rowboat").
+ * Single switch for the managed (Spinrun-hosted) LLM provider ("rowboat").
  *
  * Read from env ROWBOAT_MANAGED_LLM, default "off" in this fork. When off,
  * the rowboat provider is not listed (catalog.ts), not auto-selected

@@ -271,12 +271,12 @@ export function GeneralStream({
         }
     }
 
-    // "Open agent chat" on one of your Rowboat's posts: the run that wrote it.
+    // "Open agent chat" on one of your Spinrun's posts: the run that wrote it.
     const openResponse = (message: spaces.Message) => {
         if (onOpenSession) void openResponseChat({ orgId: org.id, spaceId: space.id, message, onOpenSession })
     }
 
-    // The working strip's stop square: cancel your Rowboat's run right here.
+    // The working strip's stop square: cancel your Spinrun's run right here.
     // The chip clears when the cancelled turn releases its presence lease.
     const stopAgent = async (rootMessageId: string) => {
         try {

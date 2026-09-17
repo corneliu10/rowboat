@@ -525,7 +525,7 @@ function ItemRow({ item, isRunning, needsApproval = null, commentOpen, sessionId
       {!item.checked && item.receipts.some((r) => r.kind === 'question') && (
         /* Needs-you tick: short, beside the title only — never tall enough
            to read as a structural rail. */
-        <span title="Rowboat needs an answer from you" className="absolute -left-3 top-[9px] h-4 w-[2.5px] rounded bg-amber-500/80" />
+        <span title="Spinrun needs an answer from you" className="absolute -left-3 top-[9px] h-4 w-[2.5px] rounded bg-amber-500/80" />
       )}
       {collapsible && onToggleCollapsed && (
         <IconTip label={isCollapsed ? 'Expand' : 'Collapse'}>
@@ -1112,7 +1112,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
       setSuggesting(false)
       // A beat for the refetch above; compare via fresh fetch result.
       void window.ipc.invoke('todo:get', null).then((r) => {
-        if (r.suggestions.length <= before) toast('Nothing new worth suggesting', { description: 'Rowboat looked and came back empty-handed — that\'s a feature.' })
+        if (r.suggestions.length <= before) toast('Nothing new worth suggesting', { description: 'Spinrun looked and came back empty-handed — that\'s a feature.' })
       }).catch(() => {})
     }
   }, [planner, suggesting, suggestions.length, refetch])
@@ -1338,7 +1338,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
     if (res.success && res.wasProposed && itemText) {
       // The dismissal already taught by example; this offers the durable rule.
       toast('Suggestion dismissed', {
-        description: 'Rowboat won\'t re-suggest this one.',
+        description: 'Spinrun won\'t re-suggest this one.',
         action: {
           label: "Don't suggest things like this",
           onClick: () => {
@@ -1433,7 +1433,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
               )}
               {planner?.slug && (
                 <div ref={plannerMenuRef} className="relative flex items-center">
-                  <IconTip label="Ask Rowboat for suggestions now">
+                  <IconTip label="Ask Spinrun for suggestions now">
                     <button
                       type="button"
                       onClick={() => void runPlannerNow()}
@@ -1710,7 +1710,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
                         <Check className="size-3" /> Add
                       </button>
                     </IconTip>
-                    <IconTip label="Decline — Rowboat learns from this">
+                    <IconTip label="Decline — Spinrun learns from this">
                       <button
                         type="button"
                         onClick={() => void declineSuggestion(text)}

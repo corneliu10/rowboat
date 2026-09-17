@@ -110,7 +110,7 @@ export function RemoteServerSettings({ dialogOpen }: { dialogOpen: boolean }) {
   return (
     <div className="space-y-3">
       <p className="text-xs text-muted-foreground">
-        Run Rowboat against a server on another machine. Enter its address and the
+        Run Spinrun against a server on another machine. Enter its address and the
         access code from <code className="font-mono">~/.rowboat/server-key</code> on that
         machine. Everything — chats, notes, connectors — will live there.
       </p>

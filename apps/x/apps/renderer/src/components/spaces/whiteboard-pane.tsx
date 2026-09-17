@@ -644,7 +644,7 @@ export default function WhiteboardPane({ org, space, boardId, memberNames, activ
                 )}
             >
                 {/* Our menu, not the stock one: the default carries Excalidraw's
-                    socials/help links — this is Rowboat's canvas, so only the
+                    socials/help links — this is Spinrun's canvas, so only the
                     canvas actions stay. Theme follows the app; save is automatic. */}
                 <MainMenu>
                     <MainMenu.DefaultItems.SaveAsImage />

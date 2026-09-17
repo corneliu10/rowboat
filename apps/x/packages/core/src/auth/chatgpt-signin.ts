@@ -195,10 +195,10 @@ function startAttempt(): ActiveAttempt {
           // can neither complete sign-in nor settle the live attempt.
           validateCallback: (url) => {
             if (settled) {
-              return 'This sign-in attempt is no longer active. Close this tab and try again from Rowboat.';
+              return 'This sign-in attempt is no longer active. Close this tab and try again from Spinrun.';
             }
             if (url.searchParams.get('state') !== state) {
-              return 'This sign-in link has expired. Close this tab and try again from Rowboat.';
+              return 'This sign-in link has expired. Close this tab and try again from Spinrun.';
             }
             return null;
           },

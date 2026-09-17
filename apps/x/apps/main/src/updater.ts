@@ -168,7 +168,7 @@ async function backfillReleaseNotes(releaseName: string | undefined): Promise<vo
     const notesUrl = buildReleaseNotesUrl(repo, tag);
     if (!notesUrl) return;
     const res = await net.fetch(notesUrl, {
-      headers: { Accept: "application/vnd.github+json", "User-Agent": "Rowboat" },
+      headers: { Accept: "application/vnd.github+json", "User-Agent": "Spinrun" },
     });
     if (!res.ok) return;
     const { body } = (await res.json()) as { body?: string };

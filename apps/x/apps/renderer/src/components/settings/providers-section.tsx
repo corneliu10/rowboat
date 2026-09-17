@@ -107,7 +107,7 @@ export function ProvidersSection({ dialogOpen, variant = "settings" }: {
   useEffect(() => {
     const handler = () => void load()
     window.addEventListener("models-config-changed", handler)
-    // Main-side config writes (Rowboat sign-in seeding the assistant,
+    // Main-side config writes (Spinrun sign-in seeding the assistant,
     // sign-out clearing selections, ChatGPT state) announce themselves on
     // the auth broadcasts, not the window event — reload on those too.
     const cleanups = [
@@ -166,7 +166,7 @@ export function ProvidersSection({ dialogOpen, variant = "settings" }: {
       <div className="space-y-2">
         {cards.length === 0 && (
           <div className="rounded-md border border-dashed px-4 py-6 text-center text-sm text-muted-foreground">
-            Connect Rowboat, use your own API key, or choose a local provider to start using the Assistant.
+            Connect Spinrun, use your own API key, or choose a local provider to start using the Assistant.
           </div>
         )}
         {cards.map((c) => (
@@ -278,7 +278,7 @@ function AddProviderDialog({ open, onOpenChange, connectedIds, isRowboatConnecte
     }
   }, [open])
 
-  // Rowboat / ChatGPT sign-in completes out-of-band (browser); the shared
+  // Spinrun / ChatGPT sign-in completes out-of-band (browser); the shared
   // store refreshes on the auth broadcasts, so the provider appearing in
   // connectedIds is the completion signal.
   useEffect(() => {
@@ -306,7 +306,7 @@ function AddProviderDialog({ open, onOpenChange, connectedIds, isRowboatConnecte
     if (!isRowboatConnected && managedLlmEnabled) {
       entries.push({
         id: "rowboat",
-        name: "Rowboat",
+        name: "Spinrun",
         tagline: "Included with your plan",
         icon: null,
         onChoose: () => {
@@ -393,7 +393,7 @@ function AddProviderDialog({ open, onOpenChange, connectedIds, isRowboatConnecte
       }
       await window.ipc.invoke("models:setProvider", { id: flavor, provider: providerEntry })
       // Initial selection only — a saved assistant is never replaced. The
-      // prop can be stale (a Rowboat sign-in moments ago seeds the
+      // prop can be stale (a Spinrun sign-in moments ago seeds the
       // assistant MAIN-side), so re-read the authoritative config at the
       // moment of decision instead of trusting render-time state.
       const cfgNow = await window.ipc.invoke("models:getConfig", null).catch(() => null)
@@ -452,7 +452,7 @@ function AddProviderDialog({ open, onOpenChange, connectedIds, isRowboatConnecte
         {step.kind === "choose" && (
           <div className="space-y-3">
             <p className="text-xs text-muted-foreground">
-              Connect Rowboat, add your own API key, or run models locally. Each provider&apos;s models appear alongside the others in every picker.
+              Connect Spinrun, add your own API key, or run models locally. Each provider&apos;s models appear alongside the others in every picker.
             </p>
             <div className="grid grid-cols-2 gap-2">
               {chooseEntries.map((e) => (
@@ -743,8 +743,8 @@ function ManageProviderDialog({ card, usedBy, onClose, onRefreshModels }: {
               <div className="flex items-center justify-between gap-3">
                 <span className="text-xs text-muted-foreground">
                   {card.flavor === "rowboat"
-                    ? "Sign out of your Rowboat account."
-                    : `Remove ${card.name} and its models from Rowboat.`}
+                    ? "Sign out of your Spinrun account."
+                    : `Remove ${card.name} and its models from Spinrun.`}
                 </span>
                 <Button variant="outline" size="sm" className="text-destructive" onClick={() => setConfirmDisconnect(true)}>
                   Disconnect
@@ -756,7 +756,7 @@ function ManageProviderDialog({ card, usedBy, onClose, onRefreshModels }: {
                 <p className="text-xs text-muted-foreground">
                   {usedBy.length > 0
                     ? `${usedBy.length} model selection${usedBy.length === 1 ? "" : "s"} use${usedBy.length === 1 ? "s" : ""} this provider. Task overrides will reset to the Assistant model${assistantAffected ? ", and you'll need to pick a new Assistant model" : ""}.`
-                    : "Its models will no longer be available in Rowboat."}
+                    : "Its models will no longer be available in Spinrun."}
                 </p>
                 <div className="flex justify-end gap-2">
                   <Button variant="outline" size="sm" onClick={() => setConfirmDisconnect(false)}>

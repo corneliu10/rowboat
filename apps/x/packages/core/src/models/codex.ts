@@ -195,7 +195,7 @@ const codexFetch: typeof fetch = async (input, init) => {
     headers.set('Authorization', `Bearer ${token}`);
     if (accountId) headers.set('chatgpt-account-id', accountId);
     headers.set('originator', CODEX_ORIGINATOR);
-    headers.set('User-Agent', `${CODEX_ORIGINATOR}/${await codexClientVersion()} (Rowboat)`);
+    headers.set('User-Agent', `${CODEX_ORIGINATOR}/${await codexClientVersion()} (Spinrun)`);
 
     let body = init?.body;
     let forcedStream = false;

@@ -55,7 +55,7 @@ function SignIn() {
           <Image source="sf:sailboat" style={{ width: 48, height: 48 }} tintColor={colors.label} />
           <View style={{ alignItems: 'center', gap: 4 }}>
             <Text style={{ fontSize: 26, fontWeight: '700', color: colors.label }}>Welcome to Spaces</Text>
-            <Text style={{ fontSize: 14, color: colors.tertiaryLabel }}>by Rowboat</Text>
+            <Text style={{ fontSize: 14, color: colors.tertiaryLabel }}>by Spinrun</Text>
           </View>
         </View>
 
@@ -89,11 +89,11 @@ function SignIn() {
         >
           {busy
             ? <ActivityIndicator color={colors.background} />
-            : <Text style={{ fontSize: 16, fontWeight: '600', color: colors.background }}>Sign in with Rowboat</Text>}
+            : <Text style={{ fontSize: 16, fontWeight: '600', color: colors.background }}>Sign in with Spinrun</Text>}
         </Pressable>
         <Pressable onPress={() => router.push('/pairing')} style={{ alignItems: 'center', padding: 4 }}>
           <Text style={{ fontSize: 14, color: colors.secondaryLabel }}>
-            Use Rowboat on your Mac? <Text style={{ fontWeight: '600', color: colors.label }}>Connect your Mac</Text>
+            Use Spinrun on your Mac? <Text style={{ fontWeight: '600', color: colors.label }}>Connect your Mac</Text>
           </Text>
         </Pressable>
         {error ? <Text style={{ fontSize: 13, textAlign: 'center', color: colors.destructive }}>{error}</Text> : null}

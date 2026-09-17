@@ -16,7 +16,7 @@ import { spacesMcpServerNameFor } from './orgs.js';
 // This module watches the turn bus for the agent's post_message calls made
 // inside a mention-originated turn, and records feed message id → (session,
 // turn, input) locally, next to the registry. The org never sees a session
-// id: sessions are local to the machine whose Rowboat ran, so nobody else
+// id: sessions are local to the machine whose Spinrun ran, so nobody else
 // could resolve one anyway (when agents move into Harbor the org will know
 // the run itself and can stamp provenance on the message then).
 //
@@ -301,7 +301,7 @@ export type ResponseSessionResolution =
   | { status: 'found'; sessionId: string; turnId: string; inputIndex?: number }
   /** A link exists but its session was deleted since — say so, never fall through to a recreated one. */
   | { status: 'gone' }
-  /** Nothing recorded: a post from before this index existed, or not this member's Rowboat. */
+  /** Nothing recorded: a post from before this index existed, or not this member's Spinrun. */
   | { status: 'unknown' };
 
 /** The message-row "Open agent chat" resolution. */

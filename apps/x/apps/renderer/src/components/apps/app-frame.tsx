@@ -123,7 +123,7 @@ export function AppFrame({ app, onBack }: { app: rowboatApp.AppSummary; onBack: 
           {loadState === 'stuck' && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/95 text-sm">
               <div className="text-muted-foreground">
-                {serverDown ? 'The Rowboat apps server is still starting up.' : 'This app is taking too long to load.'}
+                {serverDown ? 'The Spinrun apps server is still starting up.' : 'This app is taking too long to load.'}
               </div>
               <button
                 type="button"

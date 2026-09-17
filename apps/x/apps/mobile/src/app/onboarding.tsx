@@ -17,7 +17,7 @@ const SLIDES = [
   {
     icon: 'sf:sailboat',
     title: 'Welcome to Spaces',
-    sub: 'by Rowboat',
+    sub: 'by Spinrun',
     detail: 'Your team, your files, and your agents — together in one place.',
   },
   {
@@ -38,7 +38,7 @@ const SLIDES = [
   {
     icon: 'sf:laptopcomputer.and.iphone',
     title: 'Bring your Mac',
-    detail: 'Use the Rowboat Mac app? Connect it any time from the menu to continue your chats and read your Brain from your phone.',
+    detail: 'Use the Spinrun Mac app? Connect it any time from the menu to continue your chats and read your Brain from your phone.',
   },
 ] as const;
 

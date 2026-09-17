@@ -40,7 +40,7 @@ export function FoldIntoFileButton({ entries, onPick, busy }: {
                     type="button"
                     disabled={busy}
                     className="inline-flex items-center gap-1 whitespace-nowrap rounded-md border border-border px-2 py-0.5 text-[11.5px] text-foreground/90 hover:bg-accent disabled:opacity-50"
-                    title="Ask your Rowboat to fold this topic’s decision into a file"
+                    title="Ask your Spinrun to fold this topic’s decision into a file"
                 >
                     {busy ? <Loader2 className="size-3 animate-spin" /> : <Bot className="size-3" />} Fold into file… <ChevronDown className="size-3 text-muted-foreground" />
                 </button>
@@ -130,7 +130,7 @@ export function ArtifactsRail({ org, space, groups, memberNames, working, entrie
                     </div>
                 ))}
                 {working && (
-                    <div className="flex items-center gap-2 px-1 py-1 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" /> A Rowboat is working in this topic…</div>
+                    <div className="flex items-center gap-2 px-1 py-1 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" /> A Spinrun is working in this topic…</div>
                 )}
             </div>
             <Dialog open={diffView !== null} onOpenChange={(open) => !open && setDiffView(null)}>

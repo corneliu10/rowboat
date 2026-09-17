@@ -57,8 +57,8 @@ describe("AboutDialog", () => {
   it("shows product identity, versions, and live update status", async () => {
     render(<AboutDialog open onOpenChange={() => undefined} />)
 
-    expect(screen.getByRole("heading", { name: "Rowboat" })).toBeInTheDocument()
-    expect(screen.getByRole("img", { name: "Rowboat logo" })).toHaveAttribute("src", "./logo-only.png")
+    expect(screen.getByRole("heading", { name: "Spinrun" })).toBeInTheDocument()
+    expect(screen.getByRole("img", { name: "Spinrun logo" })).toHaveAttribute("src", "./logo-only.png")
     expect(screen.getByText(/remembers the work/i)).toBeInTheDocument()
     expect(await screen.findByText("You’re up to date")).toBeInTheDocument()
     expect(screen.getByText("Version 1.2.3 · Desktop")).toBeInTheDocument()
@@ -80,7 +80,7 @@ describe("AboutDialog", () => {
     fireEvent.click(screen.getByText("Technical details"))
     fireEvent.click(screen.getByRole("button", { name: "Copy diagnostics" }))
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1))
-    expect(writeText.mock.calls[0][0]).toContain("Rowboat 1.2.3")
+    expect(writeText.mock.calls[0][0]).toContain("Spinrun 1.2.3")
     expect(writeText.mock.calls[0][0]).toContain("Electron 39.2.7")
     expect(await screen.findByRole("button", { name: "Copied" })).toBeInTheDocument()
   })
@@ -89,7 +89,7 @@ describe("AboutDialog", () => {
     updaterStatus = { state: "ready", version: "1.2.3", newVersion: "1.3.0" }
     render(<AboutDialog open onOpenChange={() => undefined} />)
 
-    expect(await screen.findByText("Rowboat 1.3.0 is ready to install.")).toBeInTheDocument()
+    expect(await screen.findByText("Spinrun 1.3.0 is ready to install.")).toBeInTheDocument()
     fireEvent.click(screen.getByRole("button", { name: "Restart" }))
     await waitFor(() => expect(invokeCalls).toContain("updater:quitAndInstall"))
   })

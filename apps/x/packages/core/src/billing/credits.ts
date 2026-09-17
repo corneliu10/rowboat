@@ -80,7 +80,7 @@ async function hasPaidPlan(userId: string): Promise<boolean> {
   return paid;
 }
 
-// Claimed-state cache, keyed by Rowboat user id so switching accounts on the
+// Claimed-state cache, keyed by Spinrun user id so switching accounts on the
 // same install doesn't hide unclaimed rewards. This is only a cache: the
 // backend enforces once-per-customer via the grants table, and a lost file
 // merely means the next occurrence of the action re-attempts activation and
@@ -123,7 +123,7 @@ function markClaimed(userId: string, code: CreditActivityCode | typeof REFERRAL_
 }
 
 /**
- * Extract the Supabase user id (`sub` claim) from the Rowboat access token
+ * Extract the Supabase user id (`sub` claim) from the Spinrun access token
  * without verification — we only use it as a local cache key.
  */
 function userIdFromToken(accessToken: string): string | null {
@@ -288,10 +288,10 @@ export async function claimReferralCode(rawCode: string): Promise<ReferralClaimR
   try {
     const code = rawCode.trim();
     if (!code) return { ok: false, message: 'Enter an invite code.' };
-    if (!(await isSignedIn())) return { ok: false, message: 'Sign in to Rowboat to use an invite code.' };
+    if (!(await isSignedIn())) return { ok: false, message: 'Sign in to Spinrun to use an invite code.' };
     const accessToken = await getAccessToken();
     const userId = userIdFromToken(accessToken);
-    if (!userId) return { ok: false, message: 'Sign in to Rowboat to use an invite code.' };
+    if (!userId) return { ok: false, message: 'Sign in to Spinrun to use an invite code.' };
     if (readClaimedStore()[userId]?.[REFERRAL_CLAIMED_KEY]) {
       return { ok: false, message: 'This account has already used an invite code.' };
     }

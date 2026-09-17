@@ -3,7 +3,7 @@ import path from 'node:path';
 import { z } from 'zod';
 
 // ~/.rowboat/config/server.json — user-facing knobs for the transport.
-// 3210 is taken by the Rowboat Apps server; 3220 is ours.
+// 3210 is taken by the Spinrun Apps server; 3220 is ours.
 export const DEFAULT_PORT = 3220;
 
 export const ServerConfig = z.object({

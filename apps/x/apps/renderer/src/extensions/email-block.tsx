@@ -165,7 +165,7 @@ function EmailExpandedBody({
             onClick={(e) => { e.stopPropagation(); draftWithAssistant() }}
           >
             <MessageSquare size={13} />
-            Draft with Rowboat
+            Draft with Spinrun
           </button>
         </div>
       )}
@@ -194,7 +194,7 @@ function EmailExpandedBody({
               onClick={(e) => { e.stopPropagation(); draftWithAssistant() }}
             >
               <MessageSquare size={13} />
-              {hasDraft ? 'Refine with Rowboat' : 'Draft with Rowboat'}
+              {hasDraft ? 'Refine with Spinrun' : 'Draft with Spinrun'}
             </button>
             <button
               className="email-gmail-btn"

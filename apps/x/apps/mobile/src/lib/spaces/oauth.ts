@@ -55,7 +55,7 @@ async function clientIdFor(meta: AsMetadata): Promise<string> {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      client_name: 'Rowboat Mobile',
+      client_name: 'Spinrun Mobile',
       redirect_uris: [REDIRECT_URI],
       token_endpoint_auth_method: 'none',
       grant_types: ['authorization_code', 'refresh_token'],

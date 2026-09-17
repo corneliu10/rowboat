@@ -542,7 +542,7 @@ function ExternalLink({ href, children }: { href: string; children?: ReactNode }
                         // not mean "trust this domain forever".
                         onOpenAutoFocus={(e) => { e.preventDefault(); cancelRef.current?.focus() }}
                     >
-                        <DialogTitle>Leaving Rowboat</DialogTitle>
+                        <DialogTitle>Leaving Spinrun</DialogTitle>
                         {/* min-w-0 throughout: these are grid children, which
                             size to their content by default and would push a
                             long hostname straight through the card's edge. */}

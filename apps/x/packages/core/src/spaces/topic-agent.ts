@@ -22,7 +22,7 @@ import { spacesMcpServerNameFor } from './orgs.js';
 //   space, thread root, feed message). The runtime stamps it on the turn it
 //   starts, or on the input_added when it steers a live one, and the
 //   agent-activity feed (agent-activity.ts) turns those events into the
-//   room's "Rowboat is working" chip and lease. The session is user-openable
+//   room's "Spinrun is working" chip and lease. The session is user-openable
 //   (thread pane + history pane), so the person's own chat turns there carry
 //   no origin and never light the chip.
 // - The session itself carries a space_thread SESSION origin (org, space,

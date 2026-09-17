@@ -49,7 +49,7 @@ function PermissionPrompt({
 }) {
   return (
     <View style={styles.promptCard}>
-      <Text style={styles.promptTitle}>Rowboat wants to run “{pending.toolName}”</Text>
+      <Text style={styles.promptTitle}>Spinrun wants to run “{pending.toolName}”</Text>
       <View style={styles.promptButtons}>
         <Button title="Allow" onPress={() => onDecision(pending.toolCallId, 'allow')} />
         <Button title="Deny" color="#c0392b" onPress={() => onDecision(pending.toolCallId, 'deny')} />
@@ -145,7 +145,7 @@ export function TurnView({ state, liveText, streaming, onPermission, onAskHuman 
             <AskHumanPrompt
               key={tc.toolCallId}
               toolCallId={tc.toolCallId}
-              question={input?.question ?? 'Rowboat has a question'}
+              question={input?.question ?? 'Spinrun has a question'}
               options={input?.options}
               onAnswer={onAskHuman}
             />

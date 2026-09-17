@@ -33,7 +33,7 @@ import { cleanInstallTmp } from '../apps/installer.js';
 import { startSpacesScheduler } from '../spaces/scheduler.js';
 import { flags } from '@x/shared';
 
-// The headless-safe half of Rowboat's boot: everything that runs schedulers,
+// The headless-safe half of Spinrun's boot: everything that runs schedulers,
 // sync services, and background agents against the workdir. Extracted from
 // apps/main/src/main.ts (Phase 6, SEPARATION_PLAN.md) so Electron main and
 // the standalone rowboat-server boot the SAME service set in the SAME order —
@@ -105,7 +105,7 @@ export async function initCoreServices(): Promise<void> {
   startRetentionSweep();
   startModelsDevRefresh();
 
-  // Rowboat Apps server (per-app origins on 127.0.0.1:3210).
+  // Spinrun Apps server (per-app origins on 127.0.0.1:3210).
   registerAppsHostApi();
   // Startup hygiene: drop leftover install/update stagings. A cancelled URL
   // preview retains its staging by design and a failed download leaves a

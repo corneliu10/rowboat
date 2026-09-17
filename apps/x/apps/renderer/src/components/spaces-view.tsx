@@ -133,7 +133,7 @@ export function SpacesView({ selection, onSelect, onSwitchSpace, railSelection, 
     active?: boolean
 }) {
     const { orgs, loading } = useSpacesOrgs()
-    // No Rowboat session → the empty state offers the sign-in first (one
+    // No Spinrun session → the empty state offers the sign-in first (one
     // session, two uses): one browser trip lists every managed org.
     const account = useSpacesAccountState()
     const [signingIn, setSigningIn] = useState(false)
@@ -238,7 +238,7 @@ export function SpacesView({ selection, onSelect, onSwitchSpace, railSelection, 
                         {account && !account.hasSession ? (
                             <div className="mt-4 flex flex-col items-center gap-2">
                                 <Button size="sm" onClick={() => void signInRowboat()} disabled={signingIn}>
-                                    {signingIn ? <Loader2 className="size-4 mr-1 animate-spin" /> : null} Sign in with Rowboat
+                                    {signingIn ? <Loader2 className="size-4 mr-1 animate-spin" /> : null} Sign in with Spinrun
                                 </Button>
                                 <button type="button" className="text-xs text-muted-foreground hover:underline" onClick={() => openServerDialog({ kind: 'join' })}>
                                     Have an invite link or a server address?
@@ -1359,7 +1359,7 @@ function InviteLinkPanel({ orgId, spaceId, spaceName }: { orgId: string; spaceId
                     ? <p className="text-xs text-destructive">{state.message}</p>
                     : copy === 'failed'
                         ? <p className="text-xs text-destructive">Could not copy. Select the link above and copy it instead.</p>
-                        : <p className="text-xs text-muted-foreground">Anyone with it can join #{spaceName} on Rowboat.</p>}
+                        : <p className="text-xs text-muted-foreground">Anyone with it can join #{spaceName} on Spinrun.</p>}
                 <Button
                     type="button"
                     size="sm"

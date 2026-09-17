@@ -144,7 +144,7 @@ export async function synthesizeSpeechStream(
 
 // ---------------------------------------------------------------------------
 // Batch ASR — transcribe a complete audio buffer (not live mic streaming).
-// Auth precedence mirrors the renderer's voice mode: signed-in Rowboat
+// Auth precedence mirrors the renderer's voice mode: signed-in Spinrun
 // account first, then a local Deepgram key.
 // ---------------------------------------------------------------------------
 
@@ -171,7 +171,7 @@ export async function transcribeAudio(audio: Buffer, opts?: { mimeType?: string 
 
     const config = await getVoiceConfig();
     if (!config.deepgram) {
-        throw new Error(`Deepgram not configured. Sign in to Rowboat, or create ${path.join(WorkDir, 'config', 'deepgram.json')} with { "apiKey": "<your-key>" }`);
+        throw new Error(`Deepgram not configured. Sign in to Spinrun, or create ${path.join(WorkDir, 'config', 'deepgram.json')} with { "apiKey": "<your-key>" }`);
     }
 
     // Local key: Deepgram's pre-recorded REST API (most robust for files).
@@ -201,7 +201,7 @@ export async function transcribeAudio(audio: Buffer, opts?: { mimeType?: string 
  */
 async function transcribeViaProxy(audio: Buffer): Promise<{ transcript: string }> {
     const { websocketApiUrl } = await getRemoteConfig();
-    if (!websocketApiUrl) throw new Error('Rowboat websocket API URL is not configured');
+    if (!websocketApiUrl) throw new Error('Spinrun websocket API URL is not configured');
     const accessToken = await getAccessToken();
 
     const url = new URL('/deepgram/v1/listen', websocketApiUrl);

@@ -5,7 +5,7 @@ import type { TurnBusEvent } from '@x/shared/dist/turns.js';
 import type { PresenceState } from '@rowboat/spaces-protocol';
 import { getLive } from './orgs.js';
 
-// "Is my Rowboat working on the mention I made?" — answered from bus events
+// "Is my Spinrun working on the mention I made?" — answered from bus events
 // alone. This is the ONE spaces-side consumer of the general turn and
 // session buses. It keeps a small map of live activity keyed by the origin
 // stamped on the events (turns created from, or steered with, a space

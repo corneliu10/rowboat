@@ -74,7 +74,7 @@ export interface SlashCommand {
 type CommandEntry = Omit<SlashCommand, 'run'> & { run?: SlashCommand['run'] }
 
 /** Built into the composer itself: /ask rewrites to an @spinball message and sends. */
-const ASK_COMMAND: CommandEntry = { name: 'ask', args: '<question>', hint: 'Ask your Rowboat — same as @spinball' }
+const ASK_COMMAND: CommandEntry = { name: 'ask', args: '<question>', hint: 'Ask your Spinrun — same as @spinball' }
 
 /** A draft that IS a command: "/name" or "/name args". */
 const COMMAND_RE = /^\/([a-zA-Z]+)(?:\s+([\s\S]*))?$/
@@ -877,7 +877,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
                         <button
                             type="button"
                             onClick={insertRowboatChip}
-                            title="Address your Rowboat — it acts only when asked"
+                            title="Address your Spinrun — it acts only when asked"
                             className={cn(
                                 'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs',
                                 mentioned ? 'bg-foreground text-background' : 'bg-muted text-foreground/80 hover:bg-accent',
@@ -888,7 +888,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
                         {mentioned && (
                             <>
                                 <span className="mx-0.5 h-4 w-px bg-border" />
-                                <span className="text-[11px] text-muted-foreground">runs as your Rowboat</span>
+                                <span className="text-[11px] text-muted-foreground">runs as your Spinrun</span>
                                 <ModelSelector value={model} onChange={setModel} defaultOption={{ label: 'Assistant model' }} effortSelectable />
                                 <button
                                     type="button"

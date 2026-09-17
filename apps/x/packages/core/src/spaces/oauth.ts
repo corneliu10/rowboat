@@ -23,10 +23,10 @@ import type { AcceptInviteResult, ResolveInviteResult } from '@rowboat/spaces-pr
 // The app side of the OAuth journey (spec §4). Two roads, chosen by the
 // org's issuer (its RFC 9728 metadata names its authorization server):
 //
-//   MANAGED — the org trusts the Rowboat login desk, the same one the
-//   Rowboat account comes from. No dance of our own: the account session is
+//   MANAGED — the org trusts the Spinrun login desk, the same one the
+//   Spinrun account comes from. No dance of our own: the account session is
 //   the identity (auth/tokens.ts, one session two uses). If no session
-//   exists yet, the ordinary Rowboat sign-in runs once and the session is
+//   exists yet, the ordinary Spinrun sign-in runs once and the session is
 //   stamped spaces-only. The apex's "my orgs" listing then tells us every
 //   managed org we belong to (syncManagedOrgs) — a reinstall recovers them
 //   all with one sign-in, and an invite to a second managed org needs no
@@ -95,7 +95,7 @@ export async function danceForTokens(input: { baseUrl: string; openBrowser: Open
       let config;
       let clientId: string;
       try {
-        const registered = await oauthClient.registerClient(issuer, [pending.redirectUri], SCOPES, 'Rowboat');
+        const registered = await oauthClient.registerClient(issuer, [pending.redirectUri], SCOPES, 'Spinrun');
         config = registered.config;
         clientId = registered.registration.client_id;
       } catch (err) {
@@ -165,7 +165,7 @@ function startLoopback(): Promise<Loopback> {
         .end(
           denied
             ? `<p style="font-family:system-ui;margin:3rem">Sign-in was not completed (${denied}). You can close this tab.</p>`
-            : `<p style="font-family:system-ui;margin:3rem">You're signed in — return to Rowboat.</p>`,
+            : `<p style="font-family:system-ui;margin:3rem">You're signed in — return to Spinrun.</p>`,
         );
       if (denied) fail(new Error(`sign-in ${denied}: ${url.searchParams.get('error_description') ?? 'denied'}`));
       else settle(url);
@@ -186,7 +186,7 @@ function startLoopback(): Promise<Loopback> {
   });
 }
 
-/** Is this issuer the Rowboat login desk — i.e. does the org ride the account session? */
+/** Is this issuer the Spinrun login desk — i.e. does the org ride the account session? */
 async function isManagedIssuer(issuer: string): Promise<boolean> {
   const managed = await managedIssuer();
   return managed !== null && sameIssuer(issuer, managed);
@@ -209,7 +209,7 @@ function notAMember(orgName: string) {
 /**
  * Sign in to an org (existing member — e.g. a new device, a needs-relogin
  * org, or a server address typed by hand): managed orgs through the account
- * session (signing in to Rowboat first if there is none), foreign ones
+ * session (signing in to Spinrun first if there is none), foreign ones
  * through their own dance; then learn who we are via /v1/me and persist. A
  * stranger to the org gets the honest not_a_member message: they need an
  * invite link.
@@ -278,7 +278,7 @@ function generatedSlug(name: string): string {
 
 /**
  * Self-serve org creation on the managed deployment: the account session is
- * the identity (the apex trusts the Rowboat login desk; a local-stack apex
+ * the identity (the apex trusts the Spinrun login desk; a local-stack apex
  * on some other desk gets its own dance, as before), POST the org, and —
  * because shared-realm tokens are realm-generic — the same session works at
  * the new org's subdomain immediately. The caller is the org's provisioned
@@ -350,7 +350,7 @@ export async function resolveInviteLink(url: string): Promise<{ baseUrl: string;
 
 /**
  * The full join: parse → identity (the account session for a managed org —
- * signing in to Rowboat once if there is none; this install's own dance for
+ * signing in to Spinrun once if there is none; this install's own dance for
  * a foreign org it has no working auth on) → accept (the bind ceremony
  * server-side) → persist the org with the member we became. policy_refused
  * surfaces verbatim.
@@ -409,7 +409,7 @@ export async function joinViaInviteLink(input: {
 
 // --- the account session and the managed orgs it lists ----------------------
 
-/** What the Spaces UI needs to know about the Rowboat session (auth/tokens.ts): is there one, and is the app signed in on it? */
+/** What the Spaces UI needs to know about the Spinrun session (auth/tokens.ts): is there one, and is the app signed in on it? */
 export async function accountState(): Promise<{ hasSession: boolean; appSignedIn: boolean }> {
   const session = await readSession();
   return { hasSession: session !== null, appSignedIn: session?.appSignedIn ?? false };
@@ -474,7 +474,7 @@ export async function syncManagedOrgs(opts: { maxAgeMs?: number } = {}): Promise
 }
 
 /**
- * The Spaces door's "Sign in with Rowboat": a session (browser sign-in if
+ * The Spaces door's "Sign in with Spinrun": a session (browser sign-in if
  * there is none — stamped spaces-only, the app stays signed out), then
  * every managed org the person belongs to, listed.
  */

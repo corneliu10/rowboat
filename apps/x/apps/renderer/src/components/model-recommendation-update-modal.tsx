@@ -136,7 +136,7 @@ export function ModelRecommendationUpdateModal({
           <DialogHeader className="space-y-1.5">
             <DialogTitle className="text-lg font-semibold">Switch to recommended models?</DialogTitle>
             <DialogDescription className="text-sm leading-relaxed">
-              Rowboat has new recommendations for {providerName}. Choose the models you&apos;d like
+              Spinrun has new recommendations for {providerName}. Choose the models you&apos;d like
               to switch.
             </DialogDescription>
           </DialogHeader>

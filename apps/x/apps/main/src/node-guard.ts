@@ -3,7 +3,7 @@
 // import graph is still evaluating (e.g. ipc.ts touches `app` at module scope).
 //
 // When ELECTRON_RUN_AS_NODE leaks into the environment (any shell spawned by
-// an Electron host inherits it — Rowboat's own code-mode agents are the common
+// an Electron host inherits it — Spinrun's own code-mode agents are the common
 // case, see core/code-mode/acp/agents.ts), `electron .` boots as plain Node:
 // require('electron') then resolves to the npm stub (a path string) and the
 // first `app.` access dies with a cryptic TypeError deep in the bundle. Fail

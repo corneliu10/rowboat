@@ -103,7 +103,7 @@ async function orgSummary(record: orgs.OrgRecord): Promise<spacesShared.SpacesOr
 
 const orgSummaries = (records: orgs.OrgRecord[]) => Promise.all(records.map(orgSummary));
 
-// A Rowboat sign-in or sign-out changes what the apex would list for us:
+// A Spinrun sign-in or sign-out changes what the apex would list for us:
 // the next org listing re-syncs instead of trusting a recent one.
 oauthConnectBus.subscribe((event) => {
   if (event.provider === 'rowboat') spacesOAuth.invalidateManagedOrgsSync();
@@ -116,7 +116,7 @@ const openBrowser = (url: string) => shell.openExternal(url);
 // renderer's orgs store refreshes its listing on them.
 orgs.onMemberFrame((orgId, frame) => broadcastSpacesEvent({ orgId, frame }));
 
-// The agent-activity feed ("my Rowboat is working on this thread"): core
+// The agent-activity feed ("my Spinrun is working on this thread"): core
 // folds turn/session bus events into per-org lists and emits each whole list
 // on change; windows replace their copy. Started here, before any mention
 // can be sent.

@@ -5,7 +5,7 @@ import { getProviderConfig } from './providers.js';
 import * as oauthClient from './oauth-client.js';
 import { OAuthTokens } from './types.js';
 
-// The Rowboat session, and its two uses (2026-09-14). The `rowboat` provider
+// The Spinrun session, and its two uses (2026-09-14). The `rowboat` provider
 // entry holds ONE set of tokens from the deployment's login desk (Supabase
 // Auth). Those tokens are both the app's account (gateway models, billing,
 // connectors) and the identity every managed Spaces org trusts — the same
@@ -25,18 +25,18 @@ let refreshInFlight: Promise<OAuthTokens> | null = null;
 async function performRefresh(tokens: OAuthTokens): Promise<OAuthTokens> {
     console.log("Refreshing rowboat access token");
     if (!tokens.refresh_token) {
-        throw new Error('Rowboat token expired and no refresh token available. Please sign in again.');
+        throw new Error('Spinrun token expired and no refresh token available. Please sign in again.');
     }
 
     const providerConfig = await getProviderConfig('rowboat');
     if (providerConfig.discovery.mode !== 'issuer') {
-        throw new Error('Rowboat provider requires issuer discovery mode');
+        throw new Error('Spinrun provider requires issuer discovery mode');
     }
 
     const clientRepo = container.resolve<IClientRegistrationRepo>('clientRegistrationRepo');
     const registration = await clientRepo.getClientRegistration('rowboat');
     if (!registration) {
-        throw new Error('Rowboat client not registered. Please sign in again.');
+        throw new Error('Spinrun client not registered. Please sign in again.');
     }
 
     const config = await oauthClient.discoverConfiguration(
@@ -76,7 +76,7 @@ export async function getAccessToken(): Promise<string> {
     const connection = await oauthRepo.read('rowboat');
     const session = rowboatSession(connection);
     if (!session || !isAppSignIn(connection)) {
-        throw new Error('Not signed into Rowboat');
+        throw new Error('Not signed into Spinrun');
     }
     return sessionToken(session.tokens);
 }
@@ -89,7 +89,7 @@ export async function getSessionAccessToken(opts?: { forceRefresh?: boolean }): 
     const oauthRepo = container.resolve<IOAuthRepo>('oauthRepo');
     const session = rowboatSession(await oauthRepo.read('rowboat'));
     if (!session) {
-        throw new Error('Sign in with your Rowboat account to use Spaces');
+        throw new Error('Sign in with your Spinrun account to use Spaces');
     }
     return sessionToken(session.tokens, opts);
 }
@@ -101,7 +101,7 @@ export interface SessionState {
     error?: string;
 }
 
-/** Does a Rowboat session exist at all, and in which use? Null = signed out everywhere. */
+/** Does a Spinrun session exist at all, and in which use? Null = signed out everywhere. */
 export async function readSession(): Promise<SessionState | null> {
     const oauthRepo = container.resolve<IOAuthRepo>('oauthRepo');
     const connection = await oauthRepo.read('rowboat');

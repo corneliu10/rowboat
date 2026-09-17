@@ -254,7 +254,7 @@ export async function resolveStartPort(
 }
 
 /**
- * What an APP sign-in does once the Rowboat session exists: seed the assistant
+ * What an APP sign-in does once the Spinrun session exists: seed the assistant
  * model, and identify the user for billing + analytics. Runs after a fresh
  * dance, and again when a spaces-only session is promoted to an app sign-in
  * (connectProvider below) — the person never danced for the app before.
@@ -286,7 +286,7 @@ async function afterRowboatSignIn(): Promise<string | undefined> {
 }
 
 /**
- * Make sure a Rowboat session exists, for Spaces (one session, two uses —
+ * Make sure a Spinrun session exists, for Spaces (one session, two uses —
  * auth/tokens.ts). A healthy session is reused as is. Otherwise the ordinary
  * `rowboat` dance runs, and — since the person chose Spaces, not the app —
  * the session it yields is stored `spacesOnly` and no app-level sign-in
@@ -314,13 +314,13 @@ export async function ensureRowboatSession(): Promise<void> {
       if (event.provider !== 'rowboat' || event.success) return;
       unsubscribe();
       rowboatSpacesWaiter = null;
-      reject(new Error(event.error ?? 'Rowboat sign-in failed'));
+      reject(new Error(event.error ?? 'Spinrun sign-in failed'));
     });
   });
   const started = await connectProvider('rowboat');
   if (!started.success) {
     rowboatSpacesWaiter = null;
-    throw new Error(started.error ?? 'Rowboat sign-in could not start');
+    throw new Error(started.error ?? 'Spinrun sign-in could not start');
   }
   await completed;
 }
@@ -385,7 +385,7 @@ export async function connectProvider(provider: string, credentials?: { clientId
 
     if (provider === 'google') {
       if (!credentials?.clientId || !credentials?.clientSecret) {
-        // No credentials → rowboat mode if the user is signed in to Rowboat
+        // No credentials → rowboat mode if the user is signed in to Spinrun
         // (we use the company-owned Google client via the api + webapp).
         // Otherwise it's BYOK with missing creds → error.
         if (await isSignedIn()) {
@@ -469,7 +469,7 @@ export async function connectProvider(provider: string, credentials?: { clientId
             triggerFirefliesSync();
           }
 
-          // For Rowboat sign-in, ensure user + Stripe customer exist before
+          // For Spinrun sign-in, ensure user + Stripe customer exist before
           // notifying the renderer. Without this, parallel API calls from
           // multiple renderer hooks race to create the user, causing duplicates.
           // A spaces-only session (auth/tokens.ts) skips all of it: the app
@@ -526,11 +526,11 @@ export async function connectProvider(provider: string, credentials?: { clientId
         validateCallback: (url) => {
           const receivedState = url.searchParams.get('state');
           if (receivedState == null || receivedState === '') {
-            return 'The sign-in response is missing its state parameter. Close this tab and retry from Rowboat.';
+            return 'The sign-in response is missing its state parameter. Close this tab and retry from Spinrun.';
           }
           if (receivedState !== state) {
             console.warn(`[OAuth] ${provider}: received state ${receivedState} does not match live flow state ${state || '<unset>'}`);
-            return 'This sign-in attempt is no longer active. Close this tab and retry from Rowboat.';
+            return 'This sign-in attempt is no longer active. Close this tab and retry from Spinrun.';
           }
           return null;
         },
@@ -669,7 +669,7 @@ export async function completeRowboatGoogleConnect(state: string): Promise<void>
     triggerGmailSync();
     triggerCalendarSync();
     emitOAuthEvent({ provider: 'google', success: true });
-    console.log('[OAuth] Rowboat-mode Google connect complete');
+    console.log('[OAuth] Spinrun-mode Google connect complete');
   } catch (error) {
     console.error('[OAuth] Failed to complete rowboat-mode Google connect:', error);
     emitOAuthEvent({

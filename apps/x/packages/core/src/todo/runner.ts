@@ -393,7 +393,7 @@ async function driveTurn(
                 }).catch(() => {});
                 todoBus.publish({ type: 'attention', key: norm, message: 'waiting for your approval' });
                 void notifyIfEnabled('agent_permission', {
-                    title: 'Rowboat needs an approval',
+                    title: 'Spinrun needs an approval',
                     message: itemText,
                     link: 'spinrun://open?type=home',
                 });
@@ -556,7 +556,7 @@ async function driveChatTurn(
                     surfacedSuspension = true;
                     todoBus.publish({ type: 'attention', key, message: 'waiting for your approval' });
                     void notifyIfEnabled('agent_permission', {
-                        title: 'Rowboat needs an approval',
+                        title: 'Spinrun needs an approval',
                         message: truncate(message, 120),
                         link: 'spinrun://open?type=home',
                     });

@@ -496,7 +496,7 @@ describe('editing a generated deck', () => {
  */
 const V1_THEME =
   '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\r\n' +
-  '<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Rowboat Navy">' +
+  '<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Spinrun Navy">' +
   '<a:themeElements><a:clrScheme name="Navy">' +
   (
     ['dk1', 'lt1', 'dk2', 'lt2', 'accent1', 'accent2', 'accent3', 'accent4', 'accent5', 'accent6', 'hlink', 'folHlink'] as const
@@ -607,7 +607,7 @@ describe('upgradeGeneratedDeck', () => {
     // Foreign deck (not our theme marker): untouched.
     const foreign = new JSZip()
     for (const [p, xml] of newDeckParts({ title: 'T', palette: NAVY })) {
-      foreign.file(p, p === 'ppt/theme/theme1.xml' ? V1_THEME.replace('Rowboat Navy', 'Office Theme') : xml)
+      foreign.file(p, p === 'ppt/theme/theme1.xml' ? V1_THEME.replace('Spinrun Navy', 'Office Theme') : xml)
     }
     expect(await upgradeGeneratedDeck(await foreign.generateAsync({ type: 'uint8array' }))).toBeNull()
   })

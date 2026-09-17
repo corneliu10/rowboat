@@ -123,7 +123,7 @@ export class ElectronScreenPointerService implements IScreenPointerService {
       minimizable: false,
       maximizable: false,
       // NSPanel: the pointer must appear over other apps' fullscreen Spaces —
-      // the user is usually presenting something outside Rowboat.
+      // the user is usually presenting something outside Spinrun.
       ...(process.platform === 'darwin' ? { type: 'panel' as const } : {}),
       alwaysOnTop: true,
       skipTaskbar: true,

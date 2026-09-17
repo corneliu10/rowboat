@@ -25,8 +25,8 @@ export function GoogleDocPickerDialog({
   onImported,
 }: GoogleDocPickerDialogProps) {
   // The managed picker runs its own drive.file OAuth in the browser, gated on
-  // the Rowboat web session. So the only desktop prerequisite is being signed
-  // in to Rowboat — it needs NO prior Google connection and NO drive.file scope
+  // the Spinrun web session. So the only desktop prerequisite is being signed
+  // in to Spinrun — it needs NO prior Google connection and NO drive.file scope
   // on the main grant (the picker grants drive.file per-file as you choose).
   const [signedIn, setSignedIn] = useState<boolean | null>(null)
   const [opening, setOpening] = useState(false)
@@ -41,7 +41,7 @@ export function GoogleDocPickerDialog({
       setError(null)
     } catch (err) {
       setSignedIn(null)
-      setError(err instanceof Error ? err.message : 'Failed to check your Rowboat sign-in')
+      setError(err instanceof Error ? err.message : 'Failed to check your Spinrun sign-in')
     }
   }, [])
 
@@ -54,7 +54,7 @@ export function GoogleDocPickerDialog({
     setError(null)
     setOpening(true)
 
-    // Managed pick: the Rowboat backend runs the whole grant + pick in the
+    // Managed pick: the Spinrun backend runs the whole grant + pick in the
     // browser with the company Google client, then deep-links the selection
     // back. No API key, BYOK creds, or redirect URL to configure. Close our
     // modal during the hand-off.
@@ -101,13 +101,13 @@ export function GoogleDocPickerDialog({
           ) : signedIn === null ? (
             <div className="flex min-h-[280px] flex-1 items-center justify-center text-sm text-muted-foreground">
               <Loader2 className="mr-2 size-4 animate-spin" />
-              Checking your Rowboat sign-in…
+              Checking your Spinrun sign-in…
             </div>
           ) : !signedIn ? (
             <div className="flex min-h-[300px] flex-1 flex-col items-center justify-center gap-4 px-8 py-8 text-center">
               <div className="max-w-sm text-sm text-muted-foreground">
-                Sign in to Rowboat to add Google Docs from Drive. The picker uses your
-                Rowboat account — no Google credentials or API key needed.
+                Sign in to Spinrun to add Google Docs from Drive. The picker uses your
+                Spinrun account — no Google credentials or API key needed.
               </div>
               <Button variant="outline" onClick={() => void loadStatus()}>
                 <RefreshCw className="size-4" />

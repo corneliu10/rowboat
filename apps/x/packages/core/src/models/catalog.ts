@@ -14,7 +14,7 @@ import { getDefaultModelAndProvider } from "./defaults.js";
 /**
  * The unified model catalog: one function that answers "which providers are
  * connected and what models does each offer", treating every provider the
- * same way — the Rowboat gateway, the ChatGPT subscription (codex), BYOK
+ * same way — the Spinrun gateway, the ChatGPT subscription (codex), BYOK
  * cloud keys, and local/custom endpoints are all just providers. The
  * per-provider listing mechanics (which endpoint, which fallback) live here
  * and nowhere else; the renderer consumes this through the single models:list
@@ -55,7 +55,7 @@ export interface ModelCatalogResult {
 }
 
 const PROVIDER_DISPLAY_NAMES: Record<string, string> = {
-    rowboat: "Rowboat",
+    rowboat: "Spinrun",
     codex: "OpenAI Codex",
     openai: "OpenAI",
     anthropic: "Anthropic",
@@ -121,7 +121,7 @@ async function readModelConfig(): Promise<z.infer<typeof LlmModelConfig> | null>
 }
 
 /**
- * Which providers are connected right now. Rowboat and ChatGPT come from
+ * Which providers are connected right now. Spinrun and ChatGPT come from
  * their auth state; everything else from the models.json providers map
  * (entries carry credentials by construction in v2). The assistant model's
  * provider leads, matching picker ordering.

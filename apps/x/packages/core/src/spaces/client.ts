@@ -141,7 +141,7 @@ export class SpacesClient {
     } catch (err) {
       throw new SpacesRequestError(0, {
         code: 'unreachable',
-        message: `Rowboat org at ${this.baseUrl} is unreachable (${describeTransportFailure(err)})`,
+        message: `Spinrun org at ${this.baseUrl} is unreachable (${describeTransportFailure(err)})`,
         retryable: true,
       });
     }

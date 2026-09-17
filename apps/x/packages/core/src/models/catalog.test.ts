@@ -12,7 +12,7 @@ const mocks = vi.hoisted(() => ({
   isSignedIn: vi.fn(async () => false),
   getChatGPTStatus: vi.fn(async () => ({ signedIn: false })),
   listGatewayModels: vi.fn(async () => ({
-    providers: [{ id: 'rowboat', name: 'Rowboat', models: [{ id: 'google/gemini-3.5-flash', reasoning: true }] }],
+    providers: [{ id: 'rowboat', name: 'Spinrun', models: [{ id: 'google/gemini-3.5-flash', reasoning: true }] }],
   })),
   listCodexModels: vi.fn(async () => ({
     providers: [{ id: 'codex', name: 'OpenAI Codex', models: [{ id: 'gpt-5.6-sol', reasoning: true }] }],

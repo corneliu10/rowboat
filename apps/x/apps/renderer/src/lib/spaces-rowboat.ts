@@ -41,7 +41,7 @@ export function maybeInvokeRowboat(
         })
         .catch((err) => {
             analytics.spacesRowboatInvokeFailed()
-            toast(err instanceof Error ? err.message : 'Rowboat could not be invoked', 'error')
+            toast(err instanceof Error ? err.message : 'Spinrun could not be invoked', 'error')
         })
 }
 

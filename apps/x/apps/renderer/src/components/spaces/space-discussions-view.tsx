@@ -68,7 +68,7 @@ export function SpaceDiscussionsView({ orgId, orgAddress, spaceId, direct, topic
                                 <MessagesSquare className="size-4 shrink-0 text-muted-foreground" />
                                 <span className="min-w-0 flex-1"><span className={`block truncate text-[13px] ${badge.unread > 0 ? 'font-semibold' : ''}`}>{title}</span>{' '}
                                     <span className="mt-1 block text-xs text-muted-foreground">{topic.rootMessage?.replyCount ?? 0} replies · {formatFeedTime(topic.lastActivityAt)}</span></span>
-                                {(presence.working.get(topic.rootMessageId)?.length ?? 0) > 0 && <Bot className="size-3.5 shrink-0 text-muted-foreground" aria-label="A Rowboat is working here" />}
+                                {(presence.working.get(topic.rootMessageId)?.length ?? 0) > 0 && <Bot className="size-3.5 shrink-0 text-muted-foreground" aria-label="A Spinrun is working here" />}
                                 <UnreadBadge badge={badge} direct={direct} />
                             </button>}
                             <DropdownMenu>

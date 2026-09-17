@@ -12,7 +12,7 @@ export const MAX_UNFURLS = 3
  * The message's links worth a card, in order: skips code (fences and inline),
  * image embeds, direct image links (those already render as images), and org
  * links (a space, file, message, or person renders as a chip — and the org's
- * hand-off page would only ever unfurl as "Open in Rowboat").
+ * hand-off page would only ever unfurl as "Open in Spinrun").
  */
 export function previewUrls(body: string, orgAddresses: readonly string[] = []): string[] {
     const stripped = body

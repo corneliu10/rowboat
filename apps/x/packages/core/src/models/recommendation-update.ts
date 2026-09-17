@@ -18,7 +18,7 @@ import { IModelConfigRepo } from "./repo.js";
 import { getModelCatalog } from "./catalog.js";
 
 /**
- * The "Rowboat now recommends…" prompt: when the backend's recommendation
+ * The "Spinrun now recommends…" prompt: when the backend's recommendation
  * for the provider serving the assistant model changes, offer the user the
  * per-slot diff once, and never again for that version of the
  * recommendation.
@@ -78,7 +78,7 @@ async function currentRecommendations(): Promise<ModelRecommendations | undefine
 
 /**
  * Record that the user has been offered this flavor's current
- * recommendation — called at the seeding moment (provider connect / Rowboat
+ * recommendation — called at the seeding moment (provider connect / Spinrun
  * sign-in), where initial selection just applied it. Best-effort: a failure
  * here means at worst one extra prompt later.
  */

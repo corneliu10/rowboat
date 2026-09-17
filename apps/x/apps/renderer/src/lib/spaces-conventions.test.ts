@@ -36,7 +36,7 @@ function cs(over: Partial<spaces.ChangeSet> & { id: string }): spaces.ChangeSet 
         assetPath: 'roadmap.md',
         baseVersion: 31,
         resultVersion: 32,
-        attribution: { memberId: 'arjun', actingMode: 'agent', agentName: 'Rowboat' },
+        attribution: { memberId: 'arjun', actingMode: 'agent', agentName: 'Spinrun' },
         committedAt: '2026-08-19T11:44:00Z',
         offset: 10,
         ...over,
@@ -102,7 +102,7 @@ describe('stream helpers', () => {
         const a = msg({ id: 'a', postedAt: '2026-08-19T10:00:00Z' })
         const b = msg({ id: 'b', postedAt: '2026-08-19T10:04:00Z' })
         const c = msg({ id: 'c', postedAt: '2026-08-19T10:10:00Z' })
-        const viaAgent = msg({ id: 'd', postedAt: '2026-08-19T10:04:30Z', author: { memberId: 'gagan', actingMode: 'agent', agentName: 'Rowboat' } })
+        const viaAgent = msg({ id: 'd', postedAt: '2026-08-19T10:04:30Z', author: { memberId: 'gagan', actingMode: 'agent', agentName: 'Spinrun' } })
         expect(isContinuation(undefined, a)).toBe(false)
         expect(isContinuation(a, b)).toBe(true)
         expect(isContinuation(b, c)).toBe(false)

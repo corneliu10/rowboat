@@ -3,7 +3,7 @@ import posthog from 'posthog-js'
 import { identifyUser, resetAnalyticsIdentity } from '@/lib/analytics'
 
 /**
- * Identifies the user in PostHog when signed into Rowboat,
+ * Identifies the user in PostHog when signed into Spinrun,
  * and sets user properties for connected OAuth providers.
  * Call once at the App level.
  */
@@ -15,7 +15,7 @@ export function useAnalyticsIdentity() {
         const result = await window.ipc.invoke('oauth:getState', null)
         const config = result.config || {}
 
-        // Identify if Rowboat account is connected
+        // Identify if Spinrun account is connected
         const rowboat = config.rowboat
         if (rowboat?.connected && rowboat?.userId) {
           identifyUser(rowboat.userId)
@@ -67,7 +67,7 @@ export function useAnalyticsIdentity() {
         return
       }
 
-      // Rowboat sign-in
+      // Spinrun sign-in
       if (event.success) {
         if (event.userId) {
           identifyUser(event.userId)
@@ -77,7 +77,7 @@ export function useAnalyticsIdentity() {
         return
       }
 
-      // Rowboat sign-out — flip flags, capture, and reset distinct_id so
+      // Spinrun sign-out — flip flags, capture, and reset distinct_id so
       // future events on this device don't get attributed to the prior user.
       posthog.people.set({ signed_in: false, rowboat_connected: false })
       posthog.capture('user_signed_out')

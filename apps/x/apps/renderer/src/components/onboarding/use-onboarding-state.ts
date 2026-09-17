@@ -275,7 +275,7 @@ export function useOnboardingState(open: boolean, onComplete: (opts?: { startTou
   }, [startGoogleCalendarConnect])
 
   // New step flow:
-  // Rowboat path: 0 (welcome) → 2 (connect) → 3 (code mode) → 4 (done)
+  // Spinrun path: 0 (welcome) → 2 (connect) → 3 (code mode) → 4 (done)
   // BYOK path: 0 (welcome) → 1 (llm setup) → 2 (connect) → 3 (code mode) → 4 (done)
   const handleNext = useCallback(() => {
     if (currentStep === 0) {
@@ -381,7 +381,7 @@ export function useOnboardingState(open: boolean, onComplete: (opts?: { startTou
     return cleanup
   }, [])
 
-  // Auto-advance from Rowboat sign-in step when OAuth completes
+  // Auto-advance from Spinrun sign-in step when OAuth completes
   useEffect(() => {
     if (onboardingPath !== 'rowboat' || currentStep !== 0) return
 

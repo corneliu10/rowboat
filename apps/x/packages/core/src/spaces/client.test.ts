@@ -363,7 +363,7 @@ describe('SpacesClient transport failures', () => {
     const err = await client.listSpaces().catch((e: unknown) => e);
     expect(err).toBeInstanceOf(SpacesRequestError);
     expect(err).toMatchObject({ status: 0, code: 'unreachable', retryable: true });
-    expect((err as Error).message).toBe(`Rowboat org at http://127.0.0.1:${closed} is unreachable (ECONNREFUSED)`);
+    expect((err as Error).message).toBe(`Spinrun org at http://127.0.0.1:${closed} is unreachable (ECONNREFUSED)`);
   });
 
   it('digs the code out of a nested cause and falls back to the deepest message', async () => {
@@ -372,13 +372,13 @@ describe('SpacesClient transport failures', () => {
     }) as typeof fetch;
     await expect(new SpacesClient({ baseUrl: 'http://org.test', token: 't', fetchImpl: withCode }).health()).rejects.toMatchObject({
       code: 'unreachable',
-      message: 'Rowboat org at http://org.test is unreachable (ECONNREFUSED)',
+      message: 'Spinrun org at http://org.test is unreachable (ECONNREFUSED)',
     });
     const noCode = (async () => {
       throw new TypeError('fetch failed', { cause: new Error('other side closed') });
     }) as typeof fetch;
     await expect(new SpacesClient({ baseUrl: 'http://org.test', token: 't', fetchImpl: noCode }).health()).rejects.toMatchObject({
-      message: 'Rowboat org at http://org.test is unreachable (other side closed)',
+      message: 'Spinrun org at http://org.test is unreachable (other side closed)',
     });
   });
 });

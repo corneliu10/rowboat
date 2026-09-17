@@ -9,7 +9,7 @@ function org(overrides: Partial<OrgRecord> & { memberId?: string } = {}): OrgRec
     const { memberId, ...rest } = overrides;
     return {
         id: 'org-abc123-xyz789',
-        name: 'Rowboat Labs (dev)',
+        name: 'Spinrun (dev)',
         address: 'localhost:4272',
         baseUrl: 'http://localhost:4272',
         auth: { kind: 'dev', memberId: memberId ?? 'ramnique' },
@@ -25,7 +25,7 @@ describe('deriveSpacesMcpServers', () => {
                 url: 'http://localhost:4272/mcp',
                 headers: {
                     authorization: 'Bearer dev-ramnique',
-                    'x-agent-name': 'Rowboat',
+                    'x-agent-name': 'Spinrun',
                 },
             },
         });

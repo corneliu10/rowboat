@@ -666,7 +666,7 @@ app.whenReady().then(async () => {
     },
   });
 
-  // Start the Rowboat Apps server (per-app origins on 127.0.0.1:3210) BEFORE
+  // Start the Spinrun Apps server (per-app origins on 127.0.0.1:3210) BEFORE
   // the window and the long service-init chain below. The Apps view is
   // reachable as soon as the window paints; starting the server last meant
   // every app iframe hit connection-refused (blank app) for the first ~10s of

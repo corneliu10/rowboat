@@ -7,7 +7,7 @@ vi.mock("../auth/tokens.js", () => ({
 
 import { authedFetch, listGatewayImageModels } from "./gateway.js";
 
-describe("Rowboat gateway request attribution", () => {
+describe("Spinrun gateway request attribution", () => {
     afterEach(() => {
         vi.unstubAllGlobals();
     });

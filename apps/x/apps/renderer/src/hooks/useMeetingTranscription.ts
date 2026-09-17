@@ -272,7 +272,7 @@ export function useMeetingTranscription(onAutoStop?: () => void) {
                     rowboatConfig?.websocketApiUrl
                 ) {
                     const listenUrl = buildDeepgramListenUrl(rowboatConfig.websocketApiUrl, DEEPGRAM_PARAMS);
-                    console.log('[meeting] Using Rowboat WebSocket');
+                    console.log('[meeting] Using Spinrun WebSocket');
                     ws = new WebSocket(listenUrl, ['bearer', account.accessToken]);
                 } else {
                     const config = await window.ipc.invoke('voice:getConfig', null);

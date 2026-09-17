@@ -837,13 +837,13 @@ export function QuickAskBar() {
                 type="button"
                 style={noDragRegion}
                 onClick={openInApp}
-                aria-label="Open in Rowboat"
+                aria-label="Open in Spinrun"
                 className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition ${CHIP_IDLE}`}
               >
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </button>
             </TooltipTrigger>
-            <TooltipContent side="top">Open this chat in Rowboat's side pane</TooltipContent>
+            <TooltipContent side="top">Open this chat in Spinrun's side pane</TooltipContent>
           </Tooltip>
           {/* Device controls — the call owns them. The lit share button IS
               the consent badge (sky + pulsing dot while broadcasting). */}
@@ -1539,7 +1539,7 @@ function PinnedPill({
             hat="cowboy"
           />
           <span className="absolute bottom-1 left-1.5 rounded bg-black/50 px-1 py-px text-[10px] text-white">
-            Rowboat
+            Spinrun
           </span>
           {statusDisplay && (
             <span className="absolute right-1.5 top-1.5 flex items-center gap-1 rounded-full bg-black/50 px-1.5 py-0.5 text-[10px] font-medium text-white">
@@ -1698,7 +1698,7 @@ function PinnedPill({
 }
 
 /**
- * The Rowboat mark, filled — the logo tile's glyph. Same artwork path as
+ * The Spinrun mark, filled — the logo tile's glyph. Same artwork path as
  * MascotFaceIcon (talking-head.tsx), but inked solid: the 1.5px-outline
  * version goes wispy at tile sizes over a solid plate.
  */

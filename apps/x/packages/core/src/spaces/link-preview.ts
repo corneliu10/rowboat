@@ -124,7 +124,7 @@ export async function fetchLinkPreview(rawUrl: string): Promise<LinkPreview | nu
       headers: {
         accept: 'text/html,application/xhtml+xml',
         // Some sites refuse UA-less requests outright.
-        'user-agent': 'Mozilla/5.0 (compatible; Rowboat/1.0; link-preview)',
+        'user-agent': 'Mozilla/5.0 (compatible; Spinrun/1.0; link-preview)',
       },
     });
     const type = res.headers.get('content-type') ?? '';

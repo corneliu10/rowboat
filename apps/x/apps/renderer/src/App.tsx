@@ -1503,7 +1503,7 @@ function App() {
   }, [refreshVoiceAvailability])
 
   // One-time Composio→native Google migration check. Runs on mount and again
-  // after the user signs in to Rowboat (so we catch users who weren't signed
+  // after the user signs in to Spinrun (so we catch users who weren't signed
   // in at startup). The IPC is idempotent — once `dismissed_at` is set on the
   // main side, every subsequent call returns `{shouldShow: false}`.
   useEffect(() => {
@@ -1527,7 +1527,7 @@ function App() {
   }, [])
 
   // Recommendation-update prompt: checked at launch and again after a
-  // Rowboat sign-in (sign-in seeds the initial selection main-side and marks
+  // Spinrun sign-in (sign-in seeds the initial selection main-side and marks
   // that version seen, so this only fires for a genuinely newer one). The
   // check is idempotent — a version already answered returns shouldShow
   // false — and never throws.
@@ -2379,7 +2379,7 @@ function App() {
         .then((s) => s.accelerator)
         .catch(() => quickAskShortcut.DEFAULT_QUICK_ASK_SHORTCUT)
       playPopCue()
-      toast('Ask Rowboat from anywhere', {
+      toast('Ask Spinrun from anywhere', {
         description: `Press ${quickAskShortcut.formatShortcut(accelerator, isMac)} in any app to summon your Skipper — talk or type, the answer shows up right there.`,
         duration: 12000,
         closeButton: true,
@@ -2399,7 +2399,7 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Quick-ask "Open in Rowboat": the ONE deliberate bridge between the
+  // Quick-ask "Open in Spinrun": the ONE deliberate bridge between the
   // companion and the app — bind the app's chat to the companion's
   // conversation and land on it full-view. (Everything else keeps the two
   // bindings independent.)
@@ -2957,7 +2957,7 @@ function App() {
 
   // One-time Composio→native Google migration modal
   const [showComposioGoogleMigration, setShowComposioGoogleMigration] = useState(false)
-  // The pending "Rowboat now recommends…" prompt, if any (see the modal).
+  // The pending "Spinrun now recommends…" prompt, if any (see the modal).
   const [recommendationUpdate, setRecommendationUpdate] = useState<RecommendationUpdate | null>(null)
 
   // Search state
@@ -5754,10 +5754,10 @@ function App() {
     void window.ipc.invoke('app:consumeUpdateInfo', null).then(({ version, updatedFrom }) => {
       if (!updatedFrom) return
       toast(`Updated to v${version}`, {
-        description: `Rowboat was updated from v${updatedFrom}.`,
+        description: `Spinrun was updated from v${updatedFrom}.`,
         action: {
           label: "What's new",
-          onClick: () => window.open(`https://github.com/rowboatlabs/rowboat/releases/tag/v${version}`, '_blank'),
+          onClick: () => window.open(`https://github.com/corneliu10/rowboat/releases/tag/v${version}`, '_blank'),
         },
         duration: 10000,
         closeButton: true,
@@ -5791,7 +5791,7 @@ function App() {
     if (reason === 'failed') return
     toast('Hover mode needs voice', {
       description:
-        'Sign in to Rowboat — or add your own Deepgram and ElevenLabs keys — to talk to your Skipper.',
+        'Sign in to Spinrun — or add your own Deepgram and ElevenLabs keys — to talk to your Skipper.',
       duration: 8000,
       action: { label: 'Open settings', onClick: () => setVoiceSetupOpen(true) },
     })
@@ -5923,7 +5923,7 @@ function App() {
   const applyAppNavigation = useCallback((result: Record<string, unknown>) => {
     // During a call, navigation must be VISIBLE: the full-screen call view
     // would cover the very thing being shown — collapse it to the pill —
-    // and if the user is in another app, bring Rowboat forward.
+    // and if the user is in another app, bring Spinrun forward.
     const visibleActions = ['open-note', 'open-view', 'read-view', 'open-item', 'update-base-view', 'create-base']
     if (inCallRef.current && visibleActions.includes(result.action as string)) {
       setCallMinimized(true)
@@ -6905,7 +6905,7 @@ function App() {
               })
               // Refresh the file view
               await handleVoiceNoteCreated(notePath)
-              // Notes are done — bring Rowboat to the foreground on the
+              // Notes are done — bring Spinrun to the foreground on the
               // finished note (the post-call "redirect"). The notification
               // below is background-only, so it only fires if the focus
               // grab didn't take.
@@ -7768,7 +7768,7 @@ function App() {
                   <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 p-8 text-center">
                     <FolderOpen className="size-9 text-muted-foreground" />
                     <h1 className="text-xl font-semibold">{selectedProject?.name ?? 'Projects'}</h1>
-                    <p className="max-w-sm text-sm text-muted-foreground">{selectedProject ? 'Choose a chat or file in the rail, or start a new conversation with Rowboat.' : 'Choose a project in the rail, or create one to organize your chats and local files.'}</p>
+                    <p className="max-w-sm text-sm text-muted-foreground">{selectedProject ? 'Choose a chat or file in the rail, or start a new conversation with Spinrun.' : 'Choose a project in the rail, or create one to organize your chats and local files.'}</p>
                     {selectedProject && <Button onClick={() => void newProjectChat(selectedProject).catch((e) => toast.error(String(e)))}><Plus className="mr-2 size-4" />New chat</Button>}
                   </div>
                 </div>
@@ -8282,8 +8282,8 @@ function App() {
             <DialogTitle>Old chats are cleaned up automatically</DialogTitle>
             <DialogDescription className="pt-1 leading-relaxed">
               {retentionNotice?.chatDays != null
-                ? `To save disk space, Rowboat now deletes chats that have been inactive for ${retentionNotice.chatDays}+ days, along with old background-task transcripts.`
-                : 'To save disk space, Rowboat now deletes old background-task transcripts.'}
+                ? `To save disk space, Spinrun now deletes chats that have been inactive for ${retentionNotice.chatDays}+ days, along with old background-task transcripts.`
+                : 'To save disk space, Spinrun now deletes old background-task transcripts.'}
               {' '}Notes and files created by agents are never touched. Cleanup starts from the next launch, and you can change or turn this off anytime.
             </DialogDescription>
           </DialogHeader>
@@ -8342,7 +8342,7 @@ function App() {
         onOpenChange={setShowComposioGoogleMigration}
         onReconnect={() => {
           // Trigger the rowboat-mode Google connect flow. With no credentials
-          // and the user signed in to Rowboat, the main process opens the
+          // and the user signed in to Spinrun, the main process opens the
           // webapp `/oauth/google/start` URL. The deep link returns and
           // completeRowboatGoogleConnect persists the tokens.
           void window.ipc.invoke('oauth:connect', { provider: 'google' })
@@ -8381,14 +8381,14 @@ function App() {
           <DialogHeader>
             <DialogTitle>Screen recording permission required</DialogTitle>
             <DialogDescription>
-              Rowboat needs <strong>Screen Recording</strong> permission to capture meeting audio from other apps (Zoom, Meet, etc.). This feature won't work without it.
+              Spinrun needs <strong>Screen Recording</strong> permission to capture meeting audio from other apps (Zoom, Meet, etc.). This feature won't work without it.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>To enable this:</p>
             <ol className="list-decimal list-inside space-y-1.5">
               <li>Open <strong>System Settings</strong> → <strong>Privacy & Security</strong> → <strong>Screen Recording</strong></li>
-              <li>Toggle on <strong>Rowboat</strong></li>
+              <li>Toggle on <strong>Spinrun</strong></li>
               <li>You may need to restart the app after granting permission</li>
             </ol>
           </div>

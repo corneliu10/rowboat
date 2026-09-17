@@ -130,7 +130,7 @@ async function fetchModelsDev(): Promise<unknown> {
   const timeout = setTimeout(() => controller.abort(), 10_000);
   try {
     const response = await fetch("https://models.dev/api.json", {
-      headers: { "User-Agent": "Rowboat" },
+      headers: { "User-Agent": "Spinrun" },
       signal: controller.signal,
     });
     if (!response.ok) {
