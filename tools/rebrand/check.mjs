@@ -16,9 +16,11 @@ const WORD = /\browboat\b/i;
 // File-level skips (entire file allowlisted):
 // - LICENSE, NOTICE stay byte-identical (Apache-2.0 attribution).
 // - docs/fork/** — fork working docs, upstream history.
-// - apps/x/**/*.md, apps/harbor/**/*.md — engineering plans, upstream history.
-//   (README.md at repo root is NOT skipped: only its attribution sentence
-//   and ~/.rowboat identifier are allowlisted below.)
+// - apps/x/**/*.md, apps/harbor/**/*.md, docs/**/*.md — engineering plans, upstream history.
+//   (README.md and google-setup.md at repo root are NOT skipped: README only
+//   via its attribution sentence allowlist below; google-setup.md must carry
+//   zero whole-word hits after its Spinrun rebrand.)
+// - proposal.md (root) — upstream history, left alone.
 // - The two Step-5 fixtures that use "rowboatlabs/rowboat" as sample user
 //   input (left alone on purpose):
 //   - apps/x/packages/core/src/runtime/assembly/skills/composio-integration/skill.ts
@@ -26,9 +28,14 @@ const WORD = /\browboat\b/i;
 function fileSkipped(file) {
   if (file === 'LICENSE' || file === 'NOTICE') return true;
   if (file.startsWith('docs/fork/')) return true;
-  // All markdown except the root README (which is checked for its
-  // attribution sentence only): engineering plans / upstream history.
-  if (file.endsWith('.md') && file !== 'README.md') return true;
+  if (file === 'proposal.md') return true;
+  if (file.endsWith('.md')) {
+    if (file === 'README.md' || file === 'google-setup.md') return false;
+    if (file.startsWith('apps/x/') || file.startsWith('apps/harbor/') || file.startsWith('docs/')) return true;
+    // Any other .md (e.g. tools/control-plane-stub/README.md) is checked —
+    // it passes via the line-level identifiers below.
+    return false;
+  }
   if (file === 'apps/x/packages/core/src/runtime/assembly/skills/composio-integration/skill.ts') return true;
   if (file === 'apps/x/packages/core/src/application/browser-skills/loader.test.ts') return true;
   // File paths containing rowboat (identifiers: rowboat-account.ts, rowboat-app.json, etc.)
