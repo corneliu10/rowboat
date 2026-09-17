@@ -19,7 +19,7 @@ const ORGS_CACHE_KEY = 'rowboat.spaces.orgs.v1';
 export interface SpacesOrg {
   id: string;
   name: string;
-  /** host, e.g. rowboat.spaces.x.rowboatlabs.com */
+  /** host, e.g. spinrun.spaces.spinrun.ai */
   address: string;
   memberId: string;
   displayName: string;

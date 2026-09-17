@@ -103,7 +103,7 @@ function formatTranscript(entries: TranscriptEntry[], date: string, calendarEven
     const lines = [
         '---',
         'type: meeting',
-        'source: rowboat',
+        'source: spinrun',
         `title: ${noteTitle}`,
         `date: "${date}"`,
     ];

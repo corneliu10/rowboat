@@ -42,7 +42,7 @@ async function refused(client: Client, name: string, args: Record<string, unknow
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'harsh' }, // lowercase on purpose: the roster sort is case-insensitive
@@ -66,7 +66,7 @@ async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const inv = await ramnique.post('/v1/invites', { spaceId });
   await harsh.post('/v1/invites/accept', { token: inv.body.token });
   dmWithGagan = (await ramnique.post('/v1/direct', { memberId: 'gagan' })).body.space.id;
-  ramAgent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
+  ramAgent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
   harshAgent = await agentClient(harbor, 'dev-harsh', { agentName: 'Claude' });
 }
 
@@ -204,7 +204,7 @@ describe.each([['memory'], ['postgres']] as const)('agent face parity (%s store)
     expect(edited.message.editedAt).toBeTruthy();
     const events = await harbor.service.eventsAfter(spaceId, 0);
     const edit = events.find((e) => e.event.type === 'message_edited')!;
-    expect((edit.event as any).edit.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect((edit.event as any).edit.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
 
     expect((await refused(harshAgent, 'delete_message', { spaceId, messageId })).code).toBe('forbidden');
     const deleted = await call<{ message: Message }>(ramAgent, 'delete_message', { spaceId, messageId });
@@ -222,7 +222,7 @@ describe.each([['memory'], ['postgres']] as const)('agent face parity (%s store)
     expect(added.message.reactions).toEqual([{ emoji: '🎉', memberIds: ['ramnique'], lastOffset: expect.any(Number) }]);
     const events = await harbor.service.eventsAfter(spaceId, 0);
     const reaction = events.filter((e) => e.event.type === 'reaction').at(-1)!;
-    expect((reaction.event as any).reaction.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect((reaction.event as any).reaction.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
     // Re-adding is a no-op; the render face sees the same fold.
     await call<{ message: Message }>(ramAgent, 'react', { spaceId, messageId, emoji: '🎉', action: 'add' });
     expect((await harbor.service.eventsAfter(spaceId, 0)).filter((e) => e.event.type === 'reaction')).toHaveLength(events.filter((e) => e.event.type === 'reaction').length);
@@ -245,7 +245,7 @@ describe.each([['memory'], ['postgres']] as const)('agent face parity (%s store)
       { id: 1, text: 'Keep it async' },
       { id: 2, text: 'Daily call', emoji: '📞' },
     ]);
-    expect(thread.root.author).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect(thread.root.author).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
 
     const voted = await call<{ message: Message }>(harshAgent, 'vote_poll', { spaceId, messageId, answerId: 1, action: 'add' });
     expect(voted.message.poll?.votes).toEqual([{ answerId: 1, memberIds: ['harsh'] }]);
@@ -264,7 +264,7 @@ describe.each([['memory'], ['postgres']] as const)('agent face parity (%s store)
     expect(ended.message.poll?.votes).toEqual([{ answerId: 2, memberIds: ['harsh'] }]);
     const events = await harbor.service.eventsAfter(spaceId, 0);
     const end = events.find((e) => e.event.type === 'poll_ended')!;
-    expect((end.event as any).end.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect((end.event as any).end.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
     // Sealed: no more votes; ending again is a no-op.
     expect((await refused(harshAgent, 'vote_poll', { spaceId, messageId, answerId: 2, action: 'remove' })).code).toBe('invalid_request');
     const again = await call<{ message: Message }>(ramAgent, 'end_poll', { spaceId, messageId });
@@ -324,7 +324,7 @@ describe.each([['memory'], ['postgres']] as const)('agent face parity (%s store)
     expect(restored.changeSet).toMatchObject({
       op: 'restore',
       reason: 'deleted by mistake',
-      attribution: { memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' },
+      attribution: { memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' },
     });
     const back = await call<{ id: string; content: string; version: number }>(ramAgent, 'read_asset', { spaceId, assetId });
     expect(back).toMatchObject({ id: assetId, version: 2, content: '# SSO\n- scope\n- SAML vs OIDC\n' });

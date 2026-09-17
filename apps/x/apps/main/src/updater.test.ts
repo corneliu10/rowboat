@@ -5,7 +5,7 @@ const mockBrand = vi.hoisted(() => ({
   executableName: "spinrun-desktop",
   appBundleId: "ai.spinrun.desktop",
   updateRepo: "corneliu10/rowboat",
-  deepLinkScheme: "rowboat",
+  deepLinkScheme: "spinrun",
   upstream: "example/upstream",
 }));
 

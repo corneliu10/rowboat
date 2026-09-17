@@ -1191,7 +1191,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
     }
   }, [editor, updateAtMentionState])
 
-  // When a tell-rowboat block is clicked, compute anchor and open popover
+  // When a tell-spinball block is clicked, compute anchor and open popover
   useEffect(() => {
     if (!rowboatBlockEdit || !editor) return
     const wrapper = wrapperRef.current

@@ -244,7 +244,7 @@ describe('mentions — tokens carry ids, the roster supplies names', () => {
 
     it('rewriteMentionLinks turns tokens into the app links the anchor renders as chips', () => {
         expect(rewriteMentionLinks(`ping ${tok('01HXAMPLEULIDHARSH000000', 'Harsh')} [@here](#here) [@spinball](#spinball)`))
-            .toBe('ping [@Harsh](app://space-member/01HXAMPLEULIDHARSH000000) [@here](app://space-mention/here) [@spinball](app://space-mention/rowboat)')
+            .toBe('ping [@Harsh](app://space-member/01HXAMPLEULIDHARSH000000) [@here](app://space-mention/here) [@spinball](app://space-mention/spinball)')
         expect(rewriteMentionLinks('`' + tok('x', 'X') + '` stays')).toBe('`' + tok('x', 'X') + '` stays')
         expect(parseSpaceMemberAppUrl('app://space-member/01HXAMPLEULIDHARSH000000')).toBe('01HXAMPLEULIDHARSH000000')
         expect(parseSpaceMemberAppUrl('app://space-file/o/s/a.md')).toBeNull()

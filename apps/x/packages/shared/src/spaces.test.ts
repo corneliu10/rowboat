@@ -13,7 +13,7 @@ describe('containsRowboatAddress', () => {
     expect(containsRowboatAddress('[@spinball](#spinball) move SSO to P1')).toBe(true);
     expect(containsRowboatAddress('yes — [@spinball](#spinball) do it')).toBe(true);
     expect(containsRowboatAddress('@spinball move SSO to P1')).toBe(false);
-    expect(containsRowboatAddress('the rowboat brand is growing on me')).toBe(false);
+    expect(containsRowboatAddress('the spinball brand is growing on me')).toBe(false);
     expect(containsRowboatAddress('the trigger is `[@spinball](#spinball)` in a message')).toBe(false);
     expect(containsRowboatAddress('```\n[@spinball](#spinball) do the thing\n```')).toBe(false);
   });

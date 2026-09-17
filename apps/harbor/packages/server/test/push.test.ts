@@ -107,7 +107,7 @@ describe('wire registration', () => {
   let harbor: RunningHarbor;
   beforeAll(async () => {
     harbor = await startHarbor({
-      orgName: 'Rowboat Labs',
+      orgName: 'Spinrun',
       seedMembers: [{ id: 'gagan', displayName: 'Gagan' }],
     });
   });

@@ -27,7 +27,8 @@
     "typecheck:shared": "cd packages/shared && npm run typecheck",
     "typecheck:core": "cd packages/core && npm run typecheck",
     "typecheck:server": "cd apps/server && npm run typecheck",
-    "typecheck:renderer": "cd apps/renderer && npm run typecheck"
+    "typecheck:renderer": "cd apps/renderer && npm run typecheck",
+    "rebrand:check": "node ../../tools/rebrand/check.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

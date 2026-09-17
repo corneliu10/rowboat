@@ -7,7 +7,7 @@ vi.mock('./use-code-sessions', () => ({ refreshCodeSessions: refresh }))
 vi.mock('./branch-dialog', () => ({ BranchDialog: ({ onConfirm }: { onConfirm: (branch: string) => Promise<void> }) =>
   <button onClick={() => void onConfirm('release')}>Select release</button> }))
 const session: CodeSession = { id: 's1', projectId: 'p', title: 'Empty session', cwd: '/wt', agent: 'codex', createdAt: '2026-09-01T00:00:00Z',
-  worktree: { path: '/wt', branch: 'rowboat/test', baseBranch: 'main', baseCommit: 'old' } }
+  worktree: { path: '/wt', branch: 'spinrun/test', baseBranch: 'main', baseCommit: 'old' } }
 function WorktreeBaseMenu({ session }: { session: CodeSession }) {
   const action = useWorktreeBaseChange(session, true, members.some((s) => !!s.lastActivityAt))
   return <><button disabled={action.disabled} onClick={action.onSelect}>Change base branch</button>{action.dialog}</>

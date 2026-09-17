@@ -53,7 +53,7 @@ const sources: MentionSources = {
 const kinds = (entries: ReturnType<typeof buildMentionEntries>) => entries.map((e) => `${e.group}:${e.label}`)
 
 describe('buildMentionEntries', () => {
-  it('browses each group in turn on a bare "@": rowboat, files, spaces, people', () => {
+  it('browses each group in turn on a bare "@": spinball, files, spaces, people', () => {
     const entries = buildMentionEntries('', sources)
     expect(entries[0].target.kind).toBe('rowboat')
     const groups = entries.map((e) => e.group)
@@ -95,7 +95,7 @@ describe('buildMentionEntries', () => {
     expect(entries.filter((e) => e.group === 'spaces').map((e) => e.label)).toEqual(['Random', 'Ultra'])
   })
 
-  it('keeps rowboat first while the query is a prefix of it', () => {
+  it('keeps spinball first while the query is a prefix of it', () => {
     const entries = buildMentionEntries('ro', sources)
     expect(entries[0].target.kind).toBe('rowboat')
     expect(entries.map((e) => e.label)).toContain('Roadboard')

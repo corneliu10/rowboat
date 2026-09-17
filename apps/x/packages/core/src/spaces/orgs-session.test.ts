@@ -144,7 +144,7 @@ describe('deriveSpacesMcpServers with a session', () => {
             bearer: 'session-access',
             issuer: MANAGED,
         });
-        expect(entries['spaces-rowboat']!.headers.authorization).toBe('Bearer session-access');
+        expect(entries['spaces-spinrun']!.headers.authorization).toBe('Bearer session-access');
         expect(entries['spaces-left-behind']!.headers.authorization).toBe('Bearer session-access');
         expect(entries['spaces-acme']!.headers.authorization).toBe('Bearer acme-access');
         expect(entries['spaces-dev']!.headers.authorization).toBe('Bearer dev-ramnique');

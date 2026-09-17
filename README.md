@@ -38,7 +38,7 @@ Bundle shows `CFBundleName "Spinrun"`, `CFBundleIdentifier ai.spinrun.desktop`, 
 
 ## The stub
 
-`tools/control-plane-stub/server.mjs` is a dependency-free stand-in for Rowboat's control plane so the app boots signed-out with no phone-home.
+`tools/control-plane-stub/server.mjs` is a dependency-free stand-in for the upstream control plane so the app boots signed-out with no phone-home.
 
 ```sh
 STUB_PORT=4300 node tools/control-plane-stub/server.mjs &
@@ -55,4 +55,4 @@ Env vars keep their `ROWBOAT_` prefix so the fork can still merge upstream. Neve
 - `ROWBOAT_MANAGED_LLM` — managed-LLM switch (default off; the managed provider stays hidden and is never auto-selected when off).
 - `API_URL` — control-plane base URL (point at the stub for local runs: `http://127.0.0.1:4300`). A signed-out app never asks for billing.
 
-Rebrand check: `npm run rebrand:check` in `apps/x` (greps tracked files for whole-word `rowboat`, fails on any hit not in the script's allowlist; exits 0 when the rebrand is clean).
+Rebrand check: `npm run rebrand:check` in `apps/x` (greps tracked files for the old product name as a whole word, fails on any hit not in the script's allowlist; exits 0 when the rebrand is clean).

@@ -11,7 +11,7 @@ describe('containsRowboatAddress', () => {
     it('never the bare word — that is prose, not an address', () => {
         expect(containsRowboatAddress('@spinball move SSO to P1')).toBe(false)
         expect(containsRowboatAddress('we should ship spaces this week')).toBe(false)
-        expect(containsRowboatAddress('the rowboat brand is growing on me')).toBe(false)
+        expect(containsRowboatAddress('the spinball brand is growing on me')).toBe(false)
         expect(containsRowboatAddress('mail me at team@spinball.com')).toBe(false)
     })
 

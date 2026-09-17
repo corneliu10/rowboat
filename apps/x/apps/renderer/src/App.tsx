@@ -8341,7 +8341,7 @@ function App() {
         open={showComposioGoogleMigration}
         onOpenChange={setShowComposioGoogleMigration}
         onReconnect={() => {
-          // Trigger the rowboat-mode Google connect flow. With no credentials
+          // Trigger the spinrun-mode Google connect flow. With no credentials
           // and the user signed in to Spinrun, the main process opens the
           // webapp `/oauth/google/start` URL. The deep link returns and
           // completeRowboatGoogleConnect persists the tokens.

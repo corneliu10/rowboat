@@ -21,7 +21,7 @@ export const authedFetch: typeof fetch = async (input, init) => {
 export function getGatewayProvider(): ProviderV4 {
     return createOpenRouter({
         baseURL: `${API_URL}/v1/llm`,
-        apiKey: 'managed-by-rowboat',
+        apiKey: 'managed-by-spinrun',
         fetch: authedFetch,
     });
 }

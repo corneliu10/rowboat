@@ -6,7 +6,7 @@ import { ActivityIndicator, Pressable, RefreshControl, ScrollView, Text, View } 
 
 import { useSpacesAccount, type SpacesOrg } from '@/lib/spaces/account';
 import { SpacesClient } from '@/lib/spaces/client';
-import type { Member, Space } from '@rowboat/spaces-protocol';
+import type { Member, Space } from '@spinball/spaces-protocol';
 import { useColors } from '@/theme/colors';
 
 // Spaces home: signed out → one sign-in button; signed in → the user's orgs as
@@ -73,7 +73,7 @@ function SignIn() {
           <FeatureRow
             icon="sf:sparkles"
             title="Agents included"
-            detail="Mention @rowboat and your agent picks it up — as you, for you."
+            detail="Mention @spinball and your agent picks it up — as you, for you."
           />
         </View>
       </View>

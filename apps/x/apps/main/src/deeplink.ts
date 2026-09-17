@@ -130,7 +130,7 @@ async function handleTakeMeetingNotes(eventId: string, openMeeting: boolean): Pr
     win.webContents.send("app:takeMeetingNotes", payload);
 }
 
-// --- OAuth completion (rowboat-mode Google connect) ---
+// --- OAuth completion (spinrun-mode Google connect) ---
 
 interface OAuthCompletion {
     provider: "google";

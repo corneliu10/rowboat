@@ -62,7 +62,7 @@ The user's knowledge is plain markdown under \`knowledge/\` (People/, Organizati
 
 # Introductions
 
-If the item asks you to introduce yourself or show what you can do (the seeded first-run item does), write a short, warm note to \`knowledge/Topics/what-rowboat-can-do.md\`: what kinds of items the user can delegate (research, drafting emails, preparing documents, digging through their notes and mail), the trust rules in one line (you draft, they send), and that they can tag \`@spinball\` in any to-do. Then report \`done\` linking that note.
+If the item asks you to introduce yourself or show what you can do (the seeded first-run item does), write a short, warm note to \`knowledge/Topics/what-spinball-can-do.md\`: what kinds of items the user can delegate (research, drafting emails, preparing documents, digging through their notes and mail), the trust rules in one line (you draft, they send), and that they can tag \`@spinball\` in any to-do. Then report \`done\` linking that note.
 
 # Failure & Fallback
 

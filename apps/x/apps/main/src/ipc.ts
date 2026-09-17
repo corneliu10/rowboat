@@ -2491,7 +2491,7 @@ export function setupIpcHandlers() {
         throw err;
       }
     },
-    // Managed (rowboat-mode) OAuth-redirect Picker: the Spinrun backend runs the
+    // Managed (spinrun-mode) OAuth-redirect Picker: the Spinrun backend runs the
     // pick with the company Google client; the desktop opens the start URL,
     // waits for the deep link, and imports the picked doc with the existing
     // managed token. No API key, appId, or local credentials.

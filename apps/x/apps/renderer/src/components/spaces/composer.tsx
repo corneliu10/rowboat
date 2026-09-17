@@ -284,7 +284,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
 
     // Apply a new seed by rebuilding the doc from its markdown. Append (the
     // profile popover's "Mention") joins a draft in progress; a plain seed
-    // replaces it (quote-reply, ask-rowboat). Caret lands at the end.
+    // replaces it (quote-reply, ask-spinball). Caret lands at the end.
     useEffect(() => {
         if (!editor || !seed || seed.nonce === appliedSeed) return
         setAppliedSeed(seed.nonce)

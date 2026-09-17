@@ -47,7 +47,7 @@ describe('markdown round trip', () => {
         ['mention text (prose)', '@Ada Lovelace can you look?'],
         ['member mention token', '[@Ada Lovelace](#member:01HADA) can you look?'],
         ['here token', 'standup [@here](#here)'],
-        ['rowboat token', '[@spinball](#spinball) summarise this'],
+        ['spinball token', '[@spinball](#spinball) summarise this'],
         ['space token', 'see [#General](#space:01HSPACEGENERAL0000000000) for that'],
     ]
     it.each(cases)('%s', (_name, md) => {

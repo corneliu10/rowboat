@@ -253,12 +253,12 @@ describe.each([['memory'], ['postgres']] as const)('asset move/delete/restore (%
   });
 
   it('agents create, move and delete over MCP by id, attributed with their name', async () => {
-    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
+    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
     const born = await callStructured<CreateAssetResult>(agent, 'create_asset', {
       spaceId, path: 'decisions/2026/index.md', newContent: '# 2026 decisions\n', reason: 'an index for the year',
     });
     expect(born.asset).toMatchObject({ path: 'decisions/2026/index.md', version: 1 });
-    expect(born.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect(born.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
     const listing = await ramnique.get(`/v1/spaces/${spaceId}/assets`);
     expect(listing.body.entries.map((e: { id: string }) => e.id)).toContain(born.asset.id);
 
@@ -267,14 +267,14 @@ describe.each([['memory'], ['postgres']] as const)('asset move/delete/restore (%
     });
     expect(moved.outcome).toBe('moved');
     if (moved.outcome === 'moved') {
-      expect(moved.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+      expect(moved.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
       expect(moved.changeSet).toMatchObject({ assetId: ssoId, assetPath: 'decisions/2026/sso.md', movedFrom: 'decisions/sso.md' });
     }
     const deleted = await callStructured<{ outcome: string; changeSet?: ChangeSet }>(agent, 'delete_asset', {
       spaceId, assetId: ssoId, baseVersion: 2, reason: 'testing the shredder (it keeps everything)',
     });
     expect(deleted.outcome).toBe('deleted');
-    expect(deleted.changeSet?.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect(deleted.changeSet?.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
     await agent.close();
   });
 });

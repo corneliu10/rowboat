@@ -172,11 +172,11 @@ describe("loadDiskSkills", () => {
     expect(loadDiskSkills()).toEqual([]);
   });
 
-  it("prefers the rowboat root when the same skill id exists in both roots", async () => {
+  it("prefers the 'rowboat' root when the same skill id exists in both roots", async () => {
     writeSkill(rowboatSkillsRoot, "dup", [
       "---",
       "name: Spinrun Dup",
-      "description: From the rowboat root.",
+      "description: From the 'rowboat' root.",
       "---",
       "Spinrun body.",
     ].join("\n"));

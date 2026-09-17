@@ -447,7 +447,7 @@ export function useOnboardingState(open: boolean, onComplete: (opts?: { startTou
   // Connect to a provider
   const handleConnect = useCallback(async (provider: string) => {
     if (provider === 'google') {
-      // Signed-in users use the rowboat (managed-credentials) flow: opens
+      // Signed-in users use the spinrun (managed-credentials) flow: opens
       // the webapp in the browser, no BYOK modal. Falls back to BYOK modal
       // for not-signed-in users. (Mirrors useConnectors.handleConnect.)
       const isSignedIntoRowboat = providerStates.rowboat?.isConnected ?? false

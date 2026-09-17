@@ -1,7 +1,7 @@
 /**
  * Theme (palette) generation and post-creation theme swapping.
  *
- * `buildThemeXml` is the single source of a Rowboat deck's theme part — both
+ * `buildThemeXml` is the single source of a Spinrun deck's theme part — both
  * new-deck.ts (at creation) and the "change theme" flow call it, so a
  * generated deck's theme and a restyled theme are byte-for-byte the same code
  * path. Because G0 put every colour in theme1.xml, swapping that one part
@@ -48,7 +48,7 @@ export function buildThemeXml(palette: DeckPalette): string {
     `<a:latin typeface="${typeface}"/><a:ea typeface=""/><a:cs typeface=""/>${scripts}`
   return (
     XML_HEAD +
-    `<a:theme ${A_NS} name="Rowboat ${palette.name}"><a:themeElements>` +
+    `<a:theme ${A_NS} name="Spinrun ${palette.name}"><a:themeElements>` +
     `<a:clrScheme name="${palette.name}">` +
     slot('dk1') +
     slot('lt1') +

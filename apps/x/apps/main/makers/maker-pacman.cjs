@@ -50,7 +50,7 @@ class MakerPacman extends MakerBase {
             fs.rmSync(path.join(outDir, f), { recursive: true, force: true });
         }
 
-        // Wrapper script — execs the packaged Electron binary, forwards args (incl. rowboat:// URLs).
+        // Wrapper script — execs the packaged Electron binary, forwards args (incl. spinrun:// URLs).
         fs.writeFileSync(
             path.join(outDir, bin),
             `#!/bin/sh\nexec "/opt/${pkgName}/${execName}" "$@"\n`,

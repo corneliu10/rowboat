@@ -122,7 +122,7 @@ describe('useModels', () => {
     })
   })
 
-  it('sign-out via the oauth:didConnect broadcast flips isRowboatConnected and drops the rowboat group', async () => {
+  it('sign-out via the oauth:didConnect broadcast flips isRowboatConnected and drops the spinrun group', async () => {
     serveCatalog({
       providers: [{ id: 'rowboat', models: [{ id: 'claude-opus-4-8' }] }],
       defaultModel: { provider: 'rowboat', model: 'claude-opus-4-8' },

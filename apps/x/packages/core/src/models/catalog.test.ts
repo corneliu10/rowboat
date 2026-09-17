@@ -75,7 +75,7 @@ beforeEach(() => {
 });
 
 describe('getModelCatalog', () => {
-  it('treats rowboat, codex, and BYOK providers as one uniform provider list', async () => {
+  it("treats 'rowboat', codex, and BYOK providers as one uniform provider list", async () => {
     mocks.isSignedIn.mockResolvedValue(true);
     mocks.getChatGPTStatus.mockResolvedValue({ signedIn: true });
     serveConfig({

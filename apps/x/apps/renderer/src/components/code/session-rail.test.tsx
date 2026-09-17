@@ -112,7 +112,7 @@ describe('code rail context menus', () => {
 })
 
 it('groups sibling sessions into one worktree and exposes the parent branch control', () => {
-  const worktree = { path: '/wt', branch: 'rowboat/work', baseBranch: 'main' }
+  const worktree = { path: '/wt', branch: 'spinrun/work', baseBranch: 'main' }
   const onSwitchBranch = vi.fn()
   const onSelectSession = vi.fn()
   render(<SessionRail projects={[project]} sessions={[
@@ -122,7 +122,7 @@ it('groups sibling sessions into one worktree and exposes the parent branch cont
     onSelectSession={onSelectSession} onSwitchBranch={onSwitchBranch}
     onAddProject={vi.fn()} onRemoveProject={vi.fn()} onNewSession={vi.fn()} onSetDone={vi.fn()} onDeleteSession={vi.fn()} />)
   // One card for the worktree, named after its first chat — never the branch.
-  expect(screen.queryByText('rowboat/work')).toBeNull()
+  expect(screen.queryByText('spinrun/work')).toBeNull()
   expect(screen.getAllByText(session.title)).toHaveLength(1)
   expect(screen.getByText('2 sessions')).toBeTruthy()
   fireEvent.click(screen.getByText(session.title))

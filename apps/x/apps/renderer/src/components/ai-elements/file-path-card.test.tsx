@@ -9,7 +9,7 @@ import { FilePathCard } from './file-path-card'
 // assistant-created deck opens in the slide editor, not Keynote — while
 // anything the app can't show stays with the OS opener.
 
-const ROOT = '/Users/test/rowboat'
+const ROOT = '/Users/test/spinrun'
 
 let openedPaths: string[]
 let shellOpened: string[]

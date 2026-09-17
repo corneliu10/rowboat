@@ -33,7 +33,7 @@ const SLIDES = [
   {
     icon: 'sf:sparkles',
     title: 'Agents included',
-    detail: 'Mention @rowboat in any message and your agent picks it up — summarize a thread, draft a doc, fold in a decision.',
+    detail: 'Mention @spinball in any message and your agent picks it up — summarize a thread, draft a doc, fold in a decision.',
   },
   {
     icon: 'sf:laptopcomputer.and.iphone',

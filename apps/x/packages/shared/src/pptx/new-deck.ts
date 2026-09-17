@@ -584,8 +584,8 @@ function corePropsXml(title: string, createdAt: string): string {
     ' xmlns:dcmitype="http://purl.org/dc/dcmitype/"' +
     ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
     `<dc:title>${escapeXmlText(title)}</dc:title>` +
-    '<dc:creator>Rowboat</dc:creator>' +
-    '<cp:lastModifiedBy>Rowboat</cp:lastModifiedBy>' +
+    '<dc:creator>Spinrun</dc:creator>' +
+    '<cp:lastModifiedBy>Spinrun</cp:lastModifiedBy>' +
     `<dcterms:created xsi:type="dcterms:W3CDTF">${stamp}</dcterms:created>` +
     `<dcterms:modified xsi:type="dcterms:W3CDTF">${stamp}</dcterms:modified>` +
     '</cp:coreProperties>'
@@ -597,7 +597,7 @@ function appPropsXml(): string {
     XML_HEAD +
     '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"' +
     ' xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">' +
-    '<Application>Rowboat</Application>' +
+    '<Application>Spinrun</Application>' +
     '<Slides>1</Slides>' +
     '<PresentationFormat>Widescreen</PresentationFormat>' +
     '</Properties>'
@@ -688,7 +688,7 @@ function paletteOfThemeXml(theme: string): DeckPalette | null {
  * (the editor never edits them, so nothing is lost) and the missing Office
  * parts are added. Slides, their rels and docProps are untouched, so all
  * typed content survives. Returns null when the package is not a v1
- * Rowboat-generated deck — including anything this function already
+ * Spinrun-generated deck — including anything this function already
  * upgraded — or when any splice anchor is missing (fail closed, never
  * corrupt).
  */
@@ -699,7 +699,7 @@ export async function upgradeGeneratedDeck(bytes: Uint8Array): Promise<Uint8Arra
   const theme = await themeFile.async('string')
   // v1 fingerprint: our theme marker without the Office scaffolding v2 ships.
   const isV1 =
-    theme.includes('name="Rowboat ') &&
+    theme.includes('name="Spinrun ') &&
     !theme.includes('<a:objectDefaults>') &&
     zip.file('ppt/presProps.xml') === null
   if (!isV1) return null

@@ -26,7 +26,7 @@ let arjun: ReturnType<typeof restClient>;
 let harsh: ReturnType<typeof restClient>;
 let gagan: ReturnType<typeof restClient>;
 let prakhar: ReturnType<typeof restClient>;
-// ...and as agents on the MCP face (each member's own Rowboat).
+// ...and as agents on the MCP face (each member's own Spinball).
 let ramniqueAgent: Client;
 let gaganAgent: Client;
 let prakharAgent: Client;
@@ -52,7 +52,7 @@ const PRAKHAR_LINE = '- 08-14 prakhar: docs revamp underway';
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'arjun', displayName: 'Arjun' },
@@ -73,10 +73,10 @@ async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   harsh = restClient(harbor, 'dev-harsh');
   gagan = restClient(harbor, 'dev-gagan');
   prakhar = restClient(harbor, 'dev-prakhar');
-  ramniqueAgent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
-  gaganAgent = await agentClient(harbor, 'dev-gagan', { agentName: 'Rowboat' });
-  prakharAgent = await agentClient(harbor, 'dev-prakhar', { agentName: 'Rowboat' });
-  ramniqueCron = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat', scheduled: true });
+  ramniqueAgent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
+  gaganAgent = await agentClient(harbor, 'dev-gagan', { agentName: 'Spinball' });
+  prakharAgent = await agentClient(harbor, 'dev-prakhar', { agentName: 'Spinball' });
+  ramniqueCron = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball', scheduled: true });
 }
 
 async function stopHarbor(): Promise<void> {
@@ -110,7 +110,7 @@ describe.each([['memory'], ['postgres']] as const)('§11 — a day in the life o
     });
     expect(seeded.asset).toMatchObject({ path: 'roadmap.md', version: 1 });
     expect(seeded.changeSet.assetId).toBe(seeded.asset.id);
-    expect(seeded.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect(seeded.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
     roadmapId = seeded.asset.id;
 
     const invite = await ramnique.post('/v1/invites', { spaceId });
@@ -294,11 +294,11 @@ describe.each([['memory'], ['postgres']] as const)('§11 — a day in the life o
     expect(thread.body.root.author).toEqual({ memberId: 'arjun', actingMode: 'direct' });
     expect(thread.body.messages.map((m: any) => m.author)).toEqual([
       { memberId: 'ramnique', actingMode: 'direct' },
-      { memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' },
+      { memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' },
     ]);
   });
 
-  it('beat 8 — housekeeping: the DRI\'s local cron tidies, attributed "(via Rowboat, scheduled)"', async () => {
+  it('beat 8 — housekeeping: the DRI\'s local cron tidies, attributed "(via Spinball, scheduled)"', async () => {
     const read = await callStructured<ReadAssetResult>(ramniqueCron, 'read_asset', { spaceId, assetId: roadmapId });
     const tidied = read.content.replace('## Standups\n', '## Standups — week of Aug 11\n');
     const tidy = await callStructured<Extract<ProposeChangeResult, { outcome: 'applied' }>>(
@@ -308,7 +308,7 @@ describe.each([['memory'], ['postgres']] as const)('§11 — a day in the life o
     );
     expect(tidy.outcome).toBe('applied');
     expect(tidy.version).toBe(7);
-    expect(tidy.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'scheduled', agentName: 'Rowboat' });
+    expect(tidy.changeSet.attribution).toEqual({ memberId: 'ramnique', actingMode: 'scheduled', agentName: 'Spinball' });
   });
 
   it('beat 9 — catch-up: resume-from-offset replays exactly what Arjun missed; history answers "why"', async () => {

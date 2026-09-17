@@ -89,7 +89,7 @@ export const TaskBlockExtension = Node.create({
           const code = element.querySelector('code')
           if (!code) return false
           const cls = code.className || ''
-          if (cls.includes('language-task') || cls.includes('language-tell-rowboat')) {
+          if (cls.includes('language-task') || cls.includes('language-tell-spinball')) {
             return { data: code.textContent || '{}' }
           }
           return false

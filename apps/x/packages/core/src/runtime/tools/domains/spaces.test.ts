@@ -104,7 +104,7 @@ describe("the projected agent face", () => {
 });
 
 describe("resolveOrgArg", () => {
-    const rowboat = { id: "org-1", name: "Spinrun", address: "rowboat.spaces.test" };
+    const spinrun = { id: "org-1", name: "Spinrun", address: "rowboat.spaces.test" };
     const acme = { id: "org-2", name: "Acme", address: "acme.spaces.test" };
 
     it("refuses when nothing is set up", async () => {
@@ -113,29 +113,29 @@ describe("resolveOrgArg", () => {
     });
 
     it("defaults to the only org", async () => {
-        orgsState.orgs = [rowboat];
-        expect(await resolveOrgArg(undefined)).toBe(rowboat);
-        expect(await resolveOrgArg("")).toBe(rowboat);
+        orgsState.orgs = [spinrun];
+        expect(await resolveOrgArg(undefined)).toBe(spinrun);
+        expect(await resolveOrgArg("")).toBe(spinrun);
     });
 
     it("requires the argument with several orgs, naming them", async () => {
-        orgsState.orgs = [rowboat, acme];
+        orgsState.orgs = [spinrun, acme];
         await expect(resolveOrgArg(undefined)).rejects.toThrow(/"Spinrun", "Acme"/);
     });
 
     it("matches by id, name (any case), address, slug, or server name", async () => {
-        orgsState.orgs = [rowboat, acme];
+        orgsState.orgs = [spinrun, acme];
         expect(await resolveOrgArg("org-2")).toBe(acme);
         expect(await resolveOrgArg("acme")).toBe(acme);
-        expect(await resolveOrgArg("rowboat labs")).toBe(rowboat);
-        expect(await resolveOrgArg("rowboat-labs")).toBe(rowboat);
-        expect(await resolveOrgArg("spaces-rowboat-labs")).toBe(rowboat);
+        expect(await resolveOrgArg("spinrun")).toBe(spinrun);
+        expect(await resolveOrgArg("rowboat-labs")).toBe(spinrun);
+        expect(await resolveOrgArg("spaces-spinrun")).toBe(spinrun);
         expect(await resolveOrgArg("acme.spaces.test")).toBe(acme);
         await expect(resolveOrgArg("nope")).rejects.toThrow(/Unknown org 'nope'/);
     });
 
     it("a projected tool reports org resolution failures in the builtin error envelope", async () => {
-        orgsState.orgs = [rowboat, acme];
+        orgsState.orgs = [spinrun, acme];
         const result = (await spacesTools.whoami!.execute({})) as { success: boolean; error: string };
         expect(result.success).toBe(false);
         expect(result.error).toMatch(/Several orgs/);

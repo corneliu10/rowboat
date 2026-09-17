@@ -15,7 +15,7 @@ const input = {
 
 describe('buildInvocationMessage', () => {
     it('is a one-line header (space, ids) plus the verbatim ask — nothing else', () => {
-        const msg = buildInvocationMessage(input, 'spaces-rowboat-labs-dev');
+        const msg = buildInvocationMessage(input, 'spaces-spinrun-labs-dev');
         const lines = msg.split('\n');
         expect(lines).toHaveLength(2);
         expect(lines[0]).toBe(
@@ -25,7 +25,7 @@ describe('buildInvocationMessage', () => {
     });
 
     it('carries NO thread content and NO procedure — the session pin (spaceThread) owns the procedure', () => {
-        const msg = buildInvocationMessage(input, 'spaces-rowboat-labs-dev');
+        const msg = buildInvocationMessage(input, 'spaces-spinrun-labs-dev');
         expect(msg).not.toContain('--- recent topic messages');
         expect(msg).not.toContain('read_thread');
         expect(msg).not.toContain('post_message');
@@ -33,7 +33,7 @@ describe('buildInvocationMessage', () => {
     });
 
     it('does not depend on the server name (the org rides the session pin)', () => {
-        expect(buildInvocationMessage(input, null)).toBe(buildInvocationMessage(input, 'spaces-rowboat-labs-dev'));
+        expect(buildInvocationMessage(input, null)).toBe(buildInvocationMessage(input, 'spaces-spinrun-labs-dev'));
     });
 });
 

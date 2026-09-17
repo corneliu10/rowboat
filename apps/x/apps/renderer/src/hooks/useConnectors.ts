@@ -582,7 +582,7 @@ export function useConnectors(active: boolean) {
 
   const handleConnect = useCallback(async (provider: string) => {
     if (provider === 'google') {
-      // Signed-in users use the rowboat (managed-credentials) flow: opens
+      // Signed-in users use the spinrun (managed-credentials) flow: opens
       // the webapp in the browser, no BYOK modal. Main process detects
       // signed-in via isSignedIn() when oauth:connect arrives without creds.
       // Falls back to the BYOK modal for not-signed-in users.
@@ -607,7 +607,7 @@ export function useConnectors(active: boolean) {
   }, [startConnect])
 
   // Reconnect flow used by the "Reconnect" button. Mirrors handleConnect's
-  // rowboat-vs-BYOK branching for Google so signed-in users don't get the
+  // spinrun-vs-BYOK branching for Google so signed-in users don't get the
   // client-ID modal — they just re-run the managed-credentials browser flow.
   const handleReconnect = useCallback(async (provider: string) => {
     if (provider === 'google') {

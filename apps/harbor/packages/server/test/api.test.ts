@@ -124,7 +124,7 @@ describe('spaces, invites, membership', () => {
     // The deep link names the org by address and carries the token — the app
     // rebuilds the https invite link from those two (spaces-navigation.ts).
     expect(html).toContain(
-      `rowboat://open?type=spaces&org=${encodeURIComponent(harbor.service.org.address)}&invite=${encodeURIComponent(inv.body.token)}`,
+      `spinrun://open?type=spaces&org=${encodeURIComponent(harbor.service.org.address)}&invite=${encodeURIComponent(inv.body.token)}`,
     );
     expect(html).toContain('location.replace(');
 
@@ -135,7 +135,7 @@ describe('spaces, invites, membership', () => {
     expect(dead.status).toBe(410);
     const deadHtml = await dead.text();
     expect(deadHtml).toContain('expired');
-    expect(deadHtml).not.toContain('rowboat://');
+    expect(deadHtml).not.toContain('spinrun://');
   });
 
   it('leave removes membership', async () => {
@@ -265,13 +265,13 @@ describe('assets and the change-set log', () => {
       newContent: '# Notes (better title)\n- alpha\n',
       reason: 'sharpen the title',
       actingMode: 'agent',
-      agentName: 'Rowboat',
+      agentName: 'Spinball',
     });
     expect(stale.body.outcome).toBe('merged');
     expect(stale.body.version).toBe(3);
     expect(stale.body.mergedContent).toBe('# Notes (better title)\n- alpha\n- beta (from Ramnique)\n');
     expect(stale.body.changeSet.assetId).toBe(notesId);
-    expect(stale.body.changeSet.attribution).toEqual({ memberId: 'gagan', actingMode: 'agent', agentName: 'Rowboat' });
+    expect(stale.body.changeSet.attribution).toEqual({ memberId: 'gagan', actingMode: 'agent', agentName: 'Spinball' });
   });
 
   it('overlapping stale proposals conflict: nothing written, retry bundle included', async () => {
@@ -388,7 +388,7 @@ describe('feed: the stream, threads, and topic annotations', () => {
       expect(res.status).toBe(200);
       expect(res.headers.get('content-type')).toContain('text/html');
       const html = await res.text();
-      expect(html).toContain('rowboat://open?type=spaces&');
+      expect(html).toContain('spinrun://open?type=spaces&');
       expect(html).toContain(expected);
       expect(html).not.toContain('Feed'); // never the space's name — nothing is looked up
     }
@@ -616,7 +616,7 @@ describe('feed: the stream, threads, and topic annotations', () => {
       newContent: '# From a thread, via the reason suffix\n',
       reason: `folded the discussion · thread:${rootId}`,
       actingMode: 'agent',
-      agentName: 'Rowboat',
+      agentName: 'Spinball',
     });
     expect(derived.body.changeSet.threadRootId).toBe(rootId);
 

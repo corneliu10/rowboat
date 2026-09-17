@@ -15,7 +15,7 @@ const uploadBlob = vi.fn(async () => ({ hash: "b".repeat(64), size: 1, mime: "ap
 vi.mock("../../../spaces/orgs.js", () => ({
     listOrgs: () => [ORG],
     orgForSpacesMcpServerName: () => null,
-    spacesMcpServerNameFor: (id: string) => (id === ORG.id ? "spaces-rowboat" : null),
+    spacesMcpServerNameFor: (id: string) => (id === ORG.id ? "spaces-spinrun" : null),
     getClient: () => ({ uploadBlob }),
 }));
 
@@ -38,7 +38,7 @@ const mcpError = (code: string, message: string) => ({
 function org(handlers: Record<string, (args: Record<string, unknown>, nth: number) => unknown>) {
     const counts = new Map<string, number>();
     executeTool.mockImplementation(async (server: string, tool: string, args: Record<string, unknown>) => {
-        expect(server).toBe("spaces-rowboat");
+        expect(server).toBe("spaces-spinrun");
         const handler = handlers[tool];
         if (!handler) throw new Error(`unexpected tool call ${tool}`);
         const nth = counts.get(tool) ?? 0;

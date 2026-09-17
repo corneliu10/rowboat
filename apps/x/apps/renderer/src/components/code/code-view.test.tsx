@@ -15,7 +15,7 @@ afterEach(() => { cleanup(); localStorage.clear(); sessions.length = 0; projects
 
 it('restores each worktree’s last session and preserves the selection after remount', async () => {
   const first: CodeSession = { id: 's1', title: 'First', projectId: 'p', agent: 'codex', cwd: '/wt',
-    worktree: { path: '/wt', branch: 'rowboat/one', baseBranch: 'main' }, createdAt: '2026-09-01T00:00:00Z' }
+    worktree: { path: '/wt', branch: 'spinrun/one', baseBranch: 'main' }, createdAt: '2026-09-01T00:00:00Z' }
   sessions.push(first, { ...first, id: 's2' }, { ...first, id: 's3', cwd: '/other', worktree: { ...first.worktree!, path: '/other' } })
   localStorage.setItem(`x:code-workspace-session:${codeWorkspaceKey(first)}`, 's2')
   const onSessionSelected = vi.fn()

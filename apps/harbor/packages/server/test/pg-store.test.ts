@@ -204,13 +204,13 @@ describe('PgStore through the service', () => {
       emoji: '👍',
       action: 'add',
       actingMode: 'agent',
-      agentName: 'Rowboat',
+      agentName: 'Spinball',
     });
     expect(both.reactions).toEqual([{ emoji: '👍', memberIds: ['gagan', 'ramnique'], lastOffset: expect.any(Number) }]);
 
     // Attribution jsonb round-trips (same guarantee change_sets has).
     const stored = await store.getReaction(spaceId, messageId, '👍', 'ramnique');
-    expect(stored?.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+    expect(stored?.by).toEqual({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
 
     // Windowed stream reads fold the same state in.
     const stream = await service.listStream(ram, spaceId);

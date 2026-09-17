@@ -11,15 +11,15 @@ function getEmbedUrl(provider: string, url: string): string | null {
     if (match) return `https://www.youtube.com/embed/${match[1]}`
   }
   if (provider === 'figma') {
-    // Convert www.figma.com/design/:key/... → embed.figma.com/design/:key?embed-host=rowboat
+    // Convert www.figma.com/design/:key/... → embed.figma.com/design/:key?embed-host=spinrun
     const figmaMatch = url.match(/figma\.com\/(design|board|proto)\/([\w-]+)/)
     if (figmaMatch) {
-      return `https://embed.figma.com/${figmaMatch[1]}/${figmaMatch[2]}?embed-host=rowboat`
+      return `https://embed.figma.com/${figmaMatch[1]}/${figmaMatch[2]}?embed-host=spinrun`
     }
     // Legacy /file/ URLs
     const legacyMatch = url.match(/figma\.com\/file\/([\w-]+)/)
     if (legacyMatch) {
-      return `https://embed.figma.com/design/${legacyMatch[1]}?embed-host=rowboat`
+      return `https://embed.figma.com/design/${legacyMatch[1]}?embed-host=spinrun`
     }
   }
   return null

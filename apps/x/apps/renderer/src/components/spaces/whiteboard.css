@@ -1,4 +1,4 @@
-/* Rowboat skin for the embedded Excalidraw editor (whiteboard-pane.tsx).
+/* Spinrun skin for the embedded Excalidraw editor (whiteboard-pane.tsx).
    Documented CSS custom properties only, plus two structural hides — no
    internal-layout surgery, so upgrades stay safe (re-verify these variables
    still exist when bumping @excalidraw/excalidraw; imported after the

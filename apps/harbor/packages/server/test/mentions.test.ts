@@ -86,7 +86,7 @@ let main: string;
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'Harsh' },
