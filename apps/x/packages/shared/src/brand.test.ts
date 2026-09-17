@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { brand } from './brand.js';
+import { brand, CODE_SESSION_BRANCH_PREFIX } from './brand.js';
 import { DEEP_LINK_SCHEME, MENTION_HANDLE } from '@rowboat/spaces-protocol';
 
 describe('brand / protocol drift guard', () => {
@@ -20,5 +20,10 @@ describe('brand / protocol drift guard', () => {
     expect(brand.siteUrl).toBe('https://spinrun.ai');
     expect(brand.docsUrl).toBe('https://spinrun.ai/docs');
     expect(brand.supportUrl).toBe('https://spinrun.ai/support');
+  });
+
+  it('branch prefix follows the executable name', () => {
+    expect(CODE_SESSION_BRANCH_PREFIX).toBe('spinrun/');
+    expect(CODE_SESSION_BRANCH_PREFIX).toBe(`${brand.executableName}/`);
   });
 });

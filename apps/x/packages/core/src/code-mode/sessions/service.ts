@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { WorkDir } from '../../config/config.js';
 import { codeWorkspaceKey, type CodeSession } from '@x/shared/dist/code-sessions.js';
+import { CODE_SESSION_BRANCH_PREFIX } from '@x/shared/dist/brand.js';
 import type { CodingAgent, ApprovalPolicy } from '@x/shared/dist/code-mode.js';
 import type { ISessions } from '../../runtime/sessions/api.js';
 import type { ISessionRepo } from '../../runtime/sessions/repo.js';
@@ -220,7 +221,7 @@ export class CodeSessionService {
                 if (!info.isGitRepo || !info.hasCommits) {
                     throw new Error('Worktree isolation needs a git repository with at least one commit.');
                 }
-                const branch = `rowboat/${sessionId}`;
+                const branch = `${CODE_SESSION_BRANCH_PREFIX}${sessionId}`;
                 const wtPath = worktreeRoot(project.id, sessionId);
                 const baseBranch = args.baseBranch ?? info.branch ?? 'HEAD';
                 const baseCommit = await gitService.worktreeAdd(project.path, wtPath, branch, baseBranch);
