@@ -1133,7 +1133,7 @@ export function setupIpcHandlers() {
       void notifyIfEnabled('meeting_notes_ready', {
         title: 'Meeting notes ready',
         message: `Your notes for "${args.title}" are ready.`,
-        link: `rowboat://open?type=file&path=${encodeURIComponent(args.notePath)}`,
+        link: `spinrun://open?type=file&path=${encodeURIComponent(args.notePath)}`,
         actionLabel: 'Open notes',
         onlyWhenBackground: true,
       });

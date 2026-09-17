@@ -641,7 +641,7 @@ export async function connectProvider(provider: string, credentials?: { clientId
  * `state` by the webapp callback, persist them locally, and trigger sync.
  *
  * Called by the deep-link dispatcher (deeplink.ts) when the OS hands us a
- * rowboat://oauth/google/done?session=<state> URL.
+ * spinrun://oauth/google/done?session=<state> URL.
  */
 export async function completeRowboatGoogleConnect(state: string): Promise<void> {
   try {

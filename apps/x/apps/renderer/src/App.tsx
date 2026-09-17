@@ -698,10 +698,10 @@ function viewStatesEqual(a: ViewState, b: ViewState): boolean {
 }
 
 /**
- * Parse a rowboat:// deep link into a ViewState. Returns null if the URL is
+ * Parse a spinrun:// deep link (rowboat:// accepted for one release) into a ViewState. Returns null if the URL is
  * malformed or names an unknown target.
  *
- * Shape: rowboat://open?type=<file|chat|graph|task|suggested-topics|meetings|live-notes|email>&...
+ * Shape: spinrun://open?type=<file|chat|graph|task|suggested-topics|meetings|live-notes|email>&...
  *   file:             ?type=file&path=knowledge/foo.md
  *   chat:             ?type=chat&runId=abc123        (runId optional)
  *   graph:            ?type=graph
@@ -712,9 +712,12 @@ function viewStatesEqual(a: ViewState, b: ViewState): boolean {
  *   email:            ?type=email
  */
 function parseDeepLink(input: string): ViewState | null {
-  const SCHEME = 'rowboat://'
-  if (!input.startsWith(SCHEME)) return null
-  const rest = input.slice(SCHEME.length)
+  const PRIMARY = `${brand.deepLinkScheme}://`
+  const LEGACY = 'rowboat://'
+  let rest: string | null = null
+  if (input.startsWith(PRIMARY)) rest = input.slice(PRIMARY.length)
+  else if (input.startsWith(LEGACY)) rest = input.slice(LEGACY.length)
+  else return null
   const queryIdx = rest.indexOf('?')
   const host = (queryIdx >= 0 ? rest.slice(0, queryIdx) : rest).replace(/\/$/, '')
   if (host !== 'open') return null

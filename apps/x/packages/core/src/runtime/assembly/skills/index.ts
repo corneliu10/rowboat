@@ -240,7 +240,7 @@ const definitions: SkillDefinition[] = [
   {
     id: "notify-user",
     title: "Notify User",
-    summary: "Send native desktop notifications with optional clickable links — including rowboat:// deep links that open a specific note, chat, or view inside the app.",
+    summary: "Send native desktop notifications with optional clickable links — including spinrun:// deep links that open a specific note, chat, or view inside the app.",
     content: notifyUserSkill,
     tools: ["notify-user"],
   },

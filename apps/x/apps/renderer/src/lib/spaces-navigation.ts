@@ -1,5 +1,6 @@
 import type { OrgWithSpaces } from '@/hooks/use-spaces'
 import { readRailSelection, type RailSelection } from '@/lib/spaces-selection'
+import { brand } from '@x/shared/dist/brand.js'
 
 export const LAST_SPACE_STORAGE_KEY = 'x:last-space'
 
@@ -70,7 +71,7 @@ export function readLastSpace(): unknown {
 
 /**
  * The org link landings (Harbor http.ts) hand a browser-opened link into the
- * app as rowboat://open?type=spaces&org=<address>&…: a space, a file in it, a
+ * app as spinrun://open?type=spaces&org=<address>&…: a space, a file in it, a
  * message in it (root or reply), or a person. What they name is resolved
  * before navigating — the org by address from the signed-in list, a reply's
  * thread from the org, a person's DM created on first use.
@@ -86,9 +87,10 @@ export interface SpacesLinkTarget {
 }
 
 export function parseSpacesLink(input: string): SpacesLinkTarget | null {
-  // Some OS handlers normalise the authority form to rowboat://open/?… — the
-  // same tolerance every other rowboat:// parser has.
-  const m = /^rowboat:\/\/open\/?\?(.*)$/.exec(input)
+  // Some OS handlers normalise the authority form to spinrun://open/?… — the
+  // same tolerance every other spinrun:// parser has (rowboat:// accepted for one release).
+  const scheme = brand.deepLinkScheme
+  const m = new RegExp(`^(?:${scheme}|rowboat):\\/\\/open\\/?\\?(.*)$`).exec(input)
   if (!m) return null
   const params = new URLSearchParams(m[1]!)
   const orgAddress = params.get('org')

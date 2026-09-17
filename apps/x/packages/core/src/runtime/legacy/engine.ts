@@ -218,7 +218,7 @@ export class AgentRuntime implements IAgentRuntime {
                         void notifyIfEnabled("chat_completion", {
                             title: "Response ready",
                             message: "Your agent finished responding.",
-                            link: `rowboat://open?type=chat&runId=${runId}`,
+                            link: `spinrun://open?type=chat&runId=${runId}`,
                             actionLabel: "Open",
                             onlyWhenBackground: true,
                         });
@@ -1036,7 +1036,7 @@ export async function* streamAgent({
                     void notifyIfEnabled("agent_permission", {
                         title: "Permission needed",
                         message: `${agent.name} wants to run "${toolCall.toolName}". Review to continue.`,
-                        link: `rowboat://open?type=chat&runId=${runId}`,
+                        link: `spinrun://open?type=chat&runId=${runId}`,
                         actionLabel: "Review",
                     });
                 };

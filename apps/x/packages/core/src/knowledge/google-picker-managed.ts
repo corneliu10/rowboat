@@ -23,7 +23,7 @@ import type { GoogleDocListItem } from '../knowledge/google_docs.js';
 //   GET  ${webappUrl}/oauth/google/picker/callback
 //        Google returns `picked_file_ids` (+ code). Park the ids under a
 //        one-shot `session` ticket, then deep-link the desktop:
-//        rowboat://oauth/google/picker/done?session=<state>
+//        spinrun://oauth/google/picker/done?session=<state>
 //        (No need to exchange the code: the file is granted to the company
 //        client, so the desktop's existing managed token can read it.)
 //
@@ -89,7 +89,7 @@ export async function startManagedGooglePick(targetFolder: string): Promise<Mana
 }
 
 /**
- * Deep-link handler for rowboat://oauth/google/picker/done?session=<state>.
+ * Deep-link handler for spinrun://oauth/google/picker/done?session=<state>.
  * Claims the picked file ids from the backend and imports the first one with
  * the existing managed token, resolving the promise startManagedGooglePick
  * returned.

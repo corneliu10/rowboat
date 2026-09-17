@@ -229,7 +229,8 @@ module.exports = {
         appBundleId: brand.appBundleId,
         appCategoryType: 'public.app-category.productivity',
         protocols: [
-            { name: brand.productName, schemes: [brand.deepLinkScheme] },
+            // Intentional dual value for one release: spinrun:// primary, rowboat:// fallback so old invite links still open.
+            { name: brand.productName, schemes: [brand.deepLinkScheme, "rowboat"] },
         ],
         extendInfo: {
             NSAudioCaptureUsageDescription: 'Rowboat needs access to system audio to transcribe meetings from other apps (Zoom, Meet, etc.)',

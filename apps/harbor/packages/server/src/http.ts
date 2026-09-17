@@ -1,5 +1,5 @@
 import { Hono, type Context } from 'hono';
-import { routes } from '@rowboat/spaces-protocol';
+import { DEEP_LINK_SCHEME, routes } from '@rowboat/spaces-protocol';
 import type { z } from 'zod';
 import type { AuthDriver, AuthIdentity } from './auth.js';
 import { consentPageHtml } from './consent.js';
@@ -202,7 +202,7 @@ export function buildHttpApp(deps: {
   });
 
   // The invite link's landing (2026-09-15): a browser-opened /join/<token>
-  // hands the invite into the app as rowboat://open?type=spaces&org=…&invite=…
+  // hands the invite into the app as spinrun://open?type=spaces&org=…&invite=…
   // — the same deep-link grammar as the org link landings below, the org
   // named by its address — and shows what is being joined meanwhile (invite
   // resolution is pre-auth by design, spec §4). A dead invite says so and
@@ -211,19 +211,19 @@ export function buildHttpApp(deps: {
     const token = c.req.param('token');
     const resolved = await service.resolveInvite(token);
     if (resolved.state !== 'ok') return c.html(invitePage({ state: resolved.state }), 410);
-    const deep = `rowboat://open?type=spaces&org=${encodeURIComponent(service.org.address)}&invite=${encodeURIComponent(token)}`;
+    const deep = `${DEEP_LINK_SCHEME}://open?type=spaces&org=${encodeURIComponent(service.org.address)}&invite=${encodeURIComponent(token)}`;
     return c.html(invitePage({ state: 'ok', space: resolved.space.name, org: resolved.org.name, invitedBy: resolved.invitedBy, deep }));
   });
 
   // --- link landings ---------------------------------------------------------
   // Every org link (ids.ts grammar) opened in a browser lands here and is
-  // handed into the app as a rowboat:// deep link, the org named by its
+  // handed into the app as a spinrun:// deep link, the org named by its
   // address. Nothing is looked up and nothing is rendered about the target,
   // so a link says nothing to someone who cannot open it. The app itself
   // intercepts these URLs before they ever reach a browser.
   const landing = (target: URLSearchParams) => {
     target.set('org', service.org.address);
-    const deep = `rowboat://open?type=spaces&${target.toString()}`;
+    const deep = `${DEEP_LINK_SCHEME}://open?type=spaces&${target.toString()}`;
     return `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Open in Rowboat</title>` +
       `<style>body{font:15px/1.5 system-ui,sans-serif;margin:0;display:grid;place-items:center;min-height:100vh;color:#222;background:#fafafa}` +
       `main{text-align:center;padding:2rem}a.b{display:inline-block;margin-top:1rem;padding:.6rem 1.1rem;border-radius:8px;background:#111;color:#fff;text-decoration:none}</style>` +

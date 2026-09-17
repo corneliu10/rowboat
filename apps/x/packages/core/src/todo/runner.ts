@@ -281,7 +281,7 @@ async function landSettled(
             void notifyIfEnabled('todo', {
                 title: '✓ To-do finished',
                 message: settled.text ?? itemText,
-                link: 'rowboat://open?type=home',
+                link: 'spinrun://open?type=home',
                 // The receipt lands visibly on Home — no toast needed while
                 // the user is already looking at the app.
                 onlyWhenBackground: true,
@@ -395,7 +395,7 @@ async function driveTurn(
                 void notifyIfEnabled('agent_permission', {
                     title: 'Rowboat needs an approval',
                     message: itemText,
-                    link: 'rowboat://open?type=home',
+                    link: 'spinrun://open?type=home',
                 });
             }
         }
@@ -558,7 +558,7 @@ async function driveChatTurn(
                     void notifyIfEnabled('agent_permission', {
                         title: 'Rowboat needs an approval',
                         message: truncate(message, 120),
-                        link: 'rowboat://open?type=home',
+                        link: 'spinrun://open?type=home',
                     });
                 }
                 continue;

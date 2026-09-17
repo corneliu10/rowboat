@@ -2,7 +2,7 @@ import { app, Menu, shell, type BrowserWindow, type MenuItemConstructorOptions }
 import { WorkDir } from "@x/core/dist/config/config.js";
 import type { ipc } from "@x/shared";
 import { brand } from "@x/shared";
-import { dispatchDeepLink } from "./deeplink.js";
+import { DEEP_LINK_SCHEME, dispatchDeepLink } from "./deeplink.js";
 import {
   getQuickAskShortcutState,
   onQuickAskShortcutChanged,
@@ -97,7 +97,7 @@ function sendCommand(payload: MenuCommand): void {
  */
 function navigate(type: string): void {
   actions?.openApp();
-  dispatchDeepLink(`rowboat://open?type=${type}`);
+  dispatchDeepLink(`${DEEP_LINK_SCHEME}://open?type=${type}`);
 }
 
 function withMainWindow(fn: (win: BrowserWindow) => void): void {
