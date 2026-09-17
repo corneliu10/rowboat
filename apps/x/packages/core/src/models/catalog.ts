@@ -1,6 +1,7 @@
 import z from "zod";
 import { LlmModelConfig, LlmProvider } from "@x/shared/dist/models.js";
 import { isSignedIn } from "../account/account.js";
+import { MANAGED_LLM_ENABLED } from "./managed.js";
 import { getChatGPTStatus } from "../auth/chatgpt-auth.js";
 import container from "../di/container.js";
 import { IModelConfigRepo } from "./repo.js";
@@ -128,7 +129,7 @@ async function readModelConfig(): Promise<z.infer<typeof LlmModelConfig> | null>
 async function discoverProviders(): Promise<DiscoveredProvider[]> {
     const discovered: DiscoveredProvider[] = [];
 
-    if (await isSignedIn().catch(() => false)) {
+    if (MANAGED_LLM_ENABLED() && (await isSignedIn().catch(() => false))) {
         discovered.push({ id: "rowboat", flavor: "rowboat" });
     }
     try {

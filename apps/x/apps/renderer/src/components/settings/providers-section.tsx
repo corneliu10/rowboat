@@ -299,7 +299,11 @@ function AddProviderDialog({ open, onOpenChange, connectedIds, isRowboatConnecte
 
   const chooseEntries = useMemo(() => {
     const entries: Array<{ id: string; name: string; tagline: string; icon: React.ElementType | null; onChoose: () => void }> = []
-    if (!isRowboatConnected) {
+    // Fork d-llm-byok: managed provider hidden (core models/managed.ts
+    // MANAGED_LLM_ENABLED() reads ROWBOAT_MANAGED_LLM, default "off") — the
+    // catalog never lists rowboat when off, so don't offer its sign-in here.
+    const managedLlmEnabled = false
+    if (!isRowboatConnected && managedLlmEnabled) {
       entries.push({
         id: "rowboat",
         name: "Rowboat",
