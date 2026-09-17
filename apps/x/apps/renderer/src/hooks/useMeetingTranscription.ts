@@ -4,6 +4,7 @@ import { buildDeepgramListenUrl } from '@/lib/deepgram-listen-url';
 import { finalizeDeepgramStream } from '@/lib/deepgram-finalize';
 import { useRowboatAccount } from '@/hooks/useRowboatAccount';
 import { fetchRowboatConfig } from '@/hooks/use-rowboat-config';
+import { MEETINGS_FOLDER } from '@x/shared/dist/brand.js';
 
 export type MeetingTranscriptionState = 'idle' | 'connecting' | 'recording' | 'stopping';
 
@@ -521,14 +522,14 @@ export function useMeetingTranscription(onAutoStop?: () => void) {
         const filename = calendarEvent?.summary
             ? calendarEvent.summary.replace(/[\\/*?:"<>|]/g, '').replace(/\s+/g, '_').substring(0, 100).trim()
             : `meeting-${timestamp}`;
-        let notePath = `knowledge/Meetings/rowboat/${dateFolder}/${filename}.md`;
+        let notePath = `knowledge/Meetings/${MEETINGS_FOLDER}/${dateFolder}/${filename}.md`;
         // Title-derived names collide within a day — every ad-hoc detection is
         // titled "Meeting", and recurring calendar events repeat their summary.
         // Never overwrite an earlier meeting's note: suffix with the timestamp.
         if (calendarEvent?.summary) {
             try {
                 const { exists } = await window.ipc.invoke('workspace:exists', { path: notePath });
-                if (exists) notePath = `knowledge/Meetings/rowboat/${dateFolder}/${filename}-${timestamp}.md`;
+                if (exists) notePath = `knowledge/Meetings/${MEETINGS_FOLDER}/${dateFolder}/${filename}-${timestamp}.md`;
             } catch { /* fall through with the unsuffixed path */ }
         }
         notePathRef.current = notePath;

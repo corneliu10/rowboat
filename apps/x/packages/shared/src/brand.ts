@@ -19,3 +19,7 @@ export type Brand = typeof brand;
 // brand.executableName so the user-visible prefix follows the rebrand;
 // existing sessions keep their stored branch (callers use `??` fallback).
 export const CODE_SESSION_BRANCH_PREFIX = `${brand.executableName}/`;
+
+// Local meeting-notes source folder, e.g. "spinrun" → knowledge/Meetings/spinrun/.
+// Built from brand.executableName; old notes under Meetings/rowboat/ stay on disk.
+export const MEETINGS_FOLDER = brand.executableName;

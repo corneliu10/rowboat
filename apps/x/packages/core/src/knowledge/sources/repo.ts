@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { WorkDir } from '../../config/config.js';
+import { MEETINGS_FOLDER } from '@x/shared/dist/brand.js';
 import {
     KnowledgeSourceConfig,
     KnowledgeSourcesFile,
@@ -43,7 +44,9 @@ const BUILTIN_SOURCES: KnowledgeSourceConfig[] = [
         id: 'rowboat-meetings',
         provider: 'meeting',
         enabled: true,
-        artifactDir: path.join('knowledge', 'Meetings', 'rowboat'),
+        // New notes go to Meetings/spinrun/ via MEETINGS_FOLDER; old notes
+        // under Meetings/rowboat/ stay on disk (not migrated).
+        artifactDir: path.join('knowledge', 'Meetings', MEETINGS_FOLDER),
         syncMode: 'file',
         scopes: [],
     },

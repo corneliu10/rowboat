@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { brand, CODE_SESSION_BRANCH_PREFIX } from './brand.js';
+import { brand, CODE_SESSION_BRANCH_PREFIX, MEETINGS_FOLDER } from './brand.js';
 import { DEEP_LINK_SCHEME, MENTION_HANDLE } from '@rowboat/spaces-protocol';
 
 describe('brand / protocol drift guard', () => {
@@ -25,5 +25,10 @@ describe('brand / protocol drift guard', () => {
   it('branch prefix follows the executable name', () => {
     expect(CODE_SESSION_BRANCH_PREFIX).toBe('spinrun/');
     expect(CODE_SESSION_BRANCH_PREFIX).toBe(`${brand.executableName}/`);
+  });
+
+  it('meetings folder follows the executable name', () => {
+    expect(MEETINGS_FOLDER).toBe('spinrun');
+    expect(MEETINGS_FOLDER).toBe(brand.executableName);
   });
 });
