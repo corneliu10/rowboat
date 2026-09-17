@@ -1,6 +1,7 @@
 import { app, Menu, shell, type BrowserWindow, type MenuItemConstructorOptions } from "electron";
 import { WorkDir } from "@x/core/dist/config/config.js";
 import type { ipc } from "@x/shared";
+import { brand } from "@x/shared";
 import { dispatchDeepLink } from "./deeplink.js";
 import {
   getQuickAskShortcutState,
@@ -39,7 +40,7 @@ import { zoomIn, zoomOut, zoomReset } from "./zoom.js";
  * in zoom.ts's before-input-event hook (see the comment there).
  */
 
-const REPO_URL = "https://github.com/rowboatlabs/rowboat";
+const REPO_URL = `https://github.com/${brand.updateRepo}`;
 
 type MenuCommand = ipc.IPCChannels["menu:command"]["req"];
 

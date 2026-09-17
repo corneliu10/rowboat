@@ -4,6 +4,9 @@
 
 const path = require('path');
 const pkg = require('./package.json');
+const brand = require('./brand.cjs');
+
+const [updateOwner, updateName] = brand.updateRepo.split('/');
 
 // The Arch Linux (pacman) package is meant only for local builds on an Arch host
 // with makepkg. It already self-skips elsewhere (maker-pacman checks for makepkg),
@@ -221,12 +224,12 @@ module.exports = {
         onlyModules: [],
     },
     packagerConfig: {
-        executableName: 'rowboat',
+        executableName: brand.executableName,
         icon: './icons/icon',  // .icns extension added automatically
-        appBundleId: 'com.rowboat.app',
+        appBundleId: brand.appBundleId,
         appCategoryType: 'public.app-category.productivity',
         protocols: [
-            { name: 'Rowboat', schemes: ['rowboat'] },
+            { name: brand.productName, schemes: [brand.deepLinkScheme] },
         ],
         extendInfo: {
             NSAudioCaptureUsageDescription: 'Rowboat needs access to system audio to transcribe meetings from other apps (Zoom, Meet, etc.)',
@@ -272,23 +275,23 @@ module.exports = {
             name: '@electron-forge/maker-dmg',
             config: (arch) => ({
                 format: 'ULFO',
-                name: `Rowboat-darwin-${arch}-${pkg.version}`,  // Architecture-specific name to avoid conflicts
+                name: `${brand.productName}-darwin-${arch}-${pkg.version}`,  // Architecture-specific name to avoid conflicts
             })
         },
         {
             name: '@electron-forge/maker-squirrel',
             config: (arch) => ({
-                authors: 'rowboatlabs',
+                authors: updateOwner,
                 description: 'AI coworker with memory',
-                name: `Rowboat-win32-${arch}`,
-                setupExe: `Rowboat-win32-${arch}-${pkg.version}-setup.exe`,
+                name: `${brand.productName}-win32-${arch}`,
+                setupExe: `${brand.productName}-win32-${arch}-${pkg.version}-setup.exe`,
                 setupIcon: path.join(__dirname, 'icons/icon.ico'),
                 // The animation is Squirrel's ONLY install UI — without this
                 // users stare at Squirrel's unbranded default mid-install.
                 loadingGif: path.join(__dirname, 'icons/install-loading.gif'),
                 // Add/Remove Programs icon. Must be a remote URL (Squirrel
                 // limitation); defaults to the Atom feather otherwise.
-                iconUrl: 'https://raw.githubusercontent.com/rowboatlabs/rowboat/main/apps/x/apps/main/icons/icon.ico',
+                iconUrl: `https://raw.githubusercontent.com/${brand.updateRepo}/main/apps/x/apps/main/icons/icon.ico`,
                 // Skip the machine-wide MSI deployment stub — it lands on the
                 // GitHub release page next to setup.exe and users grab the
                 // wrong one (it neither launches the app nor auto-updates).
@@ -302,13 +305,13 @@ module.exports = {
             name: '@electron-forge/maker-deb',
             config: (arch) => ({
                 options: {
-                    name: `Rowboat-linux`,
-                    bin: "rowboat",
+                    name: `${brand.productName}-linux`,
+                    bin: brand.executableName,
                     description: 'AI coworker with memory',
-                    maintainer: 'rowboatlabs',
+                    maintainer: updateOwner,
                     homepage: 'https://rowboatlabs.com',
                     icon: path.join(__dirname, 'icons/icon.png'),
-                    mimeType: ['x-scheme-handler/rowboat'],
+                    mimeType: [`x-scheme-handler/${brand.deepLinkScheme}`],
                 }
             })
         },
@@ -316,12 +319,12 @@ module.exports = {
             name: '@electron-forge/maker-rpm',
             config: {
                 options: {
-                    name: `Rowboat-linux`,
-                    bin: "rowboat",
+                    name: `${brand.productName}-linux`,
+                    bin: brand.executableName,
                     description: 'AI coworker with memory',
                     homepage: 'https://rowboatlabs.com',
                     icon: path.join(__dirname, 'icons/icon.png'),
-                    mimeType: ['x-scheme-handler/rowboat'],
+                    mimeType: [`x-scheme-handler/${brand.deepLinkScheme}`],
                 }
             }
         },
@@ -330,15 +333,15 @@ module.exports = {
             name: require.resolve('./makers/maker-pacman.cjs'),
             platforms: ['linux'],
             config: {
-                name: 'rowboat',
-                bin: 'rowboat',
-                executableName: 'rowboat',
+                name: brand.executableName,
+                bin: brand.executableName,
+                executableName: brand.executableName,
                 description: 'AI coworker with memory',
-                maintainer: 'rowboatlabs',
+                maintainer: updateOwner,
                 homepage: 'https://rowboatlabs.com',
                 license: 'Apache',
                 icon: path.join(__dirname, 'icons/icon.png'),
-                mimeType: ['x-scheme-handler/rowboat'],
+                mimeType: [`x-scheme-handler/${brand.deepLinkScheme}`],
             }
         }]),
         {
@@ -351,8 +354,8 @@ module.exports = {
             name: '@electron-forge/publisher-github',
             config: {
                 repository: {
-                    owner: 'rowboatlabs',
-                    name: 'rowboat'
+                    owner: updateOwner,
+                    name: updateName
                 },
                 prerelease: true
             }
