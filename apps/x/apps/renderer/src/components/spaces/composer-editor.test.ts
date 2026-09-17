@@ -4,7 +4,7 @@ import { caretContext, closeFenceLine, composerExtensions, composerMarkdown, ope
 
 // The composer's contract: what the editor holds serializes back to the
 // exact markdown the wire (and every downstream consumer: drafts, slash
-// commands, @rowboat detection) expects. These tests pin that round trip.
+// commands, @spinball detection) expects. These tests pin that round trip.
 
 let editors: Editor[] = []
 
@@ -47,7 +47,7 @@ describe('markdown round trip', () => {
         ['mention text (prose)', '@Ada Lovelace can you look?'],
         ['member mention token', '[@Ada Lovelace](#member:01HADA) can you look?'],
         ['here token', 'standup [@here](#here)'],
-        ['rowboat token', '[@rowboat](#rowboat) summarise this'],
+        ['rowboat token', '[@spinball](#spinball) summarise this'],
         ['space token', 'see [#General](#space:01HSPACEGENERAL0000000000) for that'],
     ]
     it.each(cases)('%s', (_name, md) => {
@@ -97,7 +97,7 @@ describe('formatting commands produce wire markdown', () => {
     })
 
     it('a mention token parses to ONE atom node and serializes back to the same token', () => {
-        const body = 'hey [@Ada Lovelace](#member:01HADA) and [@here](#here), [@rowboat](#rowboat) go'
+        const body = 'hey [@Ada Lovelace](#member:01HADA) and [@here](#here), [@spinball](#spinball) go'
         const editor = makeEditor(body)
         const mentions: Array<{ kind: string; id: string | null; label: string }> = []
         editor.state.doc.descendants((node) => {
@@ -106,7 +106,7 @@ describe('formatting commands produce wire markdown', () => {
         expect(mentions).toEqual([
             { kind: 'member', id: '01HADA', label: 'Ada Lovelace' },
             { kind: 'here', id: null, label: 'here' },
-            { kind: 'rowboat', id: null, label: 'rowboat' },
+            { kind: 'spinball', id: null, label: 'spinball' },
         ])
         expect(composerMarkdown(editor)).toBe(body)
     })

@@ -20,8 +20,8 @@ const SPACE = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
 describe("parseBlobLink", () => {
     it("parses the canonical grammar with a name", () => {
         expect(
-            parseBlobLink(`https://acme.rowboat.space/s/${SPACE}/b/${HASH}?name=shot%20one.png`),
-        ).toEqual({ address: "acme.rowboat.space", spaceId: SPACE, hash: HASH, name: "shot one.png" });
+            parseBlobLink(`https://acme.spinball.space/s/${SPACE}/b/${HASH}?name=shot%20one.png`),
+        ).toEqual({ address: "acme.spinball.space", spaceId: SPACE, hash: HASH, name: "shot one.png" });
     });
 
     it("parses without a query, and dev http addresses with ports", () => {

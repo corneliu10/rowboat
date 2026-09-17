@@ -7,7 +7,7 @@ import { WorkDir } from '../config/config.js';
 import { capture } from '../analytics/posthog.js';
 import { spacesMcpServerNameFor } from './orgs.js';
 
-// @rowboat in a space (spec §8 grammar, §11 beat 7): an addressed message
+// @spinball in a space (spec §8 grammar, §11 beat 7): an addressed message
 // routes into ONE session per thread — the anchor is the addressed message's
 // thread root (the message itself when it was posted to the stream), which is
 // permanent, so topic rows can come and go (annotation model) without ever
@@ -41,9 +41,9 @@ export interface InvokeTopicAgentInput {
   /** What to call the conversation: the topic's title when annotated, else the root's first line. */
   threadLabel: string;
   spaceName: string;
-  /** Feed message id of the @rowboat message — the invocation's provenance. */
+  /** Feed message id of the @spinball message — the invocation's provenance. */
   messageId: string;
-  /** The message body, verbatim (the @rowboat address included). */
+  /** The message body, verbatim (the @spinball address included). */
   body: string;
   /** Per-turn agent options from the composer's agent strip; absent = assistant defaults. */
   options?: {
@@ -107,7 +107,7 @@ export function buildInvocationMessage(input: InvokeTopicAgentInput, mcpServerNa
   // ride the message too — a few tokens that survive context compaction.
   void mcpServerName; // the org rides the session pin (`org`), not the message
   return [
-    `[@rowboat in "${input.spaceName}" · spaceId ${input.spaceId} · thread ${input.threadRootId} · message ${input.messageId}]`,
+    `[@spinball in "${input.spaceName}" · spaceId ${input.spaceId} · thread ${input.threadRootId} · message ${input.messageId}]`,
     input.body,
   ].join('\n');
 }

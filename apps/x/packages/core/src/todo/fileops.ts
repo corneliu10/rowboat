@@ -2,6 +2,8 @@ import fs from 'fs/promises';
 import fsSync from 'fs';
 import path from 'path';
 import type { TodoBlock, TodoItem, TodoLink, TodoList, TodoReceipt } from '@x/shared/dist/todo.js';
+import { brand } from '@x/shared/dist/brand.js';
+import { mentionRegex } from '@x/shared/dist/mention.js';
 import { WorkDir } from '../config/config.js';
 import { withFileLock } from '../knowledge/file-lock.js';
 import { PrefixLogger } from '@x/shared/dist/prefix-logger.js';
@@ -22,7 +24,8 @@ const ARCHIVE_DIR = path.join(WorkDir, 'todo', 'archive');
 /** Workspace-relative path handed to the agent's file tools. */
 export const TODO_REL_PATH = 'todo.md';
 
-const ROWBOAT_MENTION_RE = /(^|\s)@rowboat\b/i;
+// Kept name ROWBOAT_MENTION_RE: ripples through protocol types; value is now @spinball via MENTION_HANDLE.
+const ROWBOAT_MENTION_RE = mentionRegex(brand.mentionHandle);
 const TASK_LINE_RE = /^- \[( |x|X)\] (.*\S)\s*$/;
 const SUB_TASK_LINE_RE = /^\s{2,6}- \[( |x|X)\] (.*\S)\s*$/;
 const RECEIPT_LINE_RE = /^\s+- → (.*\S)\s*$/;
@@ -30,7 +33,7 @@ const LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
 /** Receipt stamped onto a dismissed sub-item so restore can re-nest it. */
 const FROM_RE = /^from: (.+)$/;
 /** Planner provenance marker — visible in the file, badge in the UI. */
-const PROPOSED_RE = /\s*\(via rowboat\)\s*$/i;
+const PROPOSED_RE = /\s*\(via spinball\)\s*$/i;
 
 export function normalizeKey(text: string): string {
     return text.replace(/\s+/g, ' ').trim().toLowerCase();
@@ -150,7 +153,7 @@ export function parseTodoFile(markdown: string): TodoList {
 }
 
 function serializeItem(item: TodoItem): string[] {
-    const mark = (i: TodoItem) => (i.proposed ? ' (via rowboat)' : '');
+    const mark = (i: TodoItem) => (i.proposed ? ' (via spinball)' : '');
     const out = [
         `- [${item.checked ? 'x' : ' '}] ${item.text.trim()}${mark(item)}`,
         ...item.receipts.map(r => serializeReceipt(r, '  ')),
@@ -228,7 +231,7 @@ function resolveLocked(list: TodoList, key: string): FoundItem | null {
 // ---------------------------------------------------------------------------
 
 const SEED = `- [ ] Add your first to-do — just type below
-- [ ] @rowboat introduce yourself — what can you do here?
+- [ ] @spinball introduce yourself — what can you do here?
 - [ ] Dismiss anything you don't want — hover a row and hit ✕ (it lands in Done & dismissed below, restorable)
 `;
 

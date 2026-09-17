@@ -11,6 +11,7 @@ import { useOrgListings } from '@/hooks/use-space-boards'
 import { useOrgRoster, useSpaceMembers } from '@/hooks/use-space-members'
 import { useSpacesOrgs } from '@/hooks/use-spaces'
 import { assetWireUrl } from '@/lib/spaces-presentation'
+import { brand } from '@x/shared/dist/brand.js'
 
 // The @ autocomplete behind every mention surface — the composer and the
 // inline message editor. The hook owns the popup's whole lifecycle off the
@@ -96,7 +97,7 @@ export function useMentionAutocomplete(editor: Editor | null) {
         if (!match) return []
         const q = match.query
         const people: MentionCandidate[] = []
-        if ('rowboat'.startsWith(q)) people.push({ id: 'rowboat', label: 'rowboat', hint: 'your agent — acts only when asked', isAgent: true })
+        if (brand.mentionHandle.startsWith(q)) people.push({ id: brand.mentionHandle, label: brand.mentionHandle, hint: 'your agent — acts only when asked', isAgent: true })
         if ('here'.startsWith(q)) people.push({ id: 'here', label: 'here', hint: 'notify everyone online', isBroadcast: true })
         // This space's people first, then the rest of the org. Someone not in
         // this space can be named but is not notified (the org drops their
@@ -150,7 +151,7 @@ export function useMentionAutocomplete(editor: Editor | null) {
     }
     const show = open && !!match && candidates.length > 0
 
-    // A person, a space, @rowboat, or @here becomes ONE mention node
+    // A person, a space, @spinball, or @here becomes ONE mention node
     // (composer-editor MentionNode): a pill holding the id, serialized to the
     // wire's token on send. A file becomes a live link — the contract's
     // canonical asset URL naming the file by id on ITS space (stable across

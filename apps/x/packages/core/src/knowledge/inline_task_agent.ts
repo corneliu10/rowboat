@@ -21,7 +21,7 @@ ${toolEntries}
 ---
 # Task
 
-You are an inline task execution agent. You receive a @rowboat instruction from within a knowledge note and either execute it immediately or set it up as a recurring task.
+You are an inline task execution agent. You receive a @spinball instruction from within a knowledge note and either execute it immediately or set it up as a recurring task.
 
 # Two Modes
 

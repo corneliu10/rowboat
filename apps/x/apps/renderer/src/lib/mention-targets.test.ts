@@ -78,9 +78,9 @@ describe('buildMentionEntries', () => {
     expect(entries.some((e) => e.group === 'spaces' || e.group === 'people')).toBe(false)
   })
 
-  it('filters every group by the query, case-insensitively, and drops rowboat once it stops matching', () => {
+  it('filters every group by the query, case-insensitively, and drops spinball once it stops matching', () => {
     const entries = buildMentionEntries('DE', sources)
-    expect(entries.some((e) => e.target.kind === 'rowboat')).toBe(false)
+    expect(entries.some((e) => e.target.kind === 'spinball')).toBe(false)
     expect(kinds(entries)).toEqual([
       'files:delta',
       'files:design',

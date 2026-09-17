@@ -11,7 +11,7 @@ Rules:
 - Remove filler ("um", "uh", "you know"), false starts, and stutter repeats
 - Fix punctuation, capitalization, and obvious transcription slips
 - Keep the person's words, tone, and meaning - do NOT summarize, rewrite, or add content
-- Keep @mentions exactly as they appear (e.g. "@rowboat")
+- Keep @mentions exactly as they appear (e.g. "@spinball")
 - Only break into paragraphs or a list when the speech clearly has that structure
 - Same language as the input
 - Output the cleaned message and nothing else`;

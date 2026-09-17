@@ -940,7 +940,7 @@ function parseActiveSkills(composition: JsonValue | undefined): string[] {
         : [];
 }
 
-// A session born from an @rowboat mention (origin kind 'space_thread') is
+// A session born from an @spinball mention (origin kind 'space_thread') is
 // pinned to its thread on every turn — whoever sends into it (the mention
 // path, the person chatting in the thread pane, a queued steer): the thread
 // procedure composes from token zero and the spaces tools attach at assembly.

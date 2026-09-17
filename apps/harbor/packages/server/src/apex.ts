@@ -156,7 +156,7 @@ This is your team's shared corner. **general** is its first space — talk and f
 
 - **Talk in Messages.** The open stream is where the team thinks out loud. A message that gets replies becomes its own topic.
 - **Files are the record.** Anything the team agrees on — plans, notes, decisions — lives here as files everyone (and everyone's agent) can read and propose changes to. This README is one: edit it, replace it, make it yours.
-- **Ask @rowboat.** Mention @rowboat in any message and *your* agent picks it up — summarize a thread, draft a doc, fold a decision into a file.
+- **Ask @spinball.** Mention @spinball in any message and *your* agent picks it up — summarize a thread, draft a doc, fold a decision into a file.
 - **Invite your team.** Share an invite link from the space menu. Each person signs in with their own account, and each person's agent acts as them — never as a bot with special powers.
 
 ## When to make more spaces

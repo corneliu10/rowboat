@@ -5,8 +5,8 @@ import { toast } from '@/lib/toast'
 import * as analytics from '@/lib/analytics'
 
 // ---------------------------------------------------------------------------
-// @rowboat trigger (spec §8): a posted message that genuinely addresses
-// @rowboat routes into the THREAD's session — the anchor is the posted
+// @spinball trigger (spec §8): a posted message that genuinely addresses
+// @spinball routes into the THREAD's session — the anchor is the posted
 // message's thread root (the message itself when it went to the stream), so
 // the agent's receipt lands as a reply right under the ask.
 // ---------------------------------------------------------------------------

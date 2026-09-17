@@ -58,7 +58,7 @@ type ChatHistoryViewProps = {
 
 // ---------------------------------------------------------------------------
 // Two lists, never merged: the person's own assistant chats, and Mentions —
-// the sessions the @rowboat mention machinery owns, one per space thread.
+// the sessions the @spinball mention machinery owns, one per space thread.
 // The header tab picks which; in Mentions the chips narrow to one space.
 // Names come from the live org roster when it is loaded (renames, DM display
 // names) and fall back to what the session recorded at creation.
@@ -547,7 +547,7 @@ export function ChatHistoryView({
             <DialogTitle>Delete chat</DialogTitle>
             <DialogDescription>
               {runs.find((r) => r.id === pendingDeleteId)?.origin?.kind === 'space_thread'
-                ? 'Are you sure you want to delete this thread’s conversation? The next @rowboat mention in the thread starts a fresh one.'
+                ? 'Are you sure you want to delete this thread’s conversation? The next @spinball mention in the thread starts a fresh one.'
                 : 'Are you sure you want to delete this chat?'}
             </DialogDescription>
           </DialogHeader>

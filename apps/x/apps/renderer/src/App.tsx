@@ -7,6 +7,8 @@ import { noteSpaceVisit } from '@/lib/spaces-visits'
 import * as React from 'react'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, useRef } from 'react'
 import { workspace, quickAskShortcut, pttKey, type ipc } from '@x/shared';
+import { brand } from '@x/shared/dist/brand.js'
+import { mentionRegex } from '@x/shared/dist/mention.js'
 import { RunEvent } from '@x/shared/src/runs.js';
 import type { ToolUIPart } from 'ai';
 import './App.css'
@@ -5139,15 +5141,15 @@ function App() {
       } else if (target.kind === 'chatReply') {
         void window.ipc.invoke('todo:chatReply', { sessionId: target.sessionId, message: text, attachments, model, permissionMode })
       } else if (target.kind === 'sub') {
-        void window.ipc.invoke('todo:addSubItem', { parentKey: target.parentKey, text, run: /(^|\s)@rowboat\b/i.test(text), attachments, model, permissionMode })
+        void window.ipc.invoke('todo:addSubItem', { parentKey: target.parentKey, text, run: mentionRegex(brand.mentionHandle).test(text), attachments, model, permissionMode })
       } else {
-        // A picked code lane is delegation intent as explicit as @rowboat —
+        // A picked code lane is delegation intent as explicit as @spinball —
         // the item runs immediately in its repo.
         const codeProject = homeCodeProjectRef.current
         const code = codeProject
           ? { projectId: codeProject.id, agent: codeMode, isolation: homeCodeIsolationRef.current }
           : undefined
-        void window.ipc.invoke('todo:addItem', { text, run: /(^|\s)@rowboat\b/i.test(text) || !!code, attachments, model, permissionMode, code })
+        void window.ipc.invoke('todo:addItem', { text, run: mentionRegex(brand.mentionHandle).test(text) || !!code, attachments, model, permissionMode, code })
       }
       setHomeComposeTarget(null)
       return
@@ -7612,12 +7614,12 @@ function App() {
                           } : undefined}
                           placeholder={homeComposeTarget
                             ? (homeComposeTarget.kind === 'sub'
-                                ? 'Add a step… @rowboat hands it off'
+                                ? 'Add a step… @spinball hands it off'
                                 : homeComposeTarget.kind === 'comment'
-                                  ? 'Tell @rowboat what to change…'
+                                  ? 'Tell @spinball what to change…'
                                   : homeComposeTarget.kind === 'chatReply'
                                     ? 'Reply…'
-                                    : 'Add a to-do… @rowboat hands it off')
+                                    : 'Add a to-do… @spinball hands it off')
                             : 'Ask anything — starts a new chat'}
                           isRecording={isRecording && voiceOwner === HOME_VOICE_HOLDER}
                           recordingText={voiceOwner === HOME_VOICE_HOLDER ? voice.interimText : undefined}

@@ -115,11 +115,11 @@ const DEFAULT_POLL_HOURS = 24;
 
 /** The stamped addresses as they ride a Message (core.ts). */
 function stampFields(stamps: MentionStamps): Pick<Message, 'mentions' | 'mentionsHere' | 'mentionsRowboat'> {
-  return { mentions: [...stamps.members], mentionsHere: stamps.here, mentionsRowboat: stamps.rowboat };
+  return { mentions: [...stamps.members], mentionsHere: stamps.here, mentionsRowboat: stamps.spinball /* kept name: protocol field; value is now spinball */ };
 }
 
 function stampsOf(message: Message): MentionStamps {
-  return { members: message.mentions, here: message.mentionsHere, rowboat: message.mentionsRowboat };
+  return { members: message.mentions, here: message.mentionsHere, spinball: message.mentionsRowboat };
 }
 
 export interface OrgInfo {
@@ -209,7 +209,7 @@ export class HarborService {
     for (const id of parsed.members) {
       if (await this.store.getMembership(spaceId, id)) members.push(id);
     }
-    return { members, here: parsed.here, rowboat: parsed.rowboat };
+    return { members, here: parsed.here, spinball: parsed.spinball };
   }
 
   /** A mention follows you into the thread (the org's rule; @here follows nobody). */
@@ -1423,7 +1423,7 @@ export class HarborService {
 
   /**
    * The mentions backfill (2026-09-10, a dogfood decision): the pre-token
-   * spelling — "@<memberId>", bare "@here" / "@rowboat" — becomes mention
+   * spelling — "@<memberId>", bare "@here" / "@spinball" — becomes mention
    * tokens through the ORDINARY edit path, attributed to the author, so the
    * log shows an edit by them and the "(edited)" mark appears; titles go
    * through retitle the same way. Rows that carry tokens but stale stamps

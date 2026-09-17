@@ -503,7 +503,7 @@ function MessageRowImpl({
                     {onAskRowboat && (
                         <button
                             type="button"
-                            title="Ask @rowboat about this"
+                            title="Ask @spinball about this"
                             onClick={() => onAskRowboat(message)}
                             className={cn('inline-flex size-8 items-center justify-center rounded text-muted-foreground', ICON_HOVER)}
                         >
@@ -630,7 +630,7 @@ function MessageRowImpl({
                 )}
                 {onAskRowboat && (
                     <ContextMenuItem onSelect={() => onAskRowboat(message)}>
-                        <Bot className="size-3.5 mr-2" /> Ask @rowboat about this
+                        <Bot className="size-3.5 mr-2" /> Ask @spinball about this
                     </ContextMenuItem>
                 )}
                 {canEdit && (

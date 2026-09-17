@@ -100,14 +100,14 @@ export async function deriveConversation(
             if (terminal.type === 'turn_completed') {
                 const text = stripVoiceTags(assistantText(terminal.output) ?? '');
                 if (text || links.length > 0) {
-                    bubbles.push({ role: 'rowboat', text, links });
+                    bubbles.push({ role: 'spinball', text, links });
                 }
             } else if (terminal.type === 'turn_failed') {
                 // First line only — provider errors can be multi-line JSON.
                 const error = terminal.error.split('\n')[0].slice(0, 300);
-                bubbles.push({ role: 'rowboat', text: error, kind: 'error', links: [] });
+                bubbles.push({ role: 'spinball', text: error, kind: 'error', links: [] });
             } else {
-                bubbles.push({ role: 'rowboat', text: 'Stopped.', kind: 'error', links: [] });
+                bubbles.push({ role: 'spinball', text: 'Stopped.', kind: 'error', links: [] });
             }
         } catch (err) {
             // One corrupt turn must not hide the rest of the conversation.

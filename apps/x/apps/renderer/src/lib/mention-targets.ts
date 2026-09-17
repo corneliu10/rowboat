@@ -1,4 +1,5 @@
 import { wikiLabel, stripKnowledgePrefix } from '@/lib/wiki-links'
+import { brand } from '@x/shared/dist/brand.js'
 
 // The assistant composer's @ menu (2026-09-12): what "@" can name, and how
 // the list is ordered. Five kinds of target ride one popover — the agent
@@ -39,7 +40,7 @@ export interface MemberMentionTarget {
 }
 
 export type MentionTarget =
-  | { kind: 'rowboat' }
+  | { kind: 'spinball' }
   | { kind: 'file'; path: string }
   | SpaceMentionTarget
   | BoardMentionTarget
@@ -75,8 +76,8 @@ export interface MentionSources extends Omit<SpacesMentionTargets, 'boards'> {
 
 export function mentionTargetKey(target: MentionTarget): string {
   switch (target.kind) {
-    case 'rowboat':
-      return 'rowboat'
+    case 'spinball':
+      return brand.mentionHandle
     case 'file':
       return `file:${target.path}`
     case 'space':
@@ -90,8 +91,8 @@ export function mentionTargetKey(target: MentionTarget): string {
 
 export function mentionTargetLabel(target: MentionTarget): string {
   switch (target.kind) {
-    case 'rowboat':
-      return 'rowboat'
+    case 'spinball':
+      return brand.mentionHandle
     case 'file':
       return wikiLabel(target.path)
     case 'space':
@@ -154,9 +155,9 @@ export function buildMentionEntries(rawQuery: string, sources: MentionSources): 
 
   const entries: MentionEntry[] = []
 
-  // @rowboat leads whenever it still matches what's typed.
-  if ('rowboat'.startsWith(query)) {
-    entries.push({ target: { kind: 'rowboat' }, group: 'agent', key: 'rowboat', label: 'rowboat' })
+  // @spinball leads whenever it still matches what's typed.
+  if (brand.mentionHandle.startsWith(query)) {
+    entries.push({ target: { kind: 'spinball' }, group: 'agent', key: brand.mentionHandle, label: brand.mentionHandle })
   }
 
   for (const path of orderFiles(sources.files, sources.recentFiles ?? [], sources.visibleFiles ?? [], query).slice(0, fileCap)) {

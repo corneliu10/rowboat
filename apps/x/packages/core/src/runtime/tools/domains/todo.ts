@@ -6,10 +6,10 @@ import { BuiltinToolsSchema } from "../types.js";
 export const todoTools: z.infer<typeof BuiltinToolsSchema> = {
     'todo-add': {
         permission: "none",
-        description: "Add items to the user's to-do list (the home surface, todo.md). Use when the user asks to add, track, or remember something as a to-do — e.g. 'add X to my list', 'track this as a to-do'. Items land at the end of the list. Include @rowboat in an item's text ONLY when the user wants it delegated — that starts a background run immediately. Never add items the user didn't ask for.",
+        description: "Add items to the user's to-do list (the home surface, todo.md). Use when the user asks to add, track, or remember something as a to-do — e.g. 'add X to my list', 'track this as a to-do'. Items land at the end of the list. Include @spinball in an item's text ONLY when the user wants it delegated — that starts a background run immediately. Never add items the user didn't ask for.",
         inputSchema: z.object({
             items: z.array(z.object({
-                text: z.string().describe("The item's line text, phrased as the user would write it (e.g. 'chase the SOC2 vendor'). Include @rowboat only to delegate."),
+                text: z.string().describe("The item's line text, phrased as the user would write it (e.g. 'chase the SOC2 vendor'). Include @spinball only to delegate."),
                 parent: z.string().optional().describe("Line text of an existing top-level item to nest this under as a sub-task. Omit for top-level."),
             })).min(1).describe("The to-dos to add, in order."),
         }),
@@ -49,7 +49,7 @@ export const todoTools: z.infer<typeof BuiltinToolsSchema> = {
         description: "PROPOSE items for the user (the planner's ONLY pen). Proposals land in a suggestion tray on the home surface — NOT on the user's list — where the user accepts or declines each one; nothing runs and nothing clutters the plan until they accept. Duplicates of list items, existing suggestions, and previously dismissed suggestions are skipped automatically. Propose few and good: 2–3 at most, zero is a valid outcome.",
         inputSchema: z.object({
             items: z.array(z.object({
-                text: z.string().describe("The item's line text, phrased as the user would write it. Include @rowboat only when offering to do the work yourself (internal prep only — research, outlines, summaries; never anything outward-facing)."),
+                text: z.string().describe("The item's line text, phrased as the user would write it. Include @spinball only when offering to do the work yourself (internal prep only — research, outlines, summaries; never anything outward-facing)."),
                 }).strict()).min(1).max(5).describe("The proposals, best first."),
         }),
         execute: async ({ items }: { items: { text: string }[] }) => {

@@ -45,7 +45,7 @@ function TaskBlockView({ node, deleteNode }: { node: { attrs: Record<string, unk
           <X size={14} />
         </button>
         <div className="task-block-content">
-          <span className="task-block-instruction"><span className="task-block-prefix">@rowboat</span> {instruction}</span>
+          <span className="task-block-instruction"><span className="task-block-prefix">@spinball</span> {instruction}</span>
           {processing && (
             <span className="task-block-schedule">
               <Loader2 size={12} className="animate-spin" />

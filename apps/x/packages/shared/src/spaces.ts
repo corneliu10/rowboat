@@ -327,7 +327,7 @@ export {
 } from '@rowboat/spaces-protocol';
 export type { MentionRef, MentionStamps, OrgLink } from '@rowboat/spaces-protocol';
 
-/** Does the body deliberately address @rowboat — a token, never the bare word (spec §8)? */
+/** Does the body deliberately address @spinball — a token, never the bare word (spec §8)? */
 export function containsRowboatAddress(body: string): boolean {
   return addressesRowboat(body);
 }

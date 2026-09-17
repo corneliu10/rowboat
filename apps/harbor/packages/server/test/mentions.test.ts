@@ -29,10 +29,10 @@ const sp = (id: string, label = id) => mentionToken({ kind: 'space', id, label }
 
 describe('the grammar', () => {
   it('parses tokens, dedupes ids, and treats tokens inside code as cites', () => {
-    const body = `hey ${tok('ramnique', 'Ramnique')} and ${tok('harsh', 'H')} and ${tok('ramnique')} — [@here](#here) \`${tok('arjun')}\` \`\`\`\n[@rowboat](#rowboat)\n\`\`\``;
-    expect(parseMentions(body)).toEqual({ members: ['ramnique', 'harsh'], here: true, rowboat: false });
-    expect(parseMentions('a bare @ramnique and @here are prose')).toEqual({ members: [], here: false, rowboat: false });
-    expect(parseMentions('[@rowboat](#rowboat) summarise')).toMatchObject({ rowboat: true });
+    const body = `hey ${tok('ramnique', 'Ramnique')} and ${tok('harsh', 'H')} and ${tok('ramnique')} — [@here](#here) \`${tok('arjun')}\` \`\`\`\n[@spinball](#spinball)\n\`\`\``;
+    expect(parseMentions(body)).toEqual({ members: ['ramnique', 'harsh'], here: true, spinball: false });
+    expect(parseMentions('a bare @ramnique and @here are prose')).toEqual({ members: [], here: false, spinball: false });
+    expect(parseMentions('[@spinball](#spinball) summarise')).toMatchObject({ spinball: true });
   });
 
   it('serializes a token; brackets and newlines never reach a label', () => {
@@ -58,21 +58,21 @@ describe('the grammar', () => {
     expect(sp('S1', 'General')).toBe('[#General](#space:S1)');
     expect(sp('S1', '')).toBe('[#S1](#space:S1)');
     const body = `look at ${sp('S1', 'Old Name')} and ${sp('S2', 'Secret')} with ${tok('harsh', 'Harsh')}`;
-    expect(parseMentions(body)).toEqual({ members: ['harsh'], here: false, rowboat: false });
+    expect(parseMentions(body)).toEqual({ members: ['harsh'], here: false, spinball: false });
     const spaceNames = new Map([['S1', 'General']]);
     expect(relabelMentions(body, new Map(), spaceNames)).toBe(`look at ${sp('S1', 'General')} and ${sp('S2', 'Secret')} with ${tok('harsh', 'Harsh')}`);
     expect(mentionsAsText(body, new Map(), spaceNames)).toBe('look at #General and #Secret with @Harsh');
     expect(mentionsAsText(body, new Map())).toBe('look at #Old Name and #Secret with @Harsh');
     // The sigil and the href kind must agree — a mismatch is prose.
-    expect(parseMentions('[#x](#member:harsh) [@y](#space:S1)')).toEqual({ members: [], here: false, rowboat: false });
+    expect(parseMentions('[#x](#member:harsh) [@y](#space:S1)')).toEqual({ members: [], here: false, spinball: false });
     expect(mapMentionTokens('[#x](#member:harsh) [@y](#space:S1)', () => 'T')).toBe('[#x](#member:harsh) [@y](#space:S1)');
   });
 
   it('the backfill rewrites the pre-token spelling for known ids only, punctuation intact, idempotently', () => {
     const names = new Map([['ramnique', 'Ramnique'], ['harsh', 'Harsh']]);
-    const legacy = 'cc @ramnique, @harsh. and @nobody (@here) `@harsh` @rowboat';
+    const legacy = 'cc @ramnique, @harsh. and @nobody (@here) `@harsh` @spinball';
     const once = legacyToTokens(legacy, names);
-    expect(once).toBe(`cc ${tok('ramnique', 'Ramnique')}, ${tok('harsh', 'Harsh')}. and @nobody ([@here](#here)) \`@harsh\` [@rowboat](#rowboat)`);
+    expect(once).toBe(`cc ${tok('ramnique', 'Ramnique')}, ${tok('harsh', 'Harsh')}. and @nobody ([@here](#here)) \`@harsh\` [@spinball](#spinball)`);
     expect(legacyToTokens(once, names)).toBe(once);
   });
 });

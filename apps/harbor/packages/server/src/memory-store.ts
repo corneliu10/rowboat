@@ -421,7 +421,7 @@ export class MemoryStore implements Store {
   }
 
   private stampFields(stamps: MentionStamps): Pick<Message, 'mentions' | 'mentionsHere' | 'mentionsRowboat'> {
-    return { mentions: [...stamps.members], mentionsHere: stamps.here, mentionsRowboat: stamps.rowboat };
+    return { mentions: [...stamps.members], mentionsHere: stamps.here, mentionsRowboat: stamps.spinball /* kept name: protocol field; value is now spinball */ };
   }
 
   async markMessageEdited(spaceId: string, messageId: string, body: string, editedAt: string, stamps: MentionStamps): Promise<void> {

@@ -102,7 +102,7 @@ export function ArtifactsRail({ org, space, groups, memberNames, working, entrie
             <div className="flex flex-1 min-h-0 flex-col gap-1.5 overflow-y-auto px-2.5 pt-2.5 pb-2">
                 {groups.length === 0 && !working && (
                     <div className="rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground">
-                        Nothing changed from this topic yet. Ask @rowboat to fold a decision into a file, or pick one above.
+                        Nothing changed from this topic yet. Ask @spinball to fold a decision into a file, or pick one above.
                     </div>
                 )}
                 {groups.map((g) => (

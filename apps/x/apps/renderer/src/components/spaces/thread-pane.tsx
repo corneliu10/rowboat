@@ -499,7 +499,7 @@ export function ThreadPane({
         setMessages((prev) => (prev.some((m) => m.id === message.id) ? prev : [...prev, message]))
     }
 
-    /** What @rowboat and sessions call this conversation. */
+    /** What @spinball and sessions call this conversation. */
     const threadLabel = topic?.title ?? threadLabelOf(root?.body ?? '')
 
     // Following (org-owned read state): only a followed thread badges you.
@@ -573,7 +573,7 @@ export function ThreadPane({
         setFolding(true)
         onFolding?.(true)
         try {
-            const body = `[@rowboat](#rowboat) fold this thread’s decision into \`${file.path}\` (assetId ${file.assetId}) — keep the file’s structure and put it under the right section. End your change reason with “· thread:${rootMessageId}”.`
+            const body = `[@spinball](#spinball) fold this thread’s decision into \`${file.path}\` (assetId ${file.assetId}) — keep the file’s structure and put it under the right section. End your change reason with “· thread:${rootMessageId}”.`
             const result = await window.ipc.invoke('spaces:postMessage', { orgId: org.id, spaceId: space.id, threadRoot: rootMessageId, body })
             echo(result.message)
             noteThread(org.id, space.id, rootMessageId, { following: true, readOffset: result.message.offset, lastReplyOffset: result.message.offset })

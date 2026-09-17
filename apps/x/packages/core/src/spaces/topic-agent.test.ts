@@ -10,7 +10,7 @@ const input = {
     threadLabel: 'should SSO jump the migration work?',
     spaceName: 'Roadboard',
     messageId: '01M07MSGAAAAAAAAAAAAAAAAA1',
-    body: '@rowboat move SSO to P1',
+    body: '@spinball move SSO to P1',
 };
 
 describe('buildInvocationMessage', () => {
@@ -19,9 +19,9 @@ describe('buildInvocationMessage', () => {
         const lines = msg.split('\n');
         expect(lines).toHaveLength(2);
         expect(lines[0]).toBe(
-            '[@rowboat in "Roadboard" · spaceId 01M07B68G1BQFP70TX5RPHJX89 · thread 01M07ROOTAAAAAAAAAAAAAAAA1 · message 01M07MSGAAAAAAAAAAAAAAAAA1]',
+            '[@spinball in "Roadboard" · spaceId 01M07B68G1BQFP70TX5RPHJX89 · thread 01M07ROOTAAAAAAAAAAAAAAAA1 · message 01M07MSGAAAAAAAAAAAAAAAAA1]',
         );
-        expect(lines[1]).toBe('@rowboat move SSO to P1');
+        expect(lines[1]).toBe('@spinball move SSO to P1');
     });
 
     it('carries NO thread content and NO procedure — the session pin (spaceThread) owns the procedure', () => {

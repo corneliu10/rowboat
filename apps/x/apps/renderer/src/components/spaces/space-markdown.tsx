@@ -600,13 +600,13 @@ const CHIP_CLASS = 'rounded-[4px] px-[3px] py-px font-medium bg-[var(--stream-me
  * collide). Only the chip is tinted, never the row: amber when it addresses
  * you (@you, @here), blue for anyone else. A member chip opens their profile.
  */
-function MentionChip({ memberId, broadcast, fallback }: { memberId?: string; broadcast?: 'here' | 'rowboat'; fallback: string }) {
+function MentionChip({ memberId, broadcast, fallback }: { memberId?: string; broadcast?: 'here' | 'spinball'; fallback: string }) {
     const names = useMemberNames()
     const { selfId } = useSpaceProfiles()
     const label = broadcast ? `@${broadcast}` : `@${(memberId !== undefined ? names.get(memberId) : undefined) ?? fallback.replace(/^@/, '')}`
     const addressesMe = broadcast === 'here' || (!!selfId && memberId === selfId)
     const chip = addressesMe ? 'rounded-[4px] px-[3px] py-px font-medium bg-[var(--stream-you-wash)] text-[var(--stream-you-ink)]' : CHIP_CLASS
-    // @here and @rowboat address the room and your agent — no profile to open.
+    // @here and @spinball address the room and your agent — no profile to open.
     if (broadcast || memberId === undefined || !names.has(memberId)) {
         return <strong className={chip}>{label}</strong>
     }
@@ -740,7 +740,7 @@ function SpaceAnchor({ href, children }: ComponentProps<'a'>) {
     const mentionId = parseSpaceMemberAppUrl(url)
     if (mentionId !== null) return <MentionChip memberId={mentionId} fallback={plainLabel(children) ?? mentionId} />
     if (url === HERE_APP_URL) return <MentionChip broadcast="here" fallback="@here" />
-    if (url === ROWBOAT_APP_URL) return <MentionChip broadcast="rowboat" fallback="@rowboat" />
+    if (url === ROWBOAT_APP_URL) return <MentionChip broadcast="spinball" fallback="@spinball" />
     const spaceRefId = parseSpaceRefAppUrl(url)
     if (spaceRefId !== null) return <SpaceChip spaceId={spaceRefId} fallback={plainLabel(children) ?? spaceRefId} />
     const person = parseMemberWireUrl(url)

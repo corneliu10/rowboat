@@ -13,7 +13,7 @@ import { toast } from '@/lib/toast'
 import { copySpacesLink } from '@/lib/spaces-copy-link'
 
 // Shared atoms for the Spaces surfaces: identity visuals, the segmented
-// control, and the @rowboat trigger. The server dialogs live in server-dialogs.tsx.
+// control, and the @spinball trigger. The server dialogs live in server-dialogs.tsx.
 
 // ---------------------------------------------------------------------------
 // Identity atoms

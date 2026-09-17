@@ -65,7 +65,7 @@ export interface OrgRecord {
   /** Local identifier (not the org address — addresses can change via aliases). */
   id: string;
   name: string;
-  /** The org address links are minted on, e.g. localhost:4272 or acme.rowboat.space. */
+  /** The org address links are minted on, e.g. localhost:4272 or acme.spinball.space. */
   address: string;
   /** Where to reach it, scheme included, e.g. http://localhost:4272. */
   baseUrl: string;

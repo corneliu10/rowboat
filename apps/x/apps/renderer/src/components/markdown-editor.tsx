@@ -24,6 +24,7 @@ import { MermaidBlockExtension } from '@/extensions/mermaid-block'
 import { Markdown } from 'tiptap-markdown'
 import { useEffect, useCallback, useMemo, useRef, useState, forwardRef, useImperativeHandle } from 'react'
 import { Calendar, ChevronDown, ExternalLink } from 'lucide-react'
+import { brand } from '@x/shared/dist/brand.js'
 
 // Zero-width space used as invisible marker for blank lines
 const BLANK_LINE_MARKER = '\u200B'
@@ -1067,15 +1068,15 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
     const text = $from.parent.textBetween(0, $from.parent.content.size, '\n', '\n')
     const textBefore = text.slice(0, $from.parentOffset)
 
-    // Match @rowboat at a word boundary (preceded by nothing or whitespace)
-    const match = textBefore.match(/(^|\s)@rowboat$/)
+    // Match @spinball at a word boundary (preceded by nothing or whitespace)
+    const match = textBefore.match(new RegExp(`(^|\\s)@${brand.mentionHandle}$`))
     if (!match) {
       setActiveRowboatMention(null)
       setRowboatAnchorTop(null)
       return
     }
 
-    const triggerStart = textBefore.length - '@rowboat'.length
+    const triggerStart = textBefore.length - (`@${brand.mentionHandle}`.length)
     const from = selection.from - (textBefore.length - triggerStart)
     const to = selection.from
     setActiveRowboatMention({ range: { from, to } })
@@ -1134,8 +1135,8 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
 
     const query = atMatch[2] // text after @
 
-    // If the full "@rowboat" is already typed, let updateRowboatMentionState handle it
-    if (query === 'rowboat') {
+    // If the full "@spinball" is already typed, let updateRowboatMentionState handle it
+    if (query === brand.mentionHandle) {
       setActiveAtMention(null)
       setAtAnchorPosition(null)
       return
@@ -1533,8 +1534,8 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
   }, [showWikiPopover, wikiOptions])
 
   // @ mention autocomplete options
-  const atMentionOptions = useMemo(() => [
-    { value: 'rowboat', label: '@rowboat', description: 'Research, schedule, or run tasks with AI' },
+  const atMentionOptions: { value: string; label: string; description: string }[] = useMemo(() => [
+    { value: brand.mentionHandle, label: `@${brand.mentionHandle}`, description: 'Research, schedule, or run tasks with AI' },
   ], [])
 
   const filteredAtOptions = useMemo(() => {
@@ -1568,14 +1569,14 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
   const handleSelectAtMention = useCallback((value: string) => {
     if (!editor || !activeAtMention) return
 
-    if (value === 'rowboat') {
-      // Replace "@<partial>" with "@rowboat" — this triggers updateRowboatMentionState
+    if (value === brand.mentionHandle) {
+      // Replace "@<partial>" with "@spinball" — this triggers updateRowboatMentionState
       editor
         .chain()
         .focus()
         .insertContentAt(
           { from: activeAtMention.range.from, to: activeAtMention.range.to },
-          '@rowboat'
+          `@${brand.mentionHandle}`
         )
         .run()
     }

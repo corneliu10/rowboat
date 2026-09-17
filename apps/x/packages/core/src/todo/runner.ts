@@ -411,7 +411,7 @@ async function driveTurn(
 
 /**
  * Run one delegated item, identified by its line text. User-initiated
- * (typing @rowboat, the run chip, retry). Fire-and-forget from IPC:
+ * (typing @spinball, the run chip, retry). Fire-and-forget from IPC:
  * progress and completion arrive on the todo bus.
  */
 export async function runTodoItem(

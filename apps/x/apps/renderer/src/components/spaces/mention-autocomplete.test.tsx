@@ -79,7 +79,7 @@ describe('useMentionAutocomplete', () => {
     it('a bare @ lists this space’s people, then the rest of the org (hinted), then the shared spaces — DMs never', async () => {
         const { result } = await mountAndType('hey @')
         await waitFor(() => expect(result.current.candidates.length).toBe(8))
-        expect(ids(result.current.candidates)).toEqual(['rowboat', 'here', 'me', '01HHARSH', '01HADA', '01HZED', `space:${HERE}`, `space:${DESIGN}`])
+        expect(ids(result.current.candidates)).toEqual(['spinball', 'here', 'me', '01HHARSH', '01HADA', '01HZED', `space:${HERE}`, `space:${DESIGN}`])
         const byId = new Map(result.current.candidates.map((c) => [c.id, c]))
         expect(byId.get('me')?.hint).toBe('you')
         expect(byId.get('01HHARSH')?.hint).toBeUndefined()

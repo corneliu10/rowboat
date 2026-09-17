@@ -243,7 +243,7 @@ describe.each([['memory'], ['postgres']] as const)('§11 — a day in the life o
     arjunOpenDoc.close();
   });
 
-  it('beat 7 — chat grammar: a thread starts flat in the stream, agents stay silent, @rowboat runs only for its own person', async () => {
+  it('beat 7 — chat grammar: a thread starts flat in the stream, agents stay silent, @spinball runs only for its own person', async () => {
     const headBefore = await harbor.service.headOffset(spaceId);
 
     const started = await arjun.post(`/v1/spaces/${spaceId}/messages`, {
@@ -255,7 +255,7 @@ describe.each([['memory'], ['postgres']] as const)('§11 — a day in the life o
 
     const replied = await ramnique.post(`/v1/spaces/${spaceId}/messages`, {
       threadRoot: rootId,
-      body: 'Yes — Customer X moved it for me. @rowboat move SSO to P1.',
+      body: 'Yes — Customer X moved it for me. @spinball move SSO to P1.',
       actingMode: 'direct',
     });
     expect(replied.body.message.threadRoot).toBe(rootId);
@@ -267,7 +267,7 @@ describe.each([['memory'], ['postgres']] as const)('§11 — a day in the life o
       expect(e.event.type).not.toBe('change');
     }
 
-    // @rowboat resolves to RAMNIQUE's own agent, runs on their machine, lands attributed.
+    // @spinball resolves to RAMNIQUE's own agent, runs on their machine, lands attributed.
     const read = await callStructured<ReadAssetResult>(ramniqueAgent, 'read_asset', { spaceId, assetId: roadmapId });
     const moved = read.content
       .replace('\n- [ ] SSO — scope SAML vs OIDC\n  - Customer X requesting SSO (via Ramnique, from email)', '')

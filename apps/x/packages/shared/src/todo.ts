@@ -5,14 +5,14 @@ import z from 'zod';
 // ---------------------------------------------------------------------------
 //
 // One rolling markdown file at `~/.rowboat/todo.md` shared between the user
-// and @rowboat. Everything durable lives in the file — there is no sidecar
-// state, no hidden anchors. GFM task lines are items; typing `@rowboat` in a
+// and @spinball. Everything durable lives in the file — there is no sidecar
+// state, no hidden anchors. GFM task lines are items; typing `@spinball` in a
 // line delegates it; when a run finishes, the agent's outcome is appended as
 // an indented "receipt" line under the item:
 //
-//   - [x] @rowboat research pricing models
+//   - [x] @spinball research pricing models
 //     - → [Pricing research](knowledge/Topics/pricing.md) — 9 tools compared
-//   - [ ] @rowboat draft replies to investor emails
+//   - [ ] @spinball draft replies to investor emails
 //     - → needs you: reply to Maya first, or wait for the call?
 //
 // Items are identified by their normalized line text (`key`) — good enough
@@ -54,12 +54,12 @@ export type TodoItem = {
     /** Normalized line text — the item's identity for runs and push events.
      * Sub-items are scoped: `<parent key> :: <normalized sub text>`. */
     key: string;
-    /** Raw line text after the checkbox (includes any @rowboat mention). */
+    /** Raw line text after the checkbox (includes any @spinball mention). */
     text: string;
     checked: boolean;
-    /** True when the text mentions @rowboat. */
+    /** True when the text mentions @spinball. */
     delegated: boolean;
-    /** True when the planner suggested this item ("(via rowboat)" marker on
+    /** True when the planner suggested this item ("(via spinball)" marker on
      * the line). Proposed items never self-start — the user's go is the run
      * chip. */
     proposed?: boolean;
@@ -85,7 +85,7 @@ export type TodoList = {
  * reply), never stored. `error` kind marks failed/stopped turns.
  */
 export type TodoChatBubble = {
-    role: 'user' | 'rowboat';
+    role: 'user' | 'spinball';
     text: string;
     kind?: 'error';
     /** todo-report links from the turn — the artifacts, as buttons. */
@@ -138,7 +138,7 @@ export const TodoListSchema = z.object({
 });
 
 export const TodoChatBubbleSchema = z.object({
-    role: z.enum(['user', 'rowboat']),
+    role: z.enum(['user', 'spinball']),
     text: z.string(),
     kind: z.literal('error').optional(),
     links: z.array(TodoLinkSchema),
