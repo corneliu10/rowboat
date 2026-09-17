@@ -104,3 +104,9 @@ For each file another lane also edits, the hunk verbatim in a diff block.
 +export * from './mention.js';
  export { PrefixLogger };
 ```
+## Follow-up: logos (post-report, same lane)
+- `apps/x/apps/renderer/public/logo-only.png` was byte-identical to upstream `apps/x/apps/main/icons/upstream/icon.png` (md5 `a652f8752279`, Rowboat) while `apps/x/apps/main/icons/icon.png` was already the Spinrun placeholder (md5 `146639293b87`, rasterized from `apps/x/apps/main/icons/spinrun-s.svg`). Replaced `logo-only.png` with the Spinrun raster (now md5 `146639293b87`, 800×800, used by `about-dialog.tsx:183` and `welcome-step.tsx:28` with unchanged `src`, so `about-dialog.test.tsx:61` still passes 3/3).
+- Chrome extension icons were the same Rowboat bytes (`extension/icon.png` md5 `a652f8752279`); replaced `icon.png` (800) + `icons/icon16/32/48/128.png` with `rsvg-convert` rasters of `spinrun-s.svg` at matching sizes (manifest references unchanged).
+- Mobile `assets/images/icon.png` + `splash-icon.png` (1024) + `android-icon-foreground.png` (512) replaced with Spinrun rasters at matching sizes (background/monochrome solids have no logo and were left; `app.json` name/scheme were already Spinrun).
+- `apps/x/apps/main/icons/install-loading.gif` regenerated via `gen-install-loading.sh` with `FONT=/System/Library/Fonts/Geneva.ttf` (ImageMagickallation via brew; script text was already `Installing Spinrun` from Step 5, icon is now Spinrun): 110 frames, 480×320, 7397 bytes.
+- `npm run rebrand:check` still exits 0 (binaries carry no `rowboat` word hits); `about-dialog.test.tsx` 3/3 pass.
