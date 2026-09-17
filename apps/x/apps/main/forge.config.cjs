@@ -233,6 +233,7 @@ module.exports = {
             { name: brand.productName, schemes: [brand.deepLinkScheme, "rowboat"] },
         ],
         extendInfo: {
+            CFBundleDisplayName: brand.productName,
             NSAudioCaptureUsageDescription: 'Spinrun needs access to system audio to transcribe meetings from other apps (Zoom, Meet, etc.)',
             NSCameraUsageDescription: 'Spinrun uses your camera in video chat mode so the assistant can see you and give feedback (e.g. pitch practice).',
         },
