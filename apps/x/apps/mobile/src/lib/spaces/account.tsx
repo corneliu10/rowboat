@@ -10,7 +10,7 @@ import { registerWithHarbor } from '@/lib/push';
 // Tokens are realm-generic — the same access token works at every org.
 
 /** The hosted deployment. Overridable for local Harbor dev. */
-export const APEX_URL = process.env.EXPO_PUBLIC_SPACES_APEX ?? 'https://spaces.x.rowboatlabs.com';
+export const APEX_URL = process.env.EXPO_PUBLIC_SPACES_APEX ?? 'https://spaces.spinrun.ai';
 
 const ACCOUNT_KEY = 'rowboat.spaces.account.v1';
 /** Last-seen org list — painted instantly on launch, refreshed in the background. */
