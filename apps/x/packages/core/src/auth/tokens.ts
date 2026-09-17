@@ -23,7 +23,7 @@ import { OAuthTokens } from './types.js';
 let refreshInFlight: Promise<OAuthTokens> | null = null;
 
 async function performRefresh(tokens: OAuthTokens): Promise<OAuthTokens> {
-    console.log("Refreshing rowboat access token");
+    console.log("Refreshing Spinrun access token");
     if (!tokens.refresh_token) {
         throw new Error('Spinrun token expired and no refresh token available. Please sign in again.');
     }

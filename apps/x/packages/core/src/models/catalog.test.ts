@@ -276,7 +276,7 @@ describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
     process.env.ROWBOAT_MANAGED_LLM = 'on';
   });
 
-  it('when on, a signed-in user is offered the rowboat provider', async () => {
+  it('when on, a signed-in user is offered the Spinrun provider', async () => {
     process.env.ROWBOAT_MANAGED_LLM = 'on';
     mocks.isSignedIn.mockResolvedValue(true);
     serveConfig({ ollama: { baseURL: 'http://localhost:11434' } });
@@ -286,7 +286,7 @@ describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
     expect(catalog.providers.map((p) => p.id)).toContain('rowboat');
   });
 
-  it('when off, a signed-in user is NOT listed with the rowboat provider (BYOK fallback)', async () => {
+  it('when off, a signed-in user is NOT listed with the Spinrun provider (BYOK fallback)', async () => {
     process.env.ROWBOAT_MANAGED_LLM = 'off';
     __resetModelCatalogForTests();
     mocks.isSignedIn.mockResolvedValue(true);
@@ -299,7 +299,7 @@ describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
     expect(mocks.listGatewayModels).not.toHaveBeenCalled();
   });
 
-  it('when off, the image catalog also hides the rowboat provider', async () => {
+  it('when off, the image catalog also hides the Spinrun provider', async () => {
     process.env.ROWBOAT_MANAGED_LLM = 'off';
     __resetModelCatalogForTests();
     mocks.isSignedIn.mockResolvedValue(true);

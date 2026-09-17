@@ -71,7 +71,7 @@ const ALLOW = [
   /\browboat[?\.\[]/i, // code variable access: rowboat?.connected, rowboat.userId, rowboat[0], … (never prose)
   /\browboat:[a-z\-]+/i, // bare window/IPC events in comments: rowboat:deck-touched, rowboat:open-…, …
   /^\s*(\/\/|#|\*|<!--).*rowboat/i, // comment lines mentioning the internal 'rowboat' id (provider/mode/event names stay for compat)
-  /\/\/.*rowboat/i, // inline // comments containing rowboat (internal ids, never user-visible copy)
+  /^\s*\/\/.*rowboat/i, // line-start // comments only (tightened: inline trailing // comments are NOT allowlisted)
   /^\s*rowboat:\s*\{/i, // line-start object keys: `rowboat: { … }` (provider maps in tests)
   /^\s*\*\s*.*rowboat/i, // JSDoc continuation lines (internal ids)
   /^\s*rowboat:\s*['"]/i, // unquoted provider key: `rowboat: 'Spinrun'` (mobile model-picker display map)
@@ -87,10 +87,18 @@ const ALLOW = [
   /@\/[^`'"]*rowboat/i, // any @/ alias path containing rowboat (vi.mock, dynamic imports, …)
   /rowboat[\/\.][a-z0-9\-\_\.\/]*/i, // file paths / URLs / import paths: config/rowboat.js, rowboat.team, rowboat.spaces…, knowledge/Meetings/rowboat/…, …
   /wooden rowboat|sailboat rowboat/i, // English word (the boat), not the product: talking-head avatar, emoji keywords
-  /rowboat (provider|mode|sign|oauth|gateway|user|access|token|flow|dance|path|entry|record|group|task|auto-select|initial|managed|sign-in|sign-out|connect|disconnect|background|assistant|selection|migration|configuration|config|vs-|-vs-|drive|driven)/i, // comments about the internal 'rowboat' provider flavor / mode (id stays for compat; display names are Spinrun/Spinball)
-  // (provider: "rowboat", flavor: "rowboat", which: "rowboat", onboardingPath 'rowboat',
-  //  'rowboat:getConfig' IPC channel, config['rowboat'], mention kind keys in tests that pin
-  //  internal ids — user-visible display names were all changed to Spinrun/Spinball)
+  // Specific internal 'rowboat' identifiers (replaces the old broad
+  // /rowboat (provider|mode|…)/i prose allowlist — user-visible copy now says
+  // Spinrun/Spinball; only these code shapes stay):
+  /provider:\s*["']rowboat["']/i, // provider: "rowboat" (flavor id stays for compat)
+  /flavor:\s*["']rowboat["']/i, // flavor: "rowboat"
+  /which:\s*["']rowboat["']/i, // which: "rowboat"
+  /onboardingPath\s*[:=]\s*['"]rowboat['"]/i, // onboardingPath 'rowboat'
+  /config\[['"]rowboat['"]\]/i, // config['rowboat']
+  // ('rowboat:getConfig' IPC, `rowboat:` keys and `"rowboat"` quoted ids are
+  // covered by the dedicated patterns above; prose like "rowboat provider"
+  // in comments is covered by the ^\s*(//|#|*|<!--) line pattern, and
+  // user-visible strings were rebranded to Spinrun/Spinball.)
   /<!--\s*rowboat:(topic|thread)\b/i, // stored topic-marker format in migrations + fixtures (old rows, not migrated)
   /rowboat:\(topic\|thread\)/i, // regex source matching the stored marker above
   /rowboat:\(\?:topic\|thread\)/i, // regex source variant
@@ -120,6 +128,24 @@ function allowed(file, line) {
   return ALLOW.some((re) => re.test(hay) || re.test(line));
 }
 
+// Hard failure (no allowlist) for old product-domain URLs. Checked
+// independently of the whole-word gate above (rowboatlabs.com contains no
+// whole-word "rowboat", so WORD never fires on it). Exempt: NOTICE, README's
+// attribution line, docs/fork/** and the two Step-5 fixtures — all of which
+// are fileSkipped above except README (checked, attribution allowlisted).
+// apps/x/**/*.md etc. are fileSkipped and therefore not checked here either.
+const ROWBOATLABS_URL = /https?:\/\/[^\s'"]*rowboatlabs\.com/i;
+const README_ATTRIBUTION_LINE = /fork of \[Rowboat\]\(https:\/\/github\.com\/rowboatlabs\/rowboat\)/;
+
+function isHardFailure(file, line) {
+  ROWBOATLABS_URL.lastIndex = 0;
+  if (!ROWBOATLABS_URL.test(line)) return false;
+  ROWBOATLABS_URL.lastIndex = 0;
+  if (fileSkipped(file)) return false;
+  if (file === 'README.md' && README_ATTRIBUTION_LINE.test(line)) return false;
+  return true;
+}
+
 let files;
 try {
   files = execSync('git ls-files --full-name', { encoding: 'utf8', cwd: ROOT }).split('\n').filter(Boolean);
@@ -129,6 +155,7 @@ try {
 }
 
 const failures = [];
+const urlFailures = [];
 for (const file of files) {
   let content;
   try {
@@ -139,6 +166,10 @@ for (const file of files) {
   const lines = content.split('\n');
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (isHardFailure(file, line)) {
+      urlFailures.push(`${file}:${i + 1}:${line.trim().slice(0, 200)}`);
+      continue;
+    }
     if (!WORD.test(line)) continue;
     // Reset lastIndex (global not used, but safe)
     WORD.lastIndex = 0;
@@ -146,6 +177,12 @@ for (const file of files) {
       failures.push(`${file}:${i + 1}:${line.trim().slice(0, 200)}`);
     }
   }
+}
+
+if (urlFailures.length > 0) {
+  console.log(urlFailures.join('\n'));
+  console.error(`\nrebrand:check FAIL — ${urlFailures.length} rowboatlabs.com URL(s) (hard failure, no allowlist)`);
+  process.exit(1);
 }
 
 if (failures.length > 0) {

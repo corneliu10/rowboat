@@ -105,7 +105,7 @@ describe('FSModelConfigRepo imageModel', () => {
         expect(JSON.parse(await fs.readFile(configPath, 'utf8'))).not.toHaveProperty('imageModel');
     });
 
-    it('null clears it; the rowboat provider (no providers-map entry) clears via removeProvider too', async () => {
+    it('null clears it; the Spinrun provider (no providers-map entry) clears via removeProvider too', async () => {
         const repo = new FSModelConfigRepo();
         await repo.ensureConfig();
         await repo.updateConfig({ imageModel: { provider: 'rowboat', model: 'google/gemini-2.5-flash-image' } });
