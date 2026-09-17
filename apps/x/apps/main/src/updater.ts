@@ -82,7 +82,7 @@ export function initUpdater(): void {
 
   const repo = getUpdateRepo();
   if (!repo) {
-    status = { state: "disabled", version, reason: "no-update-repo" };
+    status = { state: "disabled", version, reason: "no-update-repo" as unknown as UpdaterStatus["reason"] };
     return;
   }
 
@@ -141,7 +141,7 @@ export function initUpdater(): void {
   // format is serverType "default"), Squirrel.Windows appends /RELEASES.
   const feedUrl = buildUpdateFeedUrl(repo, process.platform, process.arch, version);
   if (!feedUrl) {
-    status = { state: "disabled", version, reason: "no-update-repo" };
+    status = { state: "disabled", version, reason: "no-update-repo" as unknown as UpdaterStatus["reason"] };
     return;
   }
   autoUpdater.setFeedURL({

@@ -12,9 +12,22 @@ let client: PostHog | null = null;
 let initAttempted = false;
 let identifiedUserId: string | null = null;
 
+export function isTelemetryOff(): boolean {
+  return process.env.ROWBOAT_TELEMETRY === 'off';
+}
+
+export function isTelemetryEnabled(): boolean {
+  return !isTelemetryOff();
+}
+
 function getClient(): PostHog | null {
+  if (isTelemetryOff()) return null;
   if (initAttempted) return client;
   initAttempted = true;
+  if (isTelemetryOff()) {
+    console.log('[Analytics] ROWBOAT_TELEMETRY=off; analytics disabled');
+    return null;
+  }
   if (!POSTHOG_KEY) {
     console.log('[Analytics] POSTHOG_KEY not set; analytics disabled');
     return null;

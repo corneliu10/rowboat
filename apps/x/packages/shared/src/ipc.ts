@@ -163,7 +163,7 @@ const KnowledgeSourceConfigSchema = z.object({
 const UpdaterStatusSchema = z.object({
   state: z.enum(['disabled', 'unsupported', 'idle', 'checking', 'downloading', 'ready', 'error']),
   version: z.string(),
-  reason: z.enum(['dev', 'platform', 'not-in-applications', 'no-update-repo']).optional(),
+  reason: z.enum(['dev', 'platform', 'not-in-applications']).optional(),
   newVersion: z.string().optional(),
   // Markdown body of the staged update's GitHub release, when known — the
   // restart card renders it verbatim.
@@ -187,6 +187,7 @@ export const ipcSchemas = {
       installationId: z.string(),
       apiUrl: z.string(),
       appVersion: z.string(),
+      telemetryEnabled: z.boolean(),
     }),
   },
   'workspace:getRoot': {
