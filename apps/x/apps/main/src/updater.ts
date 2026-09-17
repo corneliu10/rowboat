@@ -1,12 +1,26 @@
 import { app, autoUpdater, net, nativeImage, BrowserWindow } from "electron";
 import { capture } from "@x/core/dist/analytics/posthog.js";
 import type { ipc } from "@x/shared";
+import { brand } from "@x/shared";
 import { setDockUpdateReady } from './dock-badge.js';
 
 export type UpdaterStatus = ipc.IPCChannels["updater:status"]["req"];
 
-const REPO = "rowboatlabs/rowboat";
 const CHECK_INTERVAL_MS = 10 * 60 * 1000;
+
+export function getUpdateRepo(): string {
+  return brand.updateRepo;
+}
+
+export function buildUpdateFeedUrl(repo: string, platform: string, arch: string, version: string): string | null {
+  if (!repo) return null;
+  return `https://update.electronjs.org/${repo}/${platform}-${arch}/${version}`;
+}
+
+export function buildReleaseNotesUrl(repo: string, tag: string): string | null {
+  if (!repo || !tag) return null;
+  return `https://api.github.com/repos/${repo}/releases/tags/${tag}`;
+}
 
 let status: UpdaterStatus = { state: "disabled", version: "", reason: "dev" };
 
@@ -66,6 +80,12 @@ function showReadyBadge(): void {
 export function initUpdater(): void {
   const version = app.getVersion();
 
+  const repo = getUpdateRepo();
+  if (!repo) {
+    status = { state: "disabled", version, reason: "no-update-repo" };
+    return;
+  }
+
   if (!app.isPackaged) {
     status = { state: "disabled", version, reason: "dev" };
     return;
@@ -119,8 +139,13 @@ export function initUpdater(): void {
   // update.electronjs.org serves both Squirrel dialects from one URL:
   // Squirrel.Mac GETs it as-is (204 = up to date, JSON = update; that legacy
   // format is serverType "default"), Squirrel.Windows appends /RELEASES.
+  const feedUrl = buildUpdateFeedUrl(repo, process.platform, process.arch, version);
+  if (!feedUrl) {
+    status = { state: "disabled", version, reason: "no-update-repo" };
+    return;
+  }
   autoUpdater.setFeedURL({
-    url: `https://update.electronjs.org/${REPO}/${process.platform}-${process.arch}/${version}`,
+    url: feedUrl,
     serverType: "default",
   });
   // Check now and every 10 minutes, through the same guard as the manual
@@ -136,10 +161,13 @@ export function initUpdater(): void {
  * Squirrel.Mac — normalize to the tag form.
  */
 async function backfillReleaseNotes(releaseName: string | undefined): Promise<void> {
-  if (!releaseName) return;
+  const repo = getUpdateRepo();
+  if (!repo || !releaseName) return;
   try {
     const tag = `v${releaseName.replace(/^v/, "")}`;
-    const res = await net.fetch(`https://api.github.com/repos/${REPO}/releases/tags/${tag}`, {
+    const notesUrl = buildReleaseNotesUrl(repo, tag);
+    if (!notesUrl) return;
+    const res = await net.fetch(notesUrl, {
       headers: { Accept: "application/vnd.github+json", "User-Agent": "Rowboat" },
     });
     if (!res.ok) return;
