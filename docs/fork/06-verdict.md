@@ -124,3 +124,52 @@ server-side equivalent. Step 8 could not run (no keys, lane C absent), so the cr
    sampled from the first second, or with `electron-chrome-extensions` disabled, and record which it was.
 3. If the follow-up turns "go": a `Rowboat` row in conduit's `packages/clients` registry; the control-plane
    replacement (LLM routing and auth session, both L) as its own plan; the `rowboat://` scheme rename.
+
+
+---
+
+# Lane F: product-surface rebrand (validated 2026-09-18)
+
+Branch `spike/f-rebrand` (17 commits: lane F 10, follow-up F2 7), merged here with `--no-ff`. Product "Spinrun",
+assistant "Spinball", mention `@spinball`, deep link `spinrun://` (with `rowboat://` accepted for one release),
+company "Spinrun", links to `spinrun.ai`. Internal identifiers deliberately kept (`ROWBOAT_*` env vars,
+`~/.rowboat`, `@rowboat/*` package scope, `rowboat-server`, file names, IPC names, `x-rowboat-*` headers) so
+upstream sync stays possible.
+
+## Fresh runs on the final head (`b27b5b31`)
+
+| Check | Result |
+|---|---|
+| Clean install, deps, typecheck ×6 + Harbor protocol/server | all exit 0 |
+| shared / server / renderer / main / Harbor (`--maxWorkers=2`) / stub | 326, 27, 1021, 15, 381 + 1 skipped, 3/3 |
+| core | 996 pass, 5 fail, 13 skipped; the five failing files are the baseline set (`chatgpt-auth`, `status-tracker`, `catalog`, `orgs-oauth`, `orgs-session`) |
+| `npm run rebrand:check` | exit 0, now with a hard failure on any `rowboatlabs.com` URL |
+| Independent greps (whole-word `rowboat`, capitalized `Rowboat`, `rowboatlabs.com`) | no user-visible copy left; remaining hits are identifiers, Harbor test emails, upstream engineering docs, the two sample-input fixtures |
+| Secret scan, LICENSE, NOTICE | clean, byte-identical to `spike/base` |
+| Bundle | `Spinrun.app`, `CFBundleName Spinrun`, `CFBundleIdentifier ai.spinrun.desktop`, executable `spinrun` |
+| Logos | renderer, Chrome extension, mobile and installer GIF rasterized from `icons/spinrun-s.svg`; renderer logo md5 equals `icons/icon.png` and differs from upstream's |
+
+## Mechanism
+
+- `apps/x/packages/shared/src/brand.ts` holds twelve values plus `CODE_SESSION_BRANCH_PREFIX` and
+  `MEETINGS_FOLDER`; `apps/harbor/packages/protocol/src/brand.ts` exports `MENTION_HANDLE` and
+  `DEEP_LINK_SCHEME` for the wire, with `brand.test.ts` guarding against drift.
+- Persona: `copilot/instructions.ts` builds "You are Spinball…" from `brand.assistantName`; snapshot regenerated.
+- Mention: `shared/src/mention.ts` `mentionRegex(handle)` replaces every hardcoded `@rowboat` regex; Harbor
+  parses and emits `[@spinball](#spinball)`; `Message.mentionsRowboat` keeps its name, value now Spinball.
+- Defaults no longer point at Rowboat: `API_URL` → `https://api.spinrun.ai`, mobile `APEX_URL` →
+  `https://spaces.spinrun.ai` (both dead until the control plane exists; the app boots and only the sign-in
+  path errors, re-checked for two minutes with the stub off).
+- Not migrated by design: stored notes and Spaces messages containing `@rowboat`, existing code-session
+  branches named `rowboat/<id>`, existing `knowledge/Meetings/rowboat/` notes (the agent prompt reads both).
+
+## Open items
+
+1. `CFBundleDisplayName` is `spinrun` (lowercase) although `forge.config.cjs` sets it in `extendInfo`:
+   `@electron/packager` 18.4.4 merges `extendInfo` in `updatePlistFiles` (`dist/mac.js:174`) and then
+   `updatePlist` overwrites `CFBundleDisplayName` with the `executableName` (`dist/mac.js:90`). Fix: a forge
+   `postPackage` hook running `plutil -replace CFBundleDisplayName -string Spinrun` on the bundle, or a
+   capitalized `executableName`.
+2. `google-setup.md` screenshots still show the previous UI (one line above them says so).
+3. Same blockers as before: no screenshot (no display access from the agent session) and no full chat turn
+   (no provider keys); lane C and plan steps 8 and 9 remain the missing half of the go/no-go.
