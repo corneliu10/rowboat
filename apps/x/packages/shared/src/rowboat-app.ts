@@ -32,9 +32,9 @@ export const RowboatAppManifestSchema = z.object({
         .describe('Write guards for specific data/ files: required top-level keys and keys that must stay non-empty arrays. Enforced on writes (§7.3, §8.6) so a buggy agent run cannot corrupt the app\'s data shape or wipe good series with empties.'),
     // RESERVED — validated if present, ignored by V1 runtime:
     build: z.object({ command: z.string() }).optional()
-        .describe('RESERVED. Rowboat MUST NOT execute this in V1.'),
+        .describe('RESERVED. Spinrun MUST NOT execute this in V1.'),
     minRowboatVersion: z.string().regex(SEMVER_RE).optional()
-        .describe('RESERVED. Minimum compatible Rowboat version; not enforced in V1.'),
+        .describe('RESERVED. Minimum compatible Spinrun version; not enforced in V1.'),
 }).passthrough(); // unknown fields survive round-trips (forward compatibility)
 
 export type RowboatAppManifest = z.infer<typeof RowboatAppManifestSchema>;

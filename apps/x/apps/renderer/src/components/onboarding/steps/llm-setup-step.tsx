@@ -27,7 +27,7 @@ export function LlmSetupStep({ state }: LlmSetupStepProps) {
       </h2>
       <p className="text-base text-muted-foreground text-center mb-6">
         {isRowboatConnected
-          ? "Rowboat is ready to use. Optionally connect your own API keys or local models — their models appear alongside your Rowboat models."
+          ? "Spinrun is ready to use. Optionally connect your own API keys or local models — their models appear alongside your Spinrun models."
           : "Connect an API key or a local model to power the Assistant."}
       </p>
 

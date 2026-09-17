@@ -47,7 +47,7 @@ export function actionableSlackError(kind?: string, message?: string): string {
   }
   switch (kind) {
     case 'not_installed':
-      return 'The Slack helper is unavailable in this build. Please update or reinstall Rowboat.'
+      return 'The Slack helper is unavailable in this build. Please update or reinstall Spinrun.'
     case 'network':
       return "Couldn't reach Slack. Check your internet connection and try again."
     case 'rate_limited':
@@ -564,7 +564,7 @@ export function useConnectors(active: boolean) {
       const result = await window.ipc.invoke('oauth:connect', { provider, clientId: credentials?.clientId, clientSecret: credentials?.clientSecret })
 
       if (!result.success) {
-        toast.error(result.error || (provider === 'rowboat' ? 'Failed to log in to Rowboat' : `Failed to connect to ${provider}`))
+        toast.error(result.error || (provider === 'rowboat' ? 'Failed to log in to Spinrun' : `Failed to connect to ${provider}`))
         setProviderStates(prev => ({
           ...prev,
           [provider]: { ...prev[provider], isConnecting: false }
@@ -572,7 +572,7 @@ export function useConnectors(active: boolean) {
       }
     } catch (error) {
       console.error('Failed to connect:', error)
-      toast.error(provider === 'rowboat' ? 'Failed to log in to Rowboat' : `Failed to connect to ${provider}`)
+      toast.error(provider === 'rowboat' ? 'Failed to log in to Spinrun' : `Failed to connect to ${provider}`)
       setProviderStates(prev => ({
         ...prev,
         [provider]: { ...prev[provider], isConnecting: false }
@@ -582,7 +582,7 @@ export function useConnectors(active: boolean) {
 
   const handleConnect = useCallback(async (provider: string) => {
     if (provider === 'google') {
-      // Signed-in users use the rowboat (managed-credentials) flow: opens
+      // Signed-in users use the spinrun (managed-credentials) flow: opens
       // the webapp in the browser, no BYOK modal. Main process detects
       // signed-in via isSignedIn() when oauth:connect arrives without creds.
       // Falls back to the BYOK modal for not-signed-in users.
@@ -607,7 +607,7 @@ export function useConnectors(active: boolean) {
   }, [startConnect])
 
   // Reconnect flow used by the "Reconnect" button. Mirrors handleConnect's
-  // rowboat-vs-BYOK branching for Google so signed-in users don't get the
+  // spinrun-vs-BYOK branching for Google so signed-in users don't get the
   // client-ID modal — they just re-run the managed-credentials browser flow.
   const handleReconnect = useCallback(async (provider: string) => {
     if (provider === 'google') {
@@ -641,7 +641,7 @@ export function useConnectors(active: boolean) {
         const displayName = provider === 'fireflies-ai' ? 'Fireflies'
           : provider === 'microsoft' ? 'Microsoft Outlook'
           : provider.charAt(0).toUpperCase() + provider.slice(1)
-        toast.success(provider === 'rowboat' ? 'Logged out of Rowboat' : `Disconnected from ${displayName}`)
+        toast.success(provider === 'rowboat' ? 'Logged out of Spinrun' : `Disconnected from ${displayName}`)
         setProviderStates(prev => ({
           ...prev,
           [provider]: {
@@ -651,7 +651,7 @@ export function useConnectors(active: boolean) {
           }
         }))
       } else {
-        toast.error(provider === 'rowboat' ? 'Failed to log out of Rowboat' : `Failed to disconnect from ${provider}`)
+        toast.error(provider === 'rowboat' ? 'Failed to log out of Spinrun' : `Failed to disconnect from ${provider}`)
         setProviderStates(prev => ({
           ...prev,
           [provider]: { ...prev[provider], isLoading: false }
@@ -659,7 +659,7 @@ export function useConnectors(active: boolean) {
       }
     } catch (error) {
       console.error('Failed to disconnect:', error)
-      toast.error(provider === 'rowboat' ? 'Failed to log out of Rowboat' : `Failed to disconnect from ${provider}`)
+      toast.error(provider === 'rowboat' ? 'Failed to log out of Spinrun' : `Failed to disconnect from ${provider}`)
       setProviderStates(prev => ({
         ...prev,
         [provider]: { ...prev[provider], isLoading: false }
@@ -745,7 +745,7 @@ export function useConnectors(active: boolean) {
           : provider === 'microsoft' ? 'Microsoft Outlook'
           : provider.charAt(0).toUpperCase() + provider.slice(1)
         if (provider === 'rowboat') {
-          toast.success('Logged in to Rowboat')
+          toast.success('Logged in to Spinrun')
         } else if (provider === 'google' || provider === 'microsoft' || provider === 'fireflies-ai') {
           toast.success(`Connected to ${displayName}`, {
             description: 'Syncing your data in the background. This may take a few minutes before changes appear.',

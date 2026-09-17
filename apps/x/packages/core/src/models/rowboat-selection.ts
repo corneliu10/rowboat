@@ -9,7 +9,7 @@ import { capture } from "../analytics/posthog.js";
 import { markRecommendationSeen } from "./recommendation-update.js";
 
 /**
- * Model-selection hooks for the Rowboat sign-in lifecycle. Signing in is
+ * Model-selection hooks for the Spinrun sign-in lifecycle. Signing in is
  * "connecting the rowboat provider", so it follows the same rules as any
  * provider connect:
  *
@@ -81,7 +81,7 @@ async function seedAssistantModel(repo: IModelConfigRepo, cfg: Config | null): P
     } catch (error) {
         // Best-effort: a failed initial selection must never break sign-in.
         // The picker copes with an unset assistant (shows the connect hint).
-        console.warn("[models] Initial selection after Rowboat sign-in failed:", error);
+        console.warn("[models] Initial selection after Spinrun sign-in failed:", error);
     }
 }
 
@@ -94,7 +94,7 @@ async function seedImageModel(repo: IModelConfigRepo, cfg: Config | null): Promi
     } catch (error) {
         // Best-effort, same as the assistant: generate-image stays
         // unavailable until a model is picked in settings.
-        console.warn("[models] Seeding the image model after Rowboat sign-in failed:", error);
+        console.warn("[models] Seeding the image model after Spinrun sign-in failed:", error);
     }
 }
 
@@ -105,6 +105,6 @@ export async function clearRowboatSelections(): Promise<void> {
         // the assistantModel / task overrides that reference it.
         await repo.removeProvider("rowboat");
     } catch (error) {
-        console.warn("[models] Clearing Rowboat selections after sign-out failed:", error);
+        console.warn("[models] Clearing Spinrun selections after sign-out failed:", error);
     }
 }

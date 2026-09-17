@@ -129,8 +129,8 @@ function resyncListing(): void {
 }
 
 // ---------------------------------------------------------------------------
-// Account state — is there a Rowboat session, and is the app signed in on it?
-// The Spaces doors key off this: no session → "Sign in with Rowboat" first.
+// Account state — is there a Spinrun session, and is the app signed in on it?
+// The Spaces doors key off this: no session → "Sign in with Spinrun" first.
 // ---------------------------------------------------------------------------
 
 type AccountState = { hasSession: boolean; appSignedIn: boolean }
@@ -394,7 +394,7 @@ function wireFeedBus(): void {
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') resyncListing()
         })
-        // A Rowboat sign-in or sign-out changes which managed orgs we hold
+        // A Spinrun sign-in or sign-out changes which managed orgs we hold
         // (one session, two uses): refetch the listing outright — the
         // freshness window is for reconnects, not for this.
         window.ipc.on('oauth:didConnect', (event) => {

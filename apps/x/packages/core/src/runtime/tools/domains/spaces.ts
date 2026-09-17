@@ -44,7 +44,7 @@ export const ORG_ARG = z
     .string()
     .optional()
     .describe(
-        "Which org: its name (e.g. \"rowboat\"), id, or spaces-<org> server name. " +
+        "Which org: its name (e.g. \"acme\"), id, or spaces-<org> server name. " +
             "Omit when your person has exactly one org.",
     );
 

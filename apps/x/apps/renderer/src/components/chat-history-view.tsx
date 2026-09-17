@@ -58,7 +58,7 @@ type ChatHistoryViewProps = {
 
 // ---------------------------------------------------------------------------
 // Two lists, never merged: the person's own assistant chats, and Mentions —
-// the sessions the @rowboat mention machinery owns, one per space thread.
+// the sessions the @spinball mention machinery owns, one per space thread.
 // The header tab picks which; in Mentions the chips narrow to one space.
 // Names come from the live org roster when it is loaded (renames, DM display
 // names) and fall back to what the session recorded at creation.
@@ -313,10 +313,10 @@ export function ChatHistoryView({
     if (activeFacet) {
       const where = activeFacet.isDirect ? `your DM with ${activeFacet.label}` : activeFacet.label
       const org = activeFacet.orgName ? ` (${activeFacet.orgName})` : ''
-      return `${plural(activeFacet.count, 'thread', 'threads')} where Rowboat was mentioned in ${where}${org}, newest first.`
+      return `${plural(activeFacet.count, 'thread', 'threads')} where Spinrun was mentioned in ${where}${org}, newest first.`
     }
     if (showMentions) {
-      return `${plural(threadRuns.length, 'thread', 'threads')} where Rowboat was mentioned across your spaces, newest first.`
+      return `${plural(threadRuns.length, 'thread', 'threads')} where Spinrun was mentioned across your spaces, newest first.`
     }
     if (chatRuns.length === 0) return 'Every conversation you have with the assistant shows up here.'
     return `${plural(chatRuns.length, 'conversation', 'conversations')} with the assistant, newest first.`
@@ -325,7 +325,7 @@ export function ChatHistoryView({
   const emptyMessage = activeFacet
     ? 'No threads in this space yet.'
     : hasThreads && !showMentions
-      ? 'No assistant chats yet. The Space chats tab lists the conversations Rowboat had inside your spaces.'
+      ? 'No assistant chats yet. The Space chats tab lists the conversations Spinrun had inside your spaces.'
       : 'No chats yet.'
 
   return (
@@ -547,7 +547,7 @@ export function ChatHistoryView({
             <DialogTitle>Delete chat</DialogTitle>
             <DialogDescription>
               {runs.find((r) => r.id === pendingDeleteId)?.origin?.kind === 'space_thread'
-                ? 'Are you sure you want to delete this thread’s conversation? The next @rowboat mention in the thread starts a fresh one.'
+                ? 'Are you sure you want to delete this thread’s conversation? The next @spinball mention in the thread starts a fresh one.'
                 : 'Are you sure you want to delete this chat?'}
             </DialogDescription>
           </DialogHeader>

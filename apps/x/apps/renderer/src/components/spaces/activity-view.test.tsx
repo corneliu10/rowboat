@@ -19,7 +19,7 @@ import { ActivityView } from './activity-view'
 import { actorLabel, excerptOf, reasonLabel } from '@/lib/spaces-activity'
 import type { OrgWithSpaces } from '@/hooks/use-spaces'
 
-const org = { id: 'org-1', name: 'Rowboat Labs', memberId: 'ramnique', spaces: [], directs: [] } as unknown as OrgWithSpaces
+const org = { id: 'org-1', name: 'Spinrun', memberId: 'ramnique', spaces: [], directs: [] } as unknown as OrgWithSpaces
 const now = new Date().toISOString()
 const msg = (id: string, body: string, author = 'harsh', threadRoot?: string): spaces.Message =>
     ({ id, spaceId: 'road', author: { memberId: author, actingMode: 'direct' }, body, postedAt: now, offset: 5, replyCount: 0, reactions: [], mentions: [], mentionsHere: false, mentionsRowboat: false, ...(threadRoot ? { threadRoot } : {}) }) as unknown as spaces.Message
@@ -27,7 +27,7 @@ const msg = (id: string, body: string, author = 'harsh', threadRoot?: string): s
 const page: spaces.SpacesActivityPage = {
     items: [
         { id: 'm:1', kind: 'mention', spaceId: 'road', spaceKind: 'shared', spaceName: 'Roadboard', message: msg('1', 'hey [@Ramnique](#member:ramnique) look'), actors: [{ memberId: 'harsh', actingMode: 'direct' }], at: now, unread: true },
-        { id: 'm:2', kind: 'reply', spaceId: 'road', spaceKind: 'shared', spaceName: 'Roadboard', threadRootId: 'root', message: msg('2', 'done', 'arjun', 'root'), actors: [{ memberId: 'arjun', actingMode: 'agent', agentName: 'Rowboat' }], at: now, unread: false },
+        { id: 'm:2', kind: 'reply', spaceId: 'road', spaceKind: 'shared', spaceName: 'Roadboard', threadRootId: 'root', message: msg('2', 'done', 'arjun', 'root'), actors: [{ memberId: 'arjun', actingMode: 'agent', agentName: 'Spinrun' }], at: now, unread: false },
         { id: 'r:3:👍', kind: 'reaction', spaceId: 'road', spaceKind: 'shared', spaceName: 'Roadboard', message: msg('3', 'my **plan**', 'ramnique'), actors: [{ memberId: 'harsh', actingMode: 'direct' }, { memberId: 'arjun', actingMode: 'direct' }], emoji: '👍', at: now, unread: true },
         { id: 'm:4', kind: 'dm', spaceId: 'dm-harsh', spaceKind: 'direct', spaceName: 'dm', message: msg('4', 'got a minute?'), actors: [{ memberId: 'harsh', actingMode: 'direct' }], at: now, unread: false },
     ],
@@ -52,9 +52,9 @@ afterEach(cleanup)
 
 describe('labels', () => {
     const names = new Map([['harsh', 'Harsh'], ['arjun', 'Arjun']])
-    it('name actors, agents as their person’s Rowboat, and fold crowds', () => {
+    it('name actors, agents as their person’s Spinrun, and fold crowds', () => {
         expect(actorLabel([{ memberId: 'harsh', actingMode: 'direct' }], names)).toBe('Harsh')
-        expect(actorLabel([{ memberId: 'arjun', actingMode: 'agent' }], names)).toBe("Arjun's Rowboat")
+        expect(actorLabel([{ memberId: 'arjun', actingMode: 'agent' }], names)).toBe("Arjun's Spinrun")
         expect(actorLabel([{ memberId: 'harsh', actingMode: 'direct' }, { memberId: 'arjun', actingMode: 'direct' }], names)).toBe('Harsh and Arjun')
         expect(actorLabel([{ memberId: 'a', actingMode: 'direct' }, { memberId: 'b', actingMode: 'direct' }, { memberId: 'c', actingMode: 'direct' }, { memberId: 'd', actingMode: 'direct' }], names)).toBe('a, b and 2 others')
     })
@@ -75,7 +75,7 @@ describe('ActivityView', () => {
         render(<ActivityView org={org} onOpenMessage={onOpenMessage} />)
         await screen.findByText('hey @Ramnique look')
         expect(invoke).toHaveBeenCalledWith('spaces:getActivity', { orgId: 'org-1', limit: 40 })
-        expect(screen.getByText("Arjun's Rowboat")).toBeTruthy()
+        expect(screen.getByText("Arjun's Spinrun")).toBeTruthy()
         expect(screen.getByText('Harsh and Arjun')).toBeTruthy()
         expect(screen.getByText('my plan')).toBeTruthy()
         fireEvent.click(screen.getByText('done'))

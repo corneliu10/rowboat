@@ -9,7 +9,7 @@ function org(overrides: Partial<OrgRecord> & { memberId?: string } = {}): OrgRec
     const { memberId, ...rest } = overrides;
     return {
         id: 'org-abc123-xyz789',
-        name: 'Rowboat Labs (dev)',
+        name: 'Spinrun (dev)',
         address: 'localhost:4272',
         baseUrl: 'http://localhost:4272',
         auth: { kind: 'dev', memberId: memberId ?? 'ramnique' },
@@ -21,11 +21,11 @@ describe('deriveSpacesMcpServers', () => {
     it('derives one entry per org: slugged name, /mcp url, bearer token from the registry', () => {
         const entries = deriveSpacesMcpServers([org()]);
         expect(entries).toEqual({
-            'spaces-rowboat-labs-dev': {
+            'spaces-spinrun-dev': {
                 url: 'http://localhost:4272/mcp',
                 headers: {
                     authorization: 'Bearer dev-ramnique',
-                    'x-agent-name': 'Rowboat',
+                    'x-agent-name': 'Spinrun',
                 },
             },
         });
@@ -37,11 +37,11 @@ describe('deriveSpacesMcpServers', () => {
             org({ id: 'org-2', memberId: 'gagan' }),
         ]);
         expect(Object.keys(entries).sort()).toEqual([
-            'spaces-rowboat-labs-dev',
-            'spaces-rowboat-labs-dev-gagan',
+            'spaces-spinrun-dev',
+            'spaces-spinrun-dev-gagan',
         ]);
-        expect(entries['spaces-rowboat-labs-dev']!.headers.authorization).toBe('Bearer dev-ramnique');
-        expect(entries['spaces-rowboat-labs-dev-gagan']!.headers.authorization).toBe('Bearer dev-gagan');
+        expect(entries['spaces-spinrun-dev']!.headers.authorization).toBe('Bearer dev-ramnique');
+        expect(entries['spaces-spinrun-dev-gagan']!.headers.authorization).toBe('Bearer dev-gagan');
     });
 
     it('falls back to the org id when the name slugs to nothing, and on a full name+member collision', () => {
@@ -55,8 +55,8 @@ describe('deriveSpacesMcpServers', () => {
         ]);
         expect(Object.keys(collided).sort()).toEqual([
             'spaces-org-3',
-            'spaces-rowboat-labs-dev',
-            'spaces-rowboat-labs-dev-ramnique',
+            'spaces-spinrun-dev',
+            'spaces-spinrun-dev-ramnique',
         ]);
     });
 

@@ -106,7 +106,7 @@ export function VideoCallView({
   const assistantSpeaking = ttsState === 'speaking'
 
   const caption = assistantSpeaking && assistantCaption
-    ? { who: 'Rowboat', text: assistantCaption }
+    ? { who: 'Spinrun', text: assistantCaption }
     : interimText
       ? { who: 'You', text: interimText }
       : null
@@ -164,13 +164,13 @@ export function VideoCallView({
           ) : (
             <span
               className="flex h-40 w-40 items-center justify-center rounded-full bg-sky-600 text-7xl font-medium text-white"
-              aria-label="Rowboat"
+              aria-label="Spinrun"
             >
               R
             </span>
           )}
           <span className="absolute bottom-3 left-3 rounded-md bg-black/50 px-2 py-0.5 text-sm text-white">
-            Rowboat
+            Spinrun
           </span>
           {(status === 'thinking' || status === 'speaking') && (
             <button

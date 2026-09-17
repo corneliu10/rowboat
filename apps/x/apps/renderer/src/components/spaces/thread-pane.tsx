@@ -499,7 +499,7 @@ export function ThreadPane({
         setMessages((prev) => (prev.some((m) => m.id === message.id) ? prev : [...prev, message]))
     }
 
-    /** What @rowboat and sessions call this conversation. */
+    /** What @spinball and sessions call this conversation. */
     const threadLabel = topic?.title ?? threadLabelOf(root?.body ?? '')
 
     // Following (org-owned read state): only a followed thread badges you.
@@ -573,14 +573,14 @@ export function ThreadPane({
         setFolding(true)
         onFolding?.(true)
         try {
-            const body = `[@rowboat](#rowboat) fold this thread’s decision into \`${file.path}\` (assetId ${file.assetId}) — keep the file’s structure and put it under the right section. End your change reason with “· thread:${rootMessageId}”.`
+            const body = `[@spinball](#spinball) fold this thread’s decision into \`${file.path}\` (assetId ${file.assetId}) — keep the file’s structure and put it under the right section. End your change reason with “· thread:${rootMessageId}”.`
             const result = await window.ipc.invoke('spaces:postMessage', { orgId: org.id, spaceId: space.id, threadRoot: rootMessageId, body })
             echo(result.message)
             noteThread(org.id, space.id, rootMessageId, { following: true, readOffset: result.message.offset, lastReplyOffset: result.message.offset })
             analytics.spacesFoldRequested()
             maybeInvokeRowboat(org, space, { rootMessageId, label: threadLabel }, result.message.id, body)
         } catch (err) {
-            toast(err instanceof Error ? err.message : 'Could not ask Rowboat', 'error')
+            toast(err instanceof Error ? err.message : 'Could not ask Spinrun', 'error')
         } finally {
             setFolding(false)
             onFolding?.(false)
@@ -799,7 +799,7 @@ export function ThreadPane({
         }
     }
 
-    // "Open agent chat" on one of your Rowboat's replies: the run that wrote
+    // "Open agent chat" on one of your Spinrun's replies: the run that wrote
     // it, not merely the thread's session (see lib/spaces-response-chat.ts).
     const openResponse = (message: spaces.Message) => {
         if (onOpenSession) void openResponseChat({ orgId: org.id, spaceId: space.id, message, onOpenSession })
@@ -1147,7 +1147,7 @@ export function ThreadPane({
                             className="flex items-center gap-1.5 rounded-full border border-amber-500/50 bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-700 hover:bg-amber-500/20 dark:text-amber-400"
                         >
                             <ShieldAlert className="size-3" />
-                            Your Rowboat needs permission — {permissionWait[0]}
+                            Your Spinrun needs permission — {permissionWait[0]}
                             {permissionWait.length > 1 ? ` +${permissionWait.length - 1} more` : ''} · Review
                         </button>
                     </div>
@@ -1157,7 +1157,7 @@ export function ThreadPane({
                     <div className="flex flex-wrap items-center gap-2 pl-10 pt-1">
                         {spinningAgents.map((memberId) => {
                             const own = memberId === org.memberId
-                            const label = own ? 'Your Rowboat is working…' : <><MemberName id={memberId} />’s Rowboat is working…</>
+                            const label = own ? 'Your Spinrun is working…' : <><MemberName id={memberId} />’s Spinrun is working…</>
                             return own ? (
                                 <span key={memberId} className="flex items-center gap-1">
                                     <button className="flex items-center gap-1.5 rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent/50 hover:text-foreground" title="Open the agent chat for this thread" onClick={() => void openTopicSession()}>
@@ -1166,7 +1166,7 @@ export function ThreadPane({
                                     </button>
                                     <button
                                         className="flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs font-medium text-destructive hover:bg-destructive/10 disabled:opacity-60"
-                                        title="Stop your Rowboat"
+                                        title="Stop your Spinrun"
                                         disabled={stopping}
                                         onClick={() => void stopRowboat()}
                                     >
@@ -1241,7 +1241,7 @@ export function ThreadPane({
                     {
                         name: 'fold',
                         args: '<file>',
-                        hint: 'Ask your Rowboat to fold this thread into a file',
+                        hint: 'Ask your Spinrun to fold this thread into a file',
                         run: (args) => {
                             const name = args.trim()
                             const file = entries.find((e) => e.state !== 'deleted' && (e.path === name || e.path.endsWith(`/${name}`)))

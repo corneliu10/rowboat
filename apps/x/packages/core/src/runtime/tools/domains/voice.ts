@@ -1,6 +1,6 @@
 // Builtin tools: voice domain. Exposes the app's own speech stack (the same
-// ElevenLabs/Deepgram credentials — or the signed-in Rowboat proxy — that
-// power voice mode) as assistant tools, so agents and Rowboat Apps can
+// ElevenLabs/Deepgram credentials — or the signed-in Spinrun proxy — that
+// power voice mode) as assistant tools, so agents and Spinrun Apps can
 // speak and listen without any new API keys.
 
 import { z } from "zod";

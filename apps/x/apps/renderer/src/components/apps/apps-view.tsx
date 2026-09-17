@@ -240,7 +240,7 @@ export function AppsView({ initialAppFolder, initialVersion, onNewApp }: {
       <style>{CARD_CSS}</style>
       <div className="ma-inner">
         <h1 className="ma-h1">Apps</h1>
-        <p className="ma-sub">Apps that live inside Rowboat, powered by your agents and integrations.</p>
+        <p className="ma-sub">Apps that live inside Spinrun, powered by your agents and integrations.</p>
 
         <div className="ma-tabs">
           <button type="button" className={`ma-tab${activeTab === 'mine' ? ' on' : ''}`} onClick={() => setTab('mine')}>My apps</button>

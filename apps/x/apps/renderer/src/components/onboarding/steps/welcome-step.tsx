@@ -20,12 +20,12 @@ export function WelcomeStep({ state }: WelcomeStepProps) {
         className="flex items-center gap-4 mb-4"
       >
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome to Rowboat
+          Welcome to Spinrun
         </h1>
         {/* Logo with ambient glow */}
         <div className="relative shrink-0">
           <div className="absolute inset-0 size-12 rounded-2xl bg-primary/10 blur-xl scale-[2.5]" />
-          <img src="/logo-only.png" alt="Rowboat" className="relative size-12" />
+          <img src="/logo-only.png" alt="Spinrun" className="relative size-12" />
         </div>
       </motion.div>
 
@@ -45,7 +45,7 @@ export function WelcomeStep({ state }: WelcomeStepProps) {
         transition={{ delay: 0.3 }}
         className="text-base text-muted-foreground leading-relaxed max-w-sm mb-10"
       >
-        Rowboat connects to your work, builds a knowledge graph, and works alongside your team and their assistants. Private and on your machine.
+        Spinrun connects to your work, builds a knowledge graph, and works alongside your team and their assistants. Private and on your machine.
       </motion.p>
 
       {/* Sign in / connected state */}
@@ -59,7 +59,7 @@ export function WelcomeStep({ state }: WelcomeStepProps) {
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-2 text-[var(--rowboat-success)]">
               <CheckCircle2 className="size-5" />
-              <span className="text-sm font-medium">Connected to Rowboat</span>
+              <span className="text-sm font-medium">Connected to Spinrun</span>
             </div>
             <Button
               onClick={() => {
@@ -86,7 +86,7 @@ export function WelcomeStep({ state }: WelcomeStepProps) {
               {rowboatState.isConnecting ? (
                 <><Loader2 className="size-5 animate-spin mr-2" />Waiting for sign in...</>
               ) : (
-                "Sign in with Rowboat"
+                "Sign in with Spinrun"
               )}
             </Button>
             {rowboatState.isConnecting && (

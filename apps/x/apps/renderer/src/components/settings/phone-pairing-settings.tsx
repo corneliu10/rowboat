@@ -70,7 +70,7 @@ export function PhonePairingSettings({ dialogOpen }: { dialogOpen: boolean }) {
   if (!info.running || !info.token) {
     return (
       <div className="text-sm text-muted-foreground">
-        The connection server isn&apos;t running. Restart Rowboat and try again.
+        The connection server isn&apos;t running. Restart Spinrun and try again.
       </div>
     )
   }
@@ -104,7 +104,7 @@ export function PhonePairingSettings({ dialogOpen }: { dialogOpen: boolean }) {
           <div>
             <h4 className="text-sm font-medium">Pair your phone</h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Open the Rowboat app on your phone and scan this code. Both devices need
+              Open the Spinrun app on your phone and scan this code. Both devices need
               to be on the same network.
             </p>
           </div>

@@ -20,8 +20,8 @@ const SPACE = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
 describe("parseBlobLink", () => {
     it("parses the canonical grammar with a name", () => {
         expect(
-            parseBlobLink(`https://acme.rowboat.space/s/${SPACE}/b/${HASH}?name=shot%20one.png`),
-        ).toEqual({ address: "acme.rowboat.space", spaceId: SPACE, hash: HASH, name: "shot one.png" });
+            parseBlobLink(`https://acme.spinball.space/s/${SPACE}/b/${HASH}?name=shot%20one.png`),
+        ).toEqual({ address: "acme.spinball.space", spaceId: SPACE, hash: HASH, name: "shot one.png" });
     });
 
     it("parses without a query, and dev http addresses with ports", () => {
@@ -104,7 +104,7 @@ describe("the projected agent face", () => {
 });
 
 describe("resolveOrgArg", () => {
-    const rowboat = { id: "org-1", name: "Rowboat Labs", address: "rowboat.spaces.test" };
+    const spinrun = { id: "org-1", name: "Spinrun", address: "rowboat.spaces.test" };
     const acme = { id: "org-2", name: "Acme", address: "acme.spaces.test" };
 
     it("refuses when nothing is set up", async () => {
@@ -113,29 +113,28 @@ describe("resolveOrgArg", () => {
     });
 
     it("defaults to the only org", async () => {
-        orgsState.orgs = [rowboat];
-        expect(await resolveOrgArg(undefined)).toBe(rowboat);
-        expect(await resolveOrgArg("")).toBe(rowboat);
+        orgsState.orgs = [spinrun];
+        expect(await resolveOrgArg(undefined)).toBe(spinrun);
+        expect(await resolveOrgArg("")).toBe(spinrun);
     });
 
     it("requires the argument with several orgs, naming them", async () => {
-        orgsState.orgs = [rowboat, acme];
-        await expect(resolveOrgArg(undefined)).rejects.toThrow(/"Rowboat Labs", "Acme"/);
+        orgsState.orgs = [spinrun, acme];
+        await expect(resolveOrgArg(undefined)).rejects.toThrow(/"Spinrun", "Acme"/);
     });
 
     it("matches by id, name (any case), address, slug, or server name", async () => {
-        orgsState.orgs = [rowboat, acme];
+        orgsState.orgs = [spinrun, acme];
         expect(await resolveOrgArg("org-2")).toBe(acme);
         expect(await resolveOrgArg("acme")).toBe(acme);
-        expect(await resolveOrgArg("rowboat labs")).toBe(rowboat);
-        expect(await resolveOrgArg("rowboat-labs")).toBe(rowboat);
-        expect(await resolveOrgArg("spaces-rowboat-labs")).toBe(rowboat);
+        expect(await resolveOrgArg("spinrun")).toBe(spinrun);
+        expect(await resolveOrgArg("spaces-spinrun")).toBe(spinrun);
         expect(await resolveOrgArg("acme.spaces.test")).toBe(acme);
         await expect(resolveOrgArg("nope")).rejects.toThrow(/Unknown org 'nope'/);
     });
 
     it("a projected tool reports org resolution failures in the builtin error envelope", async () => {
-        orgsState.orgs = [rowboat, acme];
+        orgsState.orgs = [spinrun, acme];
         const result = (await spacesTools.whoami!.execute({})) as { success: boolean; error: string };
         expect(result.success).toBe(false);
         expect(result.error).toMatch(/Several orgs/);

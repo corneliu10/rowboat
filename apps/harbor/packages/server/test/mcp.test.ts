@@ -6,7 +6,7 @@ import { mcpTools } from '@rowboat/spaces-protocol';
 import { startHarbor, type RunningHarbor } from '../src/server.js';
 
 // Agent-face tests through a real MCP client: the exact path any agent
-// (Rowboat's included — no privileged path) uses.
+// (Spinball's included — no privileged path) uses.
 
 let harbor: RunningHarbor;
 let spaceId: string;
@@ -219,7 +219,7 @@ describe('agent face (MCP)', () => {
     expect(uploaded.status).toBe(200);
 
     // …and the agent files it into the tree by hash alone (phase 2 over MCP).
-    const client = await mcpClient('dev-harsh', { 'x-agent-name': 'Rowboat' });
+    const client = await mcpClient('dev-harsh', { 'x-agent-name': 'Spinball' });
     const filed = (await client.callTool({
       name: 'create_asset',
       arguments: { spaceId, path: 'data/signups.csv', blob: hash, reason: 'file the chat attachment' },
@@ -409,7 +409,7 @@ describe('agent face (MCP)', () => {
   });
 
   it('x-acting-mode: scheduled attributes automations honestly', async () => {
-    const client = await mcpClient('dev-harsh', { 'x-acting-mode': 'scheduled', 'x-agent-name': 'Rowboat' });
+    const client = await mcpClient('dev-harsh', { 'x-acting-mode': 'scheduled', 'x-agent-name': 'Spinball' });
     const read = (await client.callTool({ name: 'read_asset', arguments: { spaceId, assetId: roadmapId } }))
       .structuredContent as { content: string; version: number };
     const propose = (
@@ -425,7 +425,7 @@ describe('agent face (MCP)', () => {
       })
     ).structuredContent as { changeSet: { attribution: { actingMode: string; agentName: string } } };
     expect(propose.changeSet.attribution.actingMode).toBe('scheduled');
-    expect(propose.changeSet.attribution.agentName).toBe('Rowboat');
+    expect(propose.changeSet.attribution.agentName).toBe('Spinball');
     await client.close();
   });
 

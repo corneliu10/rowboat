@@ -1,7 +1,7 @@
 import path from 'path';
 import { WorkDir } from '../config/config.js';
 
-// Rowboat Apps constants (spec §3). All apps constants live here; values the
+// Spinrun Apps constants (spec §3). All apps constants live here; values the
 // renderer needs are mirrored through IPC responses, never imported directly.
 
 export const APPS_DIR = path.join(WorkDir, 'apps');

@@ -2,9 +2,12 @@ import { BrowserWindow } from "electron";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { WorkDir } from "@x/core/dist/config/config.js";
+import { brand } from "@x/shared";
 
-export const DEEP_LINK_SCHEME = "rowboat";
+export const DEEP_LINK_SCHEME = brand.deepLinkScheme;
 const URL_PREFIX = `${DEEP_LINK_SCHEME}://`;
+// Intentional dual value for one release: old invite links still open via rowboat://.
+const LEGACY_URL_PREFIX = `rowboat://`;
 const ACTION_HOST = "action";
 
 let pendingUrl: string | null = null;
@@ -22,17 +25,24 @@ export function consumePendingDeepLink(): string | null {
 
 export function extractDeepLinkFromArgv(argv: readonly string[]): string | null {
     for (const arg of argv) {
-        if (typeof arg === "string" && arg.startsWith(URL_PREFIX)) return arg;
+        if (typeof arg === "string" && (arg.startsWith(URL_PREFIX) || arg.startsWith(LEGACY_URL_PREFIX))) return arg;
     }
     return null;
 }
 
+/** Strip spinrun:// (primary) or rowboat:// (one-release fallback); null when neither. */
+function stripScheme(url: string): string | null {
+    if (url.startsWith(URL_PREFIX)) return url.slice(URL_PREFIX.length);
+    if (url.startsWith(LEGACY_URL_PREFIX)) return url.slice(LEGACY_URL_PREFIX.length);
+    return null;
+}
+
 /**
- * Dispatch any rowboat:// URL — chooses among action / oauth-completion /
+ * Dispatch any spinrun:// URL (rowboat:// accepted for one release) — chooses among action / oauth-completion /
  * navigation automatically. Use this from notification click handlers and
  * other URL entry points.
  *
- * OAuth completion (rowboat://oauth/google/done?session=<state>) is handled
+ * OAuth completion (spinrun://oauth/google/done?session=<state>) is handled
  * in main, not the renderer, because claiming tokens writes oauth.json and
  * triggers sync — both main-process concerns.
  */
@@ -49,7 +59,7 @@ export function dispatchUrl(url: string): void {
 }
 
 export function dispatchDeepLink(url: string): void {
-    if (!url.startsWith(URL_PREFIX)) return;
+    if (stripScheme(url) === null) return;
 
     pendingUrl = url;
 
@@ -71,8 +81,8 @@ interface MeetingNotesAction {
 type ParsedAction = MeetingNotesAction;
 
 function parseAction(url: string): ParsedAction | null {
-    if (!url.startsWith(URL_PREFIX)) return null;
-    const rest = url.slice(URL_PREFIX.length);
+    const rest = stripScheme(url);
+    if (rest === null) return null;
     const queryIdx = rest.indexOf("?");
     const host = (queryIdx >= 0 ? rest.slice(0, queryIdx) : rest).replace(/\/$/, "");
     if (host !== ACTION_HOST) return null;
@@ -120,7 +130,7 @@ async function handleTakeMeetingNotes(eventId: string, openMeeting: boolean): Pr
     win.webContents.send("app:takeMeetingNotes", payload);
 }
 
-// --- OAuth completion (rowboat-mode Google connect) ---
+// --- OAuth completion (spinrun-mode Google connect) ---
 
 interface OAuthCompletion {
     provider: "google";
@@ -128,13 +138,13 @@ interface OAuthCompletion {
 }
 
 /**
- * Match rowboat://oauth/google/done?session=<state>. Returns null for
+ * Match spinrun://oauth/google/done?session=<state> (rowboat:// accepted for one release). Returns null for
  * anything else — including paths with the right shape but wrong provider
  * or a missing `session` query param.
  */
 function parseOAuthCompletion(url: string): OAuthCompletion | null {
-    if (!url.startsWith(URL_PREFIX)) return null;
-    const rest = url.slice(URL_PREFIX.length);
+    const rest = stripScheme(url);
+    if (rest === null) return null;
     const queryIdx = rest.indexOf("?");
     const path = queryIdx >= 0 ? rest.slice(0, queryIdx) : rest;
     const parts = path.split("/").filter(Boolean);
@@ -167,12 +177,12 @@ interface PickerCompletion {
 }
 
 /**
- * Match rowboat://oauth/google/picker/done?session=<state>. Distinct from the
+ * Match spinrun://oauth/google/picker/done?session=<state> (rowboat:// accepted for one release). Distinct from the
  * connect completion above (oauth/google/done) by the extra `picker` segment.
  */
 function parsePickerCompletion(url: string): PickerCompletion | null {
-    if (!url.startsWith(URL_PREFIX)) return null;
-    const rest = url.slice(URL_PREFIX.length);
+    const rest = stripScheme(url);
+    if (rest === null) return null;
     const queryIdx = rest.indexOf("?");
     const path = queryIdx >= 0 ? rest.slice(0, queryIdx) : rest;
     const parts = path.split("/").filter(Boolean);

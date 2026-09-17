@@ -27,6 +27,7 @@ import { openResponseChat } from '@/lib/spaces-response-chat'
 import { toast } from '@/lib/toast'
 import * as analytics from '@/lib/analytics'
 import { containsRowboatAddress } from '@/lib/spaces-mentions'
+import { brand } from '@x/shared/dist/brand.js'
 
 // The space's one stream: ROOT messages in order; each message's flat thread
 // lives behind its reply chip (annotation model — replying creates nothing,
@@ -240,7 +241,7 @@ export function GeneralStream({
                 // The org read the stream up to our own post; mirror it.
                 markStreamRead(org.id, space.id, result.message.offset, { sync: false })
                 analytics.spacesMessagePosted({ kind: 'general', mentionsRowboat: containsRowboatAddress(body) })
-                // @rowboat on a fresh stream message: the agent works the thread
+                // @spinball on a fresh stream message: the agent works the thread
                 // under it — its receipt lands as the first reply.
                 maybeInvokeRowboat(org, space, { rootMessageId: result.message.id, label: threadLabelOf(body) }, result.message.id, body, agent)
             })
@@ -270,12 +271,12 @@ export function GeneralStream({
         }
     }
 
-    // "Open agent chat" on one of your Rowboat's posts: the run that wrote it.
+    // "Open agent chat" on one of your Spinrun's posts: the run that wrote it.
     const openResponse = (message: spaces.Message) => {
         if (onOpenSession) void openResponseChat({ orgId: org.id, spaceId: space.id, message, onOpenSession })
     }
 
-    // The working strip's stop square: cancel your Rowboat's run right here.
+    // The working strip's stop square: cancel your Spinrun's run right here.
     // The chip clears when the cancelled turn releases its presence lease.
     const stopAgent = async (rootMessageId: string) => {
         try {
@@ -291,7 +292,7 @@ export function GeneralStream({
         // The quote is a cite, so it carries names, never tokens; the ask is a
         // token, which the composer's seed path parses into a pill.
         const quote = resolveMentions(message.body, memberNames, spaceNames).split('\n').map((l) => `> ${l}`).join('\n')
-        setSeed({ text: `[@rowboat](#rowboat) \n\n${quote}\n— ${name}`, nonce: Date.now() })
+        setSeed({ text: `[@${brand.mentionHandle}](#${brand.mentionHandle}) \n\n${quote}\n— ${name}`, nonce: Date.now() })
     }
 
     // Quote-reply (the Discord gesture): the quoted copy seeds the composer,
@@ -782,10 +783,10 @@ export function GeneralStream({
                 {stream.ready && !snapping && rows.length === 0 && (
                     <div className="px-2 py-6 text-sm text-muted-foreground">
                         {space.kind === 'direct' && (space.participants ?? []).length === 1
-                            ? 'Your notes to self — drafts, links, files for later. Only you can see this, and @rowboat works here too.'
+                            ? 'Your notes to self — drafts, links, files for later. Only you can see this, and @spinball works here too.'
                             : space.kind === 'direct'
-                                ? 'Private to the two of you — say hello, or @rowboat to ask your agent.'
-                                : 'Nothing here yet — say hello, or @rowboat to ask your agent.'}
+                                ? 'Private to the two of you — say hello, or @spinball to ask your agent.'
+                                : 'Nothing here yet — say hello, or @spinball to ask your agent.'}
                     </div>
                 )}
                 {rows}
@@ -836,7 +837,7 @@ export function GeneralStream({
             )}
             <PollDialogHost openRef={openPollRef} onSubmit={createPoll} />
             <Composer
-                placeholder={`Message ${space.name} — @rowboat to ask your agent`}
+                placeholder={`Message ${space.name} — @spinball to ask your agent`}
                 busy={false}
                 draftKey={memoryKey}
                 onSend={post}

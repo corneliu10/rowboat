@@ -12,7 +12,7 @@ const mocks = vi.hoisted(() => ({
   isSignedIn: vi.fn(async () => false),
   getChatGPTStatus: vi.fn(async () => ({ signedIn: false })),
   listGatewayModels: vi.fn(async () => ({
-    providers: [{ id: 'rowboat', name: 'Rowboat', models: [{ id: 'google/gemini-3.5-flash', reasoning: true }] }],
+    providers: [{ id: 'rowboat', name: 'Spinrun', models: [{ id: 'google/gemini-3.5-flash', reasoning: true }] }],
   })),
   listCodexModels: vi.fn(async () => ({
     providers: [{ id: 'codex', name: 'OpenAI Codex', models: [{ id: 'gpt-5.6-sol', reasoning: true }] }],
@@ -75,7 +75,7 @@ beforeEach(() => {
 });
 
 describe('getModelCatalog', () => {
-  it('treats rowboat, codex, and BYOK providers as one uniform provider list', async () => {
+  it("treats 'rowboat', codex, and BYOK providers as one uniform provider list", async () => {
     mocks.isSignedIn.mockResolvedValue(true);
     mocks.getChatGPTStatus.mockResolvedValue({ signedIn: true });
     serveConfig({
@@ -276,7 +276,7 @@ describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
     process.env.ROWBOAT_MANAGED_LLM = 'on';
   });
 
-  it('when on, a signed-in user is offered the rowboat provider', async () => {
+  it('when on, a signed-in user is offered the Spinrun provider', async () => {
     process.env.ROWBOAT_MANAGED_LLM = 'on';
     mocks.isSignedIn.mockResolvedValue(true);
     serveConfig({ ollama: { baseURL: 'http://localhost:11434' } });
@@ -286,7 +286,7 @@ describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
     expect(catalog.providers.map((p) => p.id)).toContain('rowboat');
   });
 
-  it('when off, a signed-in user is NOT listed with the rowboat provider (BYOK fallback)', async () => {
+  it('when off, a signed-in user is NOT listed with the Spinrun provider (BYOK fallback)', async () => {
     process.env.ROWBOAT_MANAGED_LLM = 'off';
     __resetModelCatalogForTests();
     mocks.isSignedIn.mockResolvedValue(true);
@@ -299,7 +299,7 @@ describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
     expect(mocks.listGatewayModels).not.toHaveBeenCalled();
   });
 
-  it('when off, the image catalog also hides the rowboat provider', async () => {
+  it('when off, the image catalog also hides the Spinrun provider', async () => {
     process.env.ROWBOAT_MANAGED_LLM = 'off';
     __resetModelCatalogForTests();
     mocks.isSignedIn.mockResolvedValue(true);

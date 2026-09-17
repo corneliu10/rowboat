@@ -1,4 +1,4 @@
-name: rowboat
+name: spinrun
 
 on:
   pull_request:

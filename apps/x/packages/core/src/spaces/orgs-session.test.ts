@@ -3,9 +3,9 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
-// Managed orgs ride the Rowboat account session (one session, two uses —
+// Managed orgs ride the Spinrun account session (one session, two uses —
 // 2026-09-14). Under test: the registry's handling of `session` records and
-// of the pre-`session` `oauth` records whose issuer IS the Rowboat desk —
+// of the pre-`session` `oauth` records whose issuer IS the Spinrun desk —
 // their stored tokens are ignored (never migrated), and the apex listing
 // rewrites them in place. Foreign and dev records are never touched.
 
@@ -31,7 +31,7 @@ function stored(): OrgRecord[] {
 
 const legacyManaged: OrgRecord = {
     id: 'org-legacy',
-    name: 'Rowboat',
+    name: 'Spinrun',
     address: 'rowboat.spaces.example',
     baseUrl: 'https://rowboat.spaces.example',
     auth: {
@@ -98,7 +98,7 @@ describe('applyManagedListing', () => {
     it('rewrites a legacy managed record in place, adds new ones, drops session records the apex no longer lists, and leaves foreign + dev alone', () => {
         orgs.applyManagedListing(
             [
-                { id: 'org-01ROWBOAT', name: 'Rowboat Labs', address: 'rowboat.spaces.example', memberId: 'm-new' },
+                { id: 'org-01ROWBOAT', name: 'Spinrun', address: 'rowboat.spaces.example', memberId: 'm-new' },
                 { id: 'org-01NEW', name: 'New Org', address: 'new.spaces.example', memberId: 'm-new' },
             ],
             { apexOrigin: 'https://spaces.example', issuer: MANAGED },
@@ -108,7 +108,7 @@ describe('applyManagedListing', () => {
 
         // The legacy record kept its local id (links, MCP names) and lost its tokens.
         expect(byId['org-legacy']).toMatchObject({
-            name: 'Rowboat Labs',
+            name: 'Spinrun',
             serverOrgId: 'org-01ROWBOAT',
             auth: { kind: 'session', issuer: MANAGED, memberId: 'm-new' },
         });
@@ -123,7 +123,7 @@ describe('applyManagedListing', () => {
     });
 
     it('is idempotent: applying the same listing twice changes nothing', () => {
-        const listing = [{ id: 'org-01ROWBOAT', name: 'Rowboat', address: 'rowboat.spaces.example', memberId: 'm-new' }];
+        const listing = [{ id: 'org-01ROWBOAT', name: 'Spinrun', address: 'rowboat.spaces.example', memberId: 'm-new' }];
         orgs.applyManagedListing(listing, { apexOrigin: 'https://spaces.example', issuer: MANAGED });
         const once = stored();
         orgs.applyManagedListing(listing, { apexOrigin: 'https://spaces.example', issuer: MANAGED });
@@ -144,7 +144,7 @@ describe('deriveSpacesMcpServers with a session', () => {
             bearer: 'session-access',
             issuer: MANAGED,
         });
-        expect(entries['spaces-rowboat']!.headers.authorization).toBe('Bearer session-access');
+        expect(entries['spaces-spinrun']!.headers.authorization).toBe('Bearer session-access');
         expect(entries['spaces-left-behind']!.headers.authorization).toBe('Bearer session-access');
         expect(entries['spaces-acme']!.headers.authorization).toBe('Bearer acme-access');
         expect(entries['spaces-dev']!.headers.authorization).toBe('Bearer dev-ramnique');
@@ -200,7 +200,7 @@ describe('upsertSessionOrg and the org\'s live client', () => {
         seed([legacyManaged]);
         const close = vi.fn();
         orgs.setRuntimeForTests('org-legacy', { client: {} as never, live: { close } as never });
-        orgs.upsertSessionOrg({ baseUrl: legacyManaged.baseUrl, name: 'Rowboat', address: legacyManaged.address, issuer: MANAGED, memberId: 'm-old' });
+        orgs.upsertSessionOrg({ baseUrl: legacyManaged.baseUrl, name: 'Spinrun', address: legacyManaged.address, issuer: MANAGED, memberId: 'm-old' });
         expect(close).toHaveBeenCalledTimes(1);
         expect(stored().find((o) => o.id === 'org-legacy')?.auth.kind).toBe('session');
     });

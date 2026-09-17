@@ -53,9 +53,9 @@ const sources: MentionSources = {
 const kinds = (entries: ReturnType<typeof buildMentionEntries>) => entries.map((e) => `${e.group}:${e.label}`)
 
 describe('buildMentionEntries', () => {
-  it('browses each group in turn on a bare "@": rowboat, files, spaces, people', () => {
+  it('browses each group in turn on a bare "@": spinball, files, spaces, people', () => {
     const entries = buildMentionEntries('', sources)
-    expect(entries[0].target.kind).toBe('rowboat')
+    expect(entries[0].target.kind).toBe('spinball')
     const groups = entries.map((e) => e.group)
     // Grouped, in order, and never interleaved.
     expect(groups).toEqual([...groups].sort((a, b) => ORDER[a] - ORDER[b]))
@@ -78,9 +78,9 @@ describe('buildMentionEntries', () => {
     expect(entries.some((e) => e.group === 'spaces' || e.group === 'people')).toBe(false)
   })
 
-  it('filters every group by the query, case-insensitively, and drops rowboat once it stops matching', () => {
+  it('filters every group by the query, case-insensitively, and drops spinball once it stops matching', () => {
     const entries = buildMentionEntries('DE', sources)
-    expect(entries.some((e) => e.target.kind === 'rowboat')).toBe(false)
+    expect(entries.some((e) => e.target.kind === 'spinball')).toBe(false)
     expect(kinds(entries)).toEqual([
       'files:delta',
       'files:design',
@@ -95,10 +95,10 @@ describe('buildMentionEntries', () => {
     expect(entries.filter((e) => e.group === 'spaces').map((e) => e.label)).toEqual(['Random', 'Ultra'])
   })
 
-  it('keeps rowboat first while the query is a prefix of it', () => {
-    const entries = buildMentionEntries('ro', sources)
-    expect(entries[0].target.kind).toBe('rowboat')
-    expect(entries.map((e) => e.label)).toContain('Roadboard')
+  it('keeps spinball first while the query is a prefix of it', () => {
+    const entries = buildMentionEntries('sp', sources)
+    expect(entries[0].target.kind).toBe('spinball')
+    expect(entries.map((e) => e.label)).toContain('spinball')
   })
 
   it('widens each group once a query narrows it', () => {

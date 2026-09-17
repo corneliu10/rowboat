@@ -4,7 +4,7 @@ import { ServerSwitcher } from './server-switcher'
 import type { OrgWithSpaces } from '@/hooks/use-spaces'
 
 const { servers } = vi.hoisted(() => ({ servers: [
-    { id: 'one', name: 'Rowboat', address: 'one.test', spaces: [{ id: 'main' }], directs: [] },
+    { id: 'one', name: 'Spinrun', address: 'one.test', spaces: [{ id: 'main' }], directs: [] },
     { id: 'two', name: 'Founders', address: 'two.test', spaces: [{ id: 'main' }], directs: [] },
     { id: 'empty', name: 'New server', address: 'new.test', spaces: [], directs: [] },
 ] }))
@@ -21,7 +21,7 @@ afterEach(cleanup)
 function setup() {
     const onOpenSpace = vi.fn()
     render(<ServerSwitcher org={servers[0] as unknown as OrgWithSpaces} onOpenSpace={onOpenSpace} />)
-    fireEvent.keyDown(screen.getByRole('button', { name: 'Switch server: Rowboat' }), { key: 'Enter' })
+    fireEvent.keyDown(screen.getByRole('button', { name: 'Switch server: Spinrun' }), { key: 'Enter' })
     return onOpenSpace
 }
 describe('ServerSwitcher', () => {
@@ -29,10 +29,10 @@ describe('ServerSwitcher', () => {
         setup()
         fireEvent.click(screen.getByRole('menuitem', { name: 'Remove server' }))
         expect(screen.getByRole('alertdialog')).toBeVisible()
-        expect(screen.getByText('Remove Rowboat?')).toBeVisible()
+        expect(screen.getByText('Remove Spinrun?')).toBeVisible()
         fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
         expect(screen.queryByRole('alertdialog')).toBeNull()
-        fireEvent.keyDown(screen.getByRole('button', { name: 'Switch server: Rowboat' }), { key: 'Enter' })
+        fireEvent.keyDown(screen.getByRole('button', { name: 'Switch server: Spinrun' }), { key: 'Enter' })
         expect(screen.getByRole('menuitem', { name: 'Remove server' })).toBeVisible()
     })
     it('switches servers even when their space IDs match', () => {

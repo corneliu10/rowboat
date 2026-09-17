@@ -4,11 +4,11 @@ import * as WebBrowser from 'expo-web-browser';
 
 // The phone side of the OAuth journey (mirror of core/spaces/oauth.ts):
 // discovery via RFC 9728 metadata → DCR → PKCE in an auth session with a
-// deep-link redirect (rowboat://oauth-callback — verified accepted by
+// deep-link redirect (spinrun://oauth-callback — verified accepted by
 // Supabase DCR, 2026-09-03) → token exchange. Tokens are realm-generic:
 // the one sign-in works at the apex and every org on the deployment.
 
-export const REDIRECT_URI = 'rowboat://oauth-callback';
+export const REDIRECT_URI = 'spinrun://oauth-callback';
 const SCOPES = 'openid email profile';
 /** DCR registrations cached per issuer — registering once per install is plenty. */
 const CLIENT_KEY = 'rowboat.spaces.oauth.client.v1';
@@ -55,7 +55,7 @@ async function clientIdFor(meta: AsMetadata): Promise<string> {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      client_name: 'Rowboat Mobile',
+      client_name: 'Spinrun Mobile',
       redirect_uris: [REDIRECT_URI],
       token_endpoint_auth_method: 'none',
       grant_types: ['authorization_code', 'refresh_token'],

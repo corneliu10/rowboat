@@ -12,12 +12,12 @@ Load this skill when you need to send a desktop notification to the user — e.g
 Triggers a native macOS notification. The call returns immediately; it does not block waiting for the user to click.
 
 ### Parameters
-- **\`title\`** (optional, defaults to \`"Rowboat"\`) — bold headline at the top.
+- **\`title\`** (optional, defaults to \`"Spinrun"\`) — bold headline at the top.
 - **\`message\`** (required) — body text. Keep it short — macOS truncates after a couple of lines.
 - **\`link\`** (optional) — URL to open when the user clicks the notification. Two kinds accepted:
   - **\`https://...\` / \`http://...\`** — opens in the default browser
-  - **\`rowboat://...\`** — opens a view inside Rowboat (see deep links below)
-  - If omitted, clicking the notification focuses the Rowboat app.
+  - **\`spinrun://...\`** — opens a view inside Spinrun (see deep links below)
+  - If omitted, clicking the notification focuses the Spinrun app.
 
 ### Examples
 
@@ -38,25 +38,25 @@ External link:
 }
 \`\`\`
 
-Deep link into a Rowboat note:
+Deep link into a Spinrun note:
 \`\`\`json
 {
   "message": "Daily brief is ready",
-  "link": "rowboat://open?type=file&path=knowledge/Daily/2026-04-25.md"
+  "link": "spinrun://open?type=file&path=knowledge/Daily/2026-04-25.md"
 }
 \`\`\`
 
-## Deep links: \`rowboat://\`
+## Deep links: \`spinrun://\`
 
-Use these as the \`link\` parameter to land the user on a specific view in Rowboat instead of an external site. URL-encode paths/names that contain spaces or special characters.
+Use these as the \`link\` parameter to land the user on a specific view in Spinrun instead of an external site. URL-encode paths/names that contain spaces or special characters.
 
 | Target | Format | Example |
 |---|---|---|
-| Open a file | \`rowboat://open?type=file&path=<workspace-relative path>\` | \`rowboat://open?type=file&path=knowledge/People/Acme.md\` |
-| Open chat | \`rowboat://open?type=chat\` (optional \`&runId=<id>\`) | \`rowboat://open?type=chat&runId=abc123\` |
-| Knowledge graph | \`rowboat://open?type=graph\` | — |
-| Background task view | \`rowboat://open?type=task&name=<task-name>\` | \`rowboat://open?type=task&name=daily-brief\` |
-| Suggested topics | \`rowboat://open?type=suggested-topics\` | — |
+| Open a file | \`spinrun://open?type=file&path=<workspace-relative path>\` | \`spinrun://open?type=file&path=knowledge/People/Acme.md\` |
+| Open chat | \`spinrun://open?type=chat\` (optional \`&runId=<id>\`) | \`spinrun://open?type=chat&runId=abc123\` |
+| Knowledge graph | \`spinrun://open?type=graph\` | — |
+| Background task view | \`spinrun://open?type=task&name=<task-name>\` | \`spinrun://open?type=task&name=daily-brief\` |
+| Suggested topics | \`spinrun://open?type=suggested-topics\` | — |
 
 The \`type=file\` path is workspace-relative (the same path you'd pass to \`file-readText\`).
 

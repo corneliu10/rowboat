@@ -16,7 +16,7 @@
 // and lazy content and CANNOT carry an eager fragment; an app/always
 // capability MUST carry a fragment and never appears in the catalog.
 //
-// Trust boundary: disk-loaded skills (~/.rowboat/skills, ~/.agents/skills)
+// Trust boundary: disk-loaded skills (~/.spinball/skills, ~/.agents/skills)
 // are typed as ModelCapability, so eager prompt fragments and app activation
 // are structurally bundled-only powers. A model-activated skill's prose
 // lands in conversation because the model chose to read it; a disk file
@@ -47,7 +47,7 @@ export const ModeFlags = z.object({
     // session — the standing operator channel for Home.
     commandCenter: z.boolean().default(false),
     // Pinned server-side on a space-thread session (its session origin is
-    // kind 'space_thread'): the thread an @rowboat mention bound this
+    // kind 'space_thread'): the thread an @spinball mention bound this
     // session to. Renders the thread procedure (receipt contract + privacy)
     // with the ids filled in, from token zero — no loadSkill round trip.
     spaceThread: z

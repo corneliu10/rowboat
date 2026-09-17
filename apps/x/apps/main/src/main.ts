@@ -104,10 +104,10 @@ process.on('uncaughtException', (err) => {
 // run this as early in the main process as possible
 if (started) app.quit();
 
-// Single-instance lock: route a second launch (e.g. clicking a rowboat:// link)
+// Single-instance lock: route a second launch (e.g. clicking a spinrun:// link)
 // back into the existing process via the 'second-instance' event.
 if (app.isPackaged && !app.requestSingleInstanceLock()) {
-  console.error('[Main] Another Rowboat instance is already running; exiting this process.');
+  console.error('[Main] Another Spinrun instance is already running; exiting this process.');
   app.quit();
   process.exit(0);
 }
@@ -121,7 +121,7 @@ if (!app.isPackaged && process.env.ROWBOAT_WORKDIR) {
   app.setPath('userData', path.join(WorkDir, '.electron-data'));
 }
 
-// Register as the OS handler for rowboat:// URLs.
+// Register as the OS handler for spinrun:// URLs (rowboat:// fallback is registered via forge and accepted in deeplink.ts for one release).
 // In dev, point at the right argv so the OS can re-invoke us correctly.
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
@@ -515,7 +515,7 @@ function createWindow(options: { startHidden?: boolean } = {}) {
     if (link.kind === "asset") target.set("assetId", link.assetId);
     if (link.kind === "message") target.set("messageId", link.messageId);
     if (link.kind === "member") target.set("memberId", link.memberId);
-    dispatchUrl(`rowboat://open?${target.toString()}`);
+    dispatchUrl(`${DEEP_LINK_SCHEME}://open?${target.toString()}`);
     return true;
   };
 
@@ -666,7 +666,7 @@ app.whenReady().then(async () => {
     },
   });
 
-  // Start the Rowboat Apps server (per-app origins on 127.0.0.1:3210) BEFORE
+  // Start the Spinrun Apps server (per-app origins on 127.0.0.1:3210) BEFORE
   // the window and the long service-init chain below. The Apps view is
   // reachable as soon as the window paints; starting the server last meant
   // every app iframe hit connection-refused (blank app) for the first ~10s of

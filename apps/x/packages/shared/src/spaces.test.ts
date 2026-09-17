@@ -10,12 +10,12 @@ const tok = (id: string, label: string) => mentionToken({ kind: 'member', id, la
 
 describe('containsRowboatAddress', () => {
   it('is the token, never the word', () => {
-    expect(containsRowboatAddress('[@rowboat](#rowboat) move SSO to P1')).toBe(true);
-    expect(containsRowboatAddress('yes — [@rowboat](#rowboat) do it')).toBe(true);
-    expect(containsRowboatAddress('@rowboat move SSO to P1')).toBe(false);
-    expect(containsRowboatAddress('the rowboat brand is growing on me')).toBe(false);
-    expect(containsRowboatAddress('the trigger is `[@rowboat](#rowboat)` in a message')).toBe(false);
-    expect(containsRowboatAddress('```\n[@rowboat](#rowboat) do the thing\n```')).toBe(false);
+    expect(containsRowboatAddress('[@spinball](#spinball) move SSO to P1')).toBe(true);
+    expect(containsRowboatAddress('yes — [@spinball](#spinball) do it')).toBe(true);
+    expect(containsRowboatAddress('@spinball move SSO to P1')).toBe(false);
+    expect(containsRowboatAddress('the spinball brand is growing on me')).toBe(false);
+    expect(containsRowboatAddress('the trigger is `[@spinball](#spinball)` in a message')).toBe(false);
+    expect(containsRowboatAddress('```\n[@spinball](#spinball) do the thing\n```')).toBe(false);
   });
 });
 
@@ -36,6 +36,6 @@ describe('decorateMentions / resolveMentions', () => {
 
   it('a bare @name or @id is prose and renders as typed', () => {
     expect(decorateMentions('@Arjun Kumar and @01M0F8S2MC8HYMF4MYWM61MR7B', names)).toBe('@Arjun Kumar and @01M0F8S2MC8HYMF4MYWM61MR7B');
-    expect(resolveMentions('mail arjun@rowboat.com', names)).toBe('mail arjun@rowboat.com');
+    expect(resolveMentions('mail arjun@spinball.com', names)).toBe('mail arjun@spinball.com');
   });
 });

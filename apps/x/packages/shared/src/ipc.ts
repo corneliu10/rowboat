@@ -3153,7 +3153,7 @@ export const ipcSchemas = {
   'todo:addItem': {
     req: z.object({
       text: z.string(),
-      // Fire the item's run immediately (composer delegate / @rowboat typed).
+      // Fire the item's run immediately (composer delegate / @spinball typed).
       run: z.boolean(),
       // Files given at creation — copied into todo/attachments and linked
       // on the item's line.
@@ -4128,7 +4128,7 @@ export const ipcSchemas = {
     }),
     res: z.object({ message: z.custom<SpacesTypes.Message>() }),
   },
-  // @rowboat in a thread (spec §8): the renderer detected an addressed message
+  // @spinball in a thread (spec §8): the renderer detected an addressed message
   // it just posted; main routes it into the thread's session (keyed on the
   // permanent root message id, creating one on first use — the queue/steer
   // machinery handles the rest). messageId is the posted feed message,
@@ -4143,7 +4143,7 @@ export const ipcSchemas = {
       messageId: z.string(),
       body: z.string(),
       // Per-turn agent options from the space composer's agent strip (shown
-      // when the draft addresses @rowboat). Absent = the assistant's defaults.
+      // when the draft addresses @spinball). Absent = the assistant's defaults.
       options: z
         .object({
           model: z.object({ provider: z.string(), model: z.string(), effort: z.enum(['low', 'medium', 'high']).optional() }).optional(),

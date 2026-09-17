@@ -1,4 +1,4 @@
-# Validates publish PRs against the Rowboat Apps registry and auto-merges on
+# Validates publish PRs against the Spinrun Apps registry and auto-merges on
 # success (spec §9.3). On any failure the PR is closed with a comment whose
 # first line is machine-readable: `rejected: <code>`.
 name: validate-and-merge

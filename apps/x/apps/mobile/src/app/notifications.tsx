@@ -31,7 +31,7 @@ export default function NotificationsScreen() {
     if (rpc) void registerWithMac(rpc).catch(() => {});
     setState(
       result === 'registered' ? null
-      : result === 'no-permission' ? 'Notifications are off in iOS Settings — enable them for Rowboat to get pushes.'
+      : result === 'no-permission' ? 'Notifications are off in iOS Settings — enable them for Spinrun to get pushes.'
       : result === 'unavailable' ? 'Simulators can’t receive pushes — try on a real device.'
       : result === 'no-orgs' ? 'Sign in to Spaces first — notifications come from your orgs.'
       : 'Could not save this right now — it will retry on the next launch.',

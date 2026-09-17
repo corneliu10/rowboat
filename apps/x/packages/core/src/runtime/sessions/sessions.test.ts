@@ -1270,7 +1270,7 @@ describe("space-thread session pins", () => {
     it("pins the thread and the spaces skill on the very first turn — no loadSkill round trip", async () => {
         const { sessions, fake } = makeSessions();
         const sessionId = await sessions.createSession({ title: "t", origin });
-        await sessions.sendMessage(sessionId, user("@rowboat move SSO to P1"), {
+        await sessions.sendMessage(sessionId, user("@spinball move SSO to P1"), {
             agent: { agentId: "copilot" },
         });
         expect(fake.createTurnInputs[0].agent).toEqual({

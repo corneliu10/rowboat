@@ -1,7 +1,7 @@
 export const skill = String.raw`
-# Rowboat Apps
+# Spinrun Apps
 
-A *Rowboat app* is a static web application the user opens inside Rowboat — its
+A *Spinrun app* is a static web application the user opens inside Spinrun — its
 own UI on its own origin, powered by their integrations and (optionally) a
 background agent. Apps live at \`~/.rowboat/apps/<folder-slug>/\` and are served
 at \`http://<folder-slug>.apps.localhost:3210/\`.
@@ -202,7 +202,7 @@ fails with "Failed to fetch" even though the endpoint works from curl.
 
 Read \`theme\` from \`/_rowboat/app\` and subscribe to theme changes; style light
 AND dark — never a hard-coded dark-only palette (\`prefers-color-scheme\` tracks
-the OS, not Rowboat):
+the OS, not Spinrun):
 \`\`\`js
 const events = new EventSource('/_rowboat/events');
 events.addEventListener('message', (e) => {

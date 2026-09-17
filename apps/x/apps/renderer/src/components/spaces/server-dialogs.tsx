@@ -17,7 +17,7 @@ import * as analytics from '@/lib/analytics'
 // from Join's ··· menu, with a way back.
 //
 // Sign-in (one session, two uses) is folded into the intent rather than a
-// door of its own: Create needs a Rowboat session first, so without one it
+// door of its own: Create needs a Spinrun session first, so without one it
 // offers the sign-in in place of the form; Join needs none up front — the
 // join itself signs the person in, and the dialog just says so.
 
@@ -156,7 +156,7 @@ function CreateServerDialog({ onClose, onDone, onJoinInstead }: {
                 toast(`Signed in — ${orgs.length} ${orgs.length === 1 ? 'server' : 'servers'} ready`, 'success')
                 onDone(orgs[0].id)
             } else {
-                toast('Signed in to Rowboat', 'success')
+                toast('Signed in to Spinrun', 'success')
             }
         } catch (err) {
             toast(err instanceof Error ? err.message : 'Sign-in failed', 'error')
@@ -192,7 +192,7 @@ function CreateServerDialog({ onClose, onDone, onJoinInstead }: {
                     <Button variant="ghost" onClick={onClose}>Cancel</Button>
                     {needsSignIn ? (
                         <Button onClick={() => void signIn()} disabled={busy !== null}>
-                            {busy === 'signin' && <Loader2 className="size-3.5 mr-1 animate-spin" />} Sign in with Rowboat
+                            {busy === 'signin' && <Loader2 className="size-3.5 mr-1 animate-spin" />} Sign in with Spinrun
                         </Button>
                     ) : (
                         <Button onClick={() => void create()} disabled={busy !== null || !name.trim() || !apexDomain}>
@@ -204,7 +204,7 @@ function CreateServerDialog({ onClose, onDone, onJoinInstead }: {
         >
             {needsSignIn ? (
                 <p className="text-sm text-muted-foreground">
-                    Sign in with your Rowboat account first — the server is yours, so it needs to know who you are. Any servers you already belong to appear right after.
+                    Sign in with your Spinrun account first — the server is yours, so it needs to know who you are. Any servers you already belong to appear right after.
                 </p>
             ) : (
                 <div>
@@ -356,7 +356,7 @@ function JoinServerDialog({ inviteUrl: initialUrl, onClose, onDone, onCreateInst
                 <FooterLink onClick={() => setEditing(true)}>Use a different link</FooterLink>
             )}
             {signedOut && url.trim() && (
-                <p className="text-xs text-muted-foreground">Joining signs you in with your Rowboat account in the browser.</p>
+                <p className="text-xs text-muted-foreground">Joining signs you in with your Spinrun account in the browser.</p>
             )}
             {busy && signedOut && <BrowserWait />}
         </Shell>
@@ -409,7 +409,7 @@ function AddressServerDialog({ onClose, onDone, onBack }: { onClose: () => void;
                     placeholder="acme.spaces.example or just the slug"
                     onKeyDown={(e) => e.key === 'Enter' && void add()}
                 />
-                <p className="mt-1 text-xs text-muted-foreground">A URL, a host, or a Rowboat server’s slug. You need to already be a member — otherwise ask for an invite link.</p>
+                <p className="mt-1 text-xs text-muted-foreground">A URL, a host, or a Spinrun server’s slug. You need to already be a member — otherwise ask for an invite link.</p>
             </div>
             {busy && <BrowserWait />}
         </Shell>

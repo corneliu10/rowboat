@@ -281,7 +281,7 @@ async function landSettled(
             void notifyIfEnabled('todo', {
                 title: '✓ To-do finished',
                 message: settled.text ?? itemText,
-                link: 'rowboat://open?type=home',
+                link: 'spinrun://open?type=home',
                 // The receipt lands visibly on Home — no toast needed while
                 // the user is already looking at the app.
                 onlyWhenBackground: true,
@@ -393,9 +393,9 @@ async function driveTurn(
                 }).catch(() => {});
                 todoBus.publish({ type: 'attention', key: norm, message: 'waiting for your approval' });
                 void notifyIfEnabled('agent_permission', {
-                    title: 'Rowboat needs an approval',
+                    title: 'Spinrun needs an approval',
                     message: itemText,
-                    link: 'rowboat://open?type=home',
+                    link: 'spinrun://open?type=home',
                 });
             }
         }
@@ -411,7 +411,7 @@ async function driveTurn(
 
 /**
  * Run one delegated item, identified by its line text. User-initiated
- * (typing @rowboat, the run chip, retry). Fire-and-forget from IPC:
+ * (typing @spinball, the run chip, retry). Fire-and-forget from IPC:
  * progress and completion arrive on the todo bus.
  */
 export async function runTodoItem(
@@ -556,9 +556,9 @@ async function driveChatTurn(
                     surfacedSuspension = true;
                     todoBus.publish({ type: 'attention', key, message: 'waiting for your approval' });
                     void notifyIfEnabled('agent_permission', {
-                        title: 'Rowboat needs an approval',
+                        title: 'Spinrun needs an approval',
                         message: truncate(message, 120),
-                        link: 'rowboat://open?type=home',
+                        link: 'spinrun://open?type=home',
                     });
                 }
                 continue;

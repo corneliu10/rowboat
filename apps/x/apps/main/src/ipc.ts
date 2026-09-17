@@ -105,7 +105,7 @@ import { consumePendingToggleMeetingNotes, setTrayRecordingState } from './tray.
 import { setMenuRecordingState } from './menu.js';
 import { closeMeetingPopup, getMeetingPopupPayload, handleMeetingPopupAction } from './meeting-popup.js';
 
-// Ambient meeting detection must ignore Rowboat's own mic use: meeting
+// Ambient meeting detection must ignore Spinrun's own mic use: meeting
 // capture and assistant voice/video calls both hold the mic. Either being
 // active suppresses "Meeting detected" prompts.
 let meetingRecordingActive = false;
@@ -1133,7 +1133,7 @@ export function setupIpcHandlers() {
       void notifyIfEnabled('meeting_notes_ready', {
         title: 'Meeting notes ready',
         message: `Your notes for "${args.title}" are ready.`,
-        link: `rowboat://open?type=file&path=${encodeURIComponent(args.notePath)}`,
+        link: `spinrun://open?type=file&path=${encodeURIComponent(args.notePath)}`,
         actionLabel: 'Open notes',
         onlyWhenBackground: true,
       });
@@ -2150,7 +2150,7 @@ export function setupIpcHandlers() {
     'migration:check-composio-google': async () => {
       return qualifyAndDisconnectComposioGoogle();
     },
-    // Rowboat Apps handlers (spec §13)
+    // Spinrun Apps handlers (spec §13)
     'apps:serverStatus': async () => {
       return appsServer.getServerStatus();
     },
@@ -2491,7 +2491,7 @@ export function setupIpcHandlers() {
         throw err;
       }
     },
-    // Managed (rowboat-mode) OAuth-redirect Picker: the Rowboat backend runs the
+    // Managed (spinrun-mode) OAuth-redirect Picker: the Spinrun backend runs the
     // pick with the company Google client; the desktop opens the start URL,
     // waits for the deep link, and imports the picked doc with the existing
     // managed token. No API key, appId, or local credentials.
@@ -3161,7 +3161,7 @@ export function setupIpcHandlers() {
       }
       return { show: false, chatDays: settings.chatDays };
     },
-    // Rowboat server (phone pairing) — client-local: answered by main, which
+    // Spinrun server (phone pairing) — client-local: answered by main, which
     // hosts the transport.
     'server:getPairingInfo': async () => {
       return getPairingInfo();

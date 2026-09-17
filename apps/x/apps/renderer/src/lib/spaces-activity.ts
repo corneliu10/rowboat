@@ -21,11 +21,11 @@ export function targetOf(orgId: string, item: Item): ActivityTarget {
     }
 }
 
-/** "Harsh", "Harsh's Rowboat", "Arjun and Harsh", "Arjun, Harsh and 2 others". */
+/** "Harsh", "Harsh's Spinrun", "Arjun and Harsh", "Arjun, Harsh and 2 others". */
 export function actorLabel(actors: Item['actors'], names: ReadonlyMap<string, string>): string {
     const one = (a: Item['actors'][number]) => {
         const name = names.get(a.memberId) ?? a.memberId
-        return a.actingMode === 'agent' ? `${name}'s ${a.agentName ?? 'Rowboat'}` : name
+        return a.actingMode === 'agent' ? `${name}'s ${a.agentName ?? 'Spinrun'}` : name
     }
     const labels = actors.map(one)
     if (labels.length <= 1) return labels[0] ?? 'Someone'

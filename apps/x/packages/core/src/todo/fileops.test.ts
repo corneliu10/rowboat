@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { isDelegated, normalizeKey, parseArchive, parseTodoFile, serializeTodoFile, subKey } from './fileops.js';
 
 const SAMPLE = `- [ ] build a deck
-- [x] @rowboat research pricing models
+- [x] @spinball research pricing models
   - → [Pricing research](knowledge/Topics/pricing.md) — 9 tools compared, 3 viable models
-- [ ] @rowboat draft replies to investor emails
+- [ ] @spinball draft replies to investor emails
   - → needs you: reply to Maya first, or wait for the call?
 - [ ] call the bank
   - → failed: Gmail sync is disconnected
@@ -38,7 +38,7 @@ describe('todo fileops parse/serialize', () => {
     });
 
     it('classifies url vs path links', () => {
-        const list = parseTodoFile('- [x] @rowboat find sources\n  - → [MDN](https://developer.mozilla.org), [notes](knowledge/Topics/x.md)\n');
+        const list = parseTodoFile('- [x] @spinball find sources\n  - → [MDN](https://developer.mozilla.org), [notes](knowledge/Topics/x.md)\n');
         const item = list.blocks[0];
         if (item.kind !== 'item') throw new Error('expected item');
         expect(item.item.receipts[0].links).toEqual([
@@ -48,13 +48,13 @@ describe('todo fileops parse/serialize', () => {
     });
 
     it('normalizes keys by whitespace and case', () => {
-        expect(normalizeKey('  @Rowboat   Research pricing MODELS ')).toEqual('@rowboat research pricing models');
+        expect(normalizeKey('  @Spinball   Research pricing MODELS ')).toEqual('@spinball research pricing models');
     });
 
     it('parses nested sub-items with scoped keys and their own receipts', () => {
         const md = `- [ ] create pitch deck
   - → outline receipt on the parent
-  - [x] @rowboat research TAM
+  - [x] @spinball research TAM
     - → [TAM research](knowledge/Topics/tam.md) — $4.2B, three segments
   - [ ] research competitors
 - [ ] send follow-up emails
@@ -65,10 +65,10 @@ describe('todo fileops parse/serialize', () => {
         const deck = items[0];
         expect(deck.receipts).toHaveLength(1);
         expect(deck.children.map(c => [c.text, c.checked, c.delegated])).toEqual([
-            ['@rowboat research TAM', true, true],
+            ['@spinball research TAM', true, true],
             ['research competitors', false, false],
         ]);
-        expect(deck.children[0].key).toEqual(subKey('create pitch deck', '@rowboat research TAM'));
+        expect(deck.children[0].key).toEqual(subKey('create pitch deck', '@spinball research TAM'));
         expect(deck.children[0].receipts[0].links).toEqual([
             { label: 'TAM research', path: 'knowledge/Topics/tam.md' },
         ]);
@@ -99,7 +99,7 @@ describe('todo fileops parse/serialize', () => {
         const archive = `
 ## 2026-07-27
 
-- [x] @rowboat research pricing
+- [x] @spinball research pricing
   - → [notes](knowledge/Topics/pricing.md)
 
 ## 2026-07-28
@@ -108,7 +108,7 @@ describe('todo fileops parse/serialize', () => {
 `;
         const entries = parseArchive('2026-07', archive);
         expect(entries.map(e => [e.item.text, e.date, e.item.checked])).toEqual([
-            ['@rowboat research pricing', '2026-07-27', true],
+            ['@spinball research pricing', '2026-07-27', true],
             ['call the bank', '2026-07-28', false],
         ]);
         // blockIndex points at the item inside the parsed file, so a
@@ -120,8 +120,8 @@ describe('todo fileops parse/serialize', () => {
         }
     });
 
-    it('detects @rowboat mentions as delegation', () => {
-        expect(isDelegated('@rowboat do the thing')).toBe(true);
+    it('detects @spinball mentions as delegation', () => {
+        expect(isDelegated('@spinball do the thing')).toBe(true);
         expect(isDelegated('email arjun@rowboatlabs.com')).toBe(false);
         expect(isDelegated('plain item')).toBe(false);
     });

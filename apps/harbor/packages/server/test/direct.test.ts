@@ -20,7 +20,7 @@ let gagan: ReturnType<typeof restClient>;
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'Harsh' },
@@ -186,7 +186,7 @@ describe.each([['memory'], ['postgres']] as const)('direct messages (%s store)',
   });
 
   it('the agent face sees DMs only when asked, with kind and participants, and works on them like any space', async () => {
-    const agent: Client = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
+    const agent: Client = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
     const plain = await callStructured<{ spaces: Array<{ id: string; kind: string }> }>(agent, 'list_spaces', {});
     expect(plain.spaces.every((s) => s.kind === 'shared')).toBe(true);
     const all = await callStructured<{ spaces: Array<{ id: string; kind: string; participants?: string[]; self?: boolean }> }>(
@@ -207,7 +207,7 @@ describe.each([['memory'], ['postgres']] as const)('direct messages (%s store)',
       });
       const stream = await harsh.get(`/v1/spaces/${dm.id}/stream`);
       const mine = stream.body.messages.find((m: any) => m.id === posted.messageId);
-      expect(mine.author).toMatchObject({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' });
+      expect(mine.author).toMatchObject({ memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinball' });
     } finally {
       await agent.close();
     }

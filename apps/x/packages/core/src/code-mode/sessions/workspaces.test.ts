@@ -79,6 +79,14 @@ describe('shared worktree sessions', () => {
         expect(created.worktree?.baseBranch).toBe('release');
         expect(mocks.worktreeAdd.mock.calls[0][3]).toBe('release');
     });
+    it('creates new worktree branches under the spinrun/ prefix', async () => {
+        const { service } = setup();
+        const created = await service.create({ projectId: 'p1', agent: 'codex', isolation: 'worktree' });
+        // New sessions use spinrun/; stored legacy branches (rowboat/* fixtures
+        // above) keep working via the `??` fallback in service.ts.
+        expect(created.worktree?.branch).toBe('spinrun/s2');
+        expect(mocks.worktreeAdd.mock.calls[0][2]).toBe('spinrun/s2');
+    });
     it('shares merge metadata across every session', async () => {
         mocks.mergeBack.mockResolvedValue({ ok: true, message: 'merged' });
         const { service, records } = setup([initial, { ...initial, id: 's2' }]);

@@ -29,7 +29,7 @@ const MAX_SIGNALS = 200;
 
 const PREFS_TEMPLATE = `# Planner preferences
 
-Rowboat's morning planner reads this file before proposing anything.
+Spinrun's morning planner reads this file before proposing anything.
 
 ## Your rules
 
@@ -38,7 +38,7 @@ Rowboat's morning planner reads this file before proposing anything.
 
 ## Learned
 
-<!-- Rules Rowboat inferred from what you keep, run, and dismiss.
+<!-- Rules Spinrun inferred from what you keep, run, and dismiss.
      Delete any you disagree with, or override them above. -->
 `;
 

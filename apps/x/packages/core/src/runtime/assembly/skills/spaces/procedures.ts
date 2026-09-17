@@ -19,14 +19,14 @@ export function threadProcedure(ctx?: ThreadContext): string {
     const root = ctx ? ctx.threadRootId : "<rootId>";
     const where = ctx
         ? `You are in a session bound to one thread in the space "${ctx.spaceName}" (spaceId ${ctx.spaceId}, thread root ${ctx.threadRootId})${ctx.org ? `, org "${ctx.org}" — pass org: "${ctx.org}" on every spaces tool call` : ""}. ` +
-          "Messages here arrive because your person typed `@rowboat …` in that thread; the whole room saw the ask."
-        : "Your person typed `@rowboat …` in a space. The message tells you the space and the thread root. The whole room saw the ask.";
+          "Messages here arrive because your person typed `@spinball …` in that thread; the whole room saw the ask."
+        : "Your person typed `@spinball …` in a space. The message tells you the space and the thread root. The whole room saw the ask.";
     return [
         "## When invoked from a thread",
         "",
-        `${where} The room reads everything you post, so your receipt is a reaction on the invoking message (its id is in the \`[@rowboat …]\` header) — a reply only when the ask wants words.`,
+        `${where} The room reads everything you post, so your receipt is a reaction on the invoking message (its id is in the \`[@spinball …]\` header) — a reply only when the ask wants words.`,
         "",
-        "- `react` 👀 before you start, and on any follow-up `@rowboat` message that arrives while you work (fold those in). That is the whole \"on it\" — never post one.",
+        "- `react` 👀 before you start, and on any follow-up `@spinball` message that arrives while you work (fold those in). That is the whole \"on it\" — never post one.",
         "- If the task is about the conversation, `read_thread` first.",
         `- Do the work. Any file change's \`reason\` (\`create_asset\`, \`propose_change\`, \`move_asset\`, …) ends with \` · thread:${root}\` — that files the change under this thread.`,
         "- Done: swap 👀 for ✅ and post nothing when the outcome speaks for itself — a file edited, a thread titled, a message pinned or scheduled. The team can open the file.",

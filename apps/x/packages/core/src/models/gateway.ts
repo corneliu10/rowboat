@@ -6,7 +6,7 @@ import { API_URL } from '../config/env.js';
 import { annotateReasoningFlags } from './models-dev.js';
 
 // Exported for transport-level verification; production passes this directly
-// to the Rowboat OpenRouter provider.
+// to the Spinrun OpenRouter provider.
 export const authedFetch: typeof fetch = async (input, init) => {
     const token = await getAccessToken();
     const headers = new Headers(init?.headers);
@@ -21,7 +21,7 @@ export const authedFetch: typeof fetch = async (input, init) => {
 export function getGatewayProvider(): ProviderV4 {
     return createOpenRouter({
         baseURL: `${API_URL}/v1/llm`,
-        apiKey: 'managed-by-rowboat',
+        apiKey: 'managed-by-spinrun',
         fetch: authedFetch,
     });
 }
@@ -52,7 +52,7 @@ export async function listGatewayModels(): Promise<{ providers: ProviderSummary[
     return {
         providers: [{
             id: 'rowboat',
-            name: 'Rowboat',
+            name: 'Spinrun',
             models,
         }],
     };

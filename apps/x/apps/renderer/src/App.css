@@ -83,7 +83,7 @@
 }
 
 /* Inbox surface — mapped onto the app's design tokens so it follows the same
-   palette, accent, and theme switching as the rest of Rowboat. Light/dark is
+   palette, accent, and theme switching as the rest of Spinrun. Light/dark is
    handled by the app tokens (:root / .dark), so no separate .light override. */
 .gmail-shell {
   --gm-bg: var(--background);

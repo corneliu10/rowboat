@@ -25,7 +25,7 @@ import { SPACES_ENABLED } from "@/lib/feature-flags"
 import * as analytics from "@/lib/analytics"
 import { useTheme } from "@/contexts/theme-context"
 import { toast } from "sonner"
-import { AnthropicIcon, DiscordIcon, GitHubIcon, OpenAIIcon } from "@/components/onboarding/provider-icons"
+import { AnthropicIcon, GitHubIcon, OpenAIIcon } from "@/components/onboarding/provider-icons"
 import { AccountSettings } from "@/components/settings/account-settings"
 import { ConnectedAccountsSettings } from "@/components/settings/connected-accounts-settings"
 import { MobileChannelsSettings } from "@/components/settings/mobile-channels-settings"
@@ -56,7 +56,7 @@ const tabs: TabConfig[] = [
     id: "account",
     label: "Account",
     icon: User,
-    description: "Manage your Rowboat account",
+    description: "Manage your Spinrun account",
   },
   {
     id: "connections",
@@ -68,13 +68,13 @@ const tabs: TabConfig[] = [
     id: "mobile",
     label: "Mobile",
     icon: Smartphone,
-    description: "Chat with Rowboat from WhatsApp or Telegram",
+    description: "Chat with Spinrun from WhatsApp or Telegram",
   },
   {
     id: "phone",
     label: "Phone app",
     icon: QrCode,
-    description: "Pair the Rowboat phone app with this Mac",
+    description: "Pair the Spinrun phone app with this Mac",
   },
   {
     id: "models",
@@ -125,7 +125,7 @@ const tabs: TabConfig[] = [
     id: "permissions",
     label: "Permissions",
     icon: ShieldCheck,
-    description: "What Rowboat can access, and how to grant it",
+    description: "What Spinrun can access, and how to grant it",
   },
   {
     id: "note-tagging",
@@ -198,13 +198,13 @@ function UpdateSettings() {
       body = status.reason === 'not-in-applications' ? (
         <p className="text-xs text-muted-foreground flex items-start gap-1.5">
           <AlertTriangle className="size-3.5 shrink-0 mt-0.5 text-amber-500" />
-          Quit Rowboat and move it to the Applications folder to enable automatic updates.
+          Quit Spinrun and move it to the Applications folder to enable automatic updates.
         </p>
       ) : (
         <p className="text-xs text-muted-foreground">
           {"Automatic updates aren't available on this platform. "}
           <a
-            href="https://github.com/rowboatlabs/rowboat/releases/latest"
+            href="https://github.com/corneliu10/rowboat/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-foreground transition-colors"
@@ -228,7 +228,7 @@ function UpdateSettings() {
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
             {status.newVersion
-              ? `Rowboat ${status.newVersion} is ready to install.`
+              ? `Spinrun ${status.newVersion} is ready to install.`
               : 'An update is ready to install.'}
           </p>
           <Button
@@ -264,7 +264,7 @@ function UpdateSettings() {
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">
               <CheckCircle2 className="size-3.5 text-[var(--rowboat-success)] shrink-0" />
               <span>
-                {`You're up to date! Rowboat v${status.version} is the latest version.`}
+                {`You're up to date! Spinrun v${status.version} is the latest version.`}
                 <span className="text-muted-foreground/60">
                   {` Checked at ${new Date(status.lastCheckedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}.`}
                 </span>
@@ -284,7 +284,7 @@ function UpdateSettings() {
     <div className="space-y-3">
       <div>
         <h4 className="text-sm font-medium">Updates</h4>
-        <p className="text-xs text-muted-foreground mt-0.5">Rowboat v{status.version}</p>
+        <p className="text-xs text-muted-foreground mt-0.5">Spinrun v{status.version}</p>
       </div>
       {body}
     </div>
@@ -305,39 +305,28 @@ function HelpSettings() {
       <Button
         variant="outline"
         className="w-full justify-start gap-3 h-auto py-3"
-        onClick={() => window.open("https://github.com/rowboatlabs/rowboat/issues/new", "_blank")}
+        onClick={() => window.open("https://github.com/corneliu10/rowboat/issues/new", "_blank")}
       >
         <GitHubIcon className="size-5 shrink-0" />
         <div className="flex flex-col items-start">
           <span className="text-sm font-medium">Report a bug</span>
-          <span className="text-xs text-muted-foreground">Send feedback to the Rowboat team</span>
+          <span className="text-xs text-muted-foreground">Send feedback to the Spinrun team</span>
         </div>
       </Button>
       <Button
         variant="outline"
         className="w-full justify-start gap-3 h-auto py-3"
-        onClick={() => window.open("https://discord.com/invite/wajrgmJQ6b", "_blank")}
-      >
-        <DiscordIcon className="size-5 shrink-0" />
-        <div className="flex flex-col items-start">
-          <span className="text-sm font-medium">Join our Discord</span>
-          <span className="text-xs text-muted-foreground">Chat with the community</span>
-        </div>
-      </Button>
-      <Button
-        variant="outline"
-        className="w-full justify-start gap-3 h-auto py-3"
-        onClick={() => window.open("mailto:contact@rowboatlabs.com", "_blank")}
+        onClick={() => window.open("mailto:support@spinrun.ai", "_blank")}
       >
         <Mail className="size-5 shrink-0" />
         <div className="flex flex-col items-start">
           <span className="text-sm font-medium">Contact us</span>
-          <span className="text-xs text-muted-foreground">contact@rowboatlabs.com</span>
+          <span className="text-xs text-muted-foreground">support@spinrun.ai</span>
         </div>
       </Button>
       <div className="flex gap-3 text-xs text-muted-foreground">
         <a
-          href="https://www.rowboatlabs.com/terms-of-service"
+          href="https://spinrun.ai/terms-of-service"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-foreground transition-colors"
@@ -346,7 +335,7 @@ function HelpSettings() {
         </a>
         <span>·</span>
         <a
-          href="https://www.rowboatlabs.com/privacy-policy"
+          href="https://spinrun.ai/privacy-policy"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-foreground transition-colors"
@@ -412,9 +401,9 @@ function LaunchAtLoginSetting() {
   return (
     <div className="flex items-center justify-between gap-4 rounded-md border px-3 py-2.5">
       <div className="min-w-0">
-        <div className="text-sm font-medium">Start Rowboat when you log in</div>
+        <div className="text-sm font-medium">Start Spinrun when you log in</div>
         <div className="text-xs text-muted-foreground mt-0.5">
-          Keeps Rowboat in your menu bar so meeting notes and notifications work without opening the app
+          Keeps Spinrun in your menu bar so meeting notes and notifications work without opening the app
         </div>
       </div>
       <Switch checked={openAtLogin} onCheckedChange={handleToggle} disabled={!loaded} />
@@ -1546,7 +1535,7 @@ const ALL_NOTIFICATION_CATEGORIES: { key: NotificationCategoryKey; label: string
   {
     key: "meeting_detection",
     label: "Meeting detection",
-    description: "A popup offering to take notes when Rowboat notices you're in a call or meeting. Nothing records until you accept.",
+    description: "A popup offering to take notes when Spinrun notices you're in a call or meeting. Nothing records until you accept.",
   },
   {
     key: "meeting_notes_ready",
@@ -1612,7 +1601,7 @@ function NotificationSettings({ dialogOpen }: { dialogOpen: boolean }) {
   return (
     <div className="space-y-5">
       <div className="text-sm text-muted-foreground leading-relaxed">
-        Choose which desktop notifications Rowboat sends you. Ambient notifications are only shown
+        Choose which desktop notifications Spinrun sends you. Ambient notifications are only shown
         when the app is in the background.
       </div>
 
@@ -2088,7 +2077,7 @@ export function SettingsDialog({ children, defaultTab = "account", open: control
               <h3 className="text-lg font-semibold tracking-tight">{activeTabConfig.label}</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 {activeTab === "models"
-                  ? "Choose the models Rowboat uses for chat and background work."
+                  ? "Choose the models Spinrun uses for chat and background work."
                   : activeTabConfig.description}
               </p>
             </div>
@@ -2134,7 +2123,7 @@ export function SettingsDialog({ children, defaultTab = "account", open: control
                     <h4 className="text-sm font-semibold">{rowboatConnected ? "Your own providers" : "Providers"}</h4>
                     <p className="text-xs text-muted-foreground">
                       {rowboatConnected
-                        ? "Connect your own API keys or local runtimes (Ollama, LM Studio). Their models appear in every picker alongside your Rowboat models, and are billed to you directly."
+                        ? "Connect your own API keys or local runtimes (Ollama, LM Studio). Their models appear in every picker alongside your Spinrun models, and are billed to you directly."
                         : "Connect API keys or local runtimes (Ollama, LM Studio). Every connected provider's models appear in the pickers above."}
                     </p>
                     <ProvidersSection dialogOpen={open} />

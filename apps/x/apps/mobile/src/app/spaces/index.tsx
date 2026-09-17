@@ -6,7 +6,7 @@ import { ActivityIndicator, Pressable, RefreshControl, ScrollView, Text, View } 
 
 import { useSpacesAccount, type SpacesOrg } from '@/lib/spaces/account';
 import { SpacesClient } from '@/lib/spaces/client';
-import type { Member, Space } from '@rowboat/spaces-protocol';
+import type { Member, Space } from '@spinball/spaces-protocol';
 import { useColors } from '@/theme/colors';
 
 // Spaces home: signed out → one sign-in button; signed in → the user's orgs as
@@ -55,7 +55,7 @@ function SignIn() {
           <Image source="sf:sailboat" style={{ width: 48, height: 48 }} tintColor={colors.label} />
           <View style={{ alignItems: 'center', gap: 4 }}>
             <Text style={{ fontSize: 26, fontWeight: '700', color: colors.label }}>Welcome to Spaces</Text>
-            <Text style={{ fontSize: 14, color: colors.tertiaryLabel }}>by Rowboat</Text>
+            <Text style={{ fontSize: 14, color: colors.tertiaryLabel }}>by Spinrun</Text>
           </View>
         </View>
 
@@ -73,7 +73,7 @@ function SignIn() {
           <FeatureRow
             icon="sf:sparkles"
             title="Agents included"
-            detail="Mention @rowboat and your agent picks it up — as you, for you."
+            detail="Mention @spinball and your agent picks it up — as you, for you."
           />
         </View>
       </View>
@@ -89,11 +89,11 @@ function SignIn() {
         >
           {busy
             ? <ActivityIndicator color={colors.background} />
-            : <Text style={{ fontSize: 16, fontWeight: '600', color: colors.background }}>Sign in with Rowboat</Text>}
+            : <Text style={{ fontSize: 16, fontWeight: '600', color: colors.background }}>Sign in with Spinrun</Text>}
         </Pressable>
         <Pressable onPress={() => router.push('/pairing')} style={{ alignItems: 'center', padding: 4 }}>
           <Text style={{ fontSize: 14, color: colors.secondaryLabel }}>
-            Use Rowboat on your Mac? <Text style={{ fontWeight: '600', color: colors.label }}>Connect your Mac</Text>
+            Use Spinrun on your Mac? <Text style={{ fontWeight: '600', color: colors.label }}>Connect your Mac</Text>
           </Text>
         </Pressable>
         {error ? <Text style={{ fontSize: 13, textAlign: 'center', color: colors.destructive }}>{error}</Text> : null}

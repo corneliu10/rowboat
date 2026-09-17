@@ -7,19 +7,19 @@ import type { Mention } from '@/components/ai-elements/prompt-input'
 
 const mentions: Mention[] = [
   { kind: 'file', id: 'm1', path: 'knowledge/notes.md', displayName: 'notes' },
-  { kind: 'space', id: 'm2', orgId: 'org-1', orgName: 'rowboat', spaceId: '01SPACE', displayName: 'Design' },
+  { kind: 'space', id: 'm2', orgId: 'org-1', orgName: 'spinrun', spaceId: '01SPACE', displayName: 'Design' },
   {
     kind: 'board',
     id: 'm3',
     orgId: 'org-1',
-    orgName: 'rowboat',
+    orgName: 'spinrun',
     spaceId: '01SPACE',
     spaceName: 'Design',
     assetId: '01BOARD',
     path: 'whiteboards/roadmap.excalidraw',
     displayName: 'roadmap',
   },
-  { kind: 'member', id: 'm4', orgId: 'org-1', orgName: 'rowboat', memberId: '01HARSH', displayName: 'Harsh Kumar' },
+  { kind: 'member', id: 'm4', orgId: 'org-1', orgName: 'spinrun', memberId: '01HARSH', displayName: 'Harsh Kumar' },
 ]
 
 describe('splitMentions', () => {
@@ -27,18 +27,18 @@ describe('splitMentions', () => {
     const { fileMentions, spaceMentions } = splitMentions(mentions)
     expect(fileMentions.map((f) => f.path)).toEqual(['knowledge/notes.md'])
     expect(spaceMentions).toEqual([
-      { kind: 'space', orgId: 'org-1', orgName: 'rowboat', spaceId: '01SPACE', name: 'Design' },
+      { kind: 'space', orgId: 'org-1', orgName: 'spinrun', spaceId: '01SPACE', name: 'Design' },
       {
         kind: 'board',
         orgId: 'org-1',
-        orgName: 'rowboat',
+        orgName: 'spinrun',
         spaceId: '01SPACE',
         spaceName: 'Design',
         assetId: '01BOARD',
         path: 'whiteboards/roadmap.excalidraw',
         name: 'roadmap',
       },
-      { kind: 'member', orgId: 'org-1', orgName: 'rowboat', memberId: '01HARSH', displayName: 'Harsh Kumar' },
+      { kind: 'member', orgId: 'org-1', orgName: 'spinrun', memberId: '01HARSH', displayName: 'Harsh Kumar' },
     ])
   })
 

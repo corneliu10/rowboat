@@ -13,7 +13,7 @@ export interface ModelSelection extends ModelRef {
 }
 
 // One picker group per connected provider, straight from the unified model
-// catalog (models:list → core/models/catalog.ts). Every provider — Rowboat
+// catalog (models:list → core/models/catalog.ts). Every provider — Spinrun
 // gateway, ChatGPT subscription (codex), BYOK keys, local endpoints — comes
 // through the same pipeline with a resolved list and a status; there is no
 // renderer-side fetching or per-flavor special casing.
@@ -172,7 +172,7 @@ function wireGlobalEvents(): void {
   window.addEventListener('models-config-changed', refetch)
   wiredCleanups = [
     () => window.removeEventListener('models-config-changed', refetch),
-    // Rowboat sign-in/out swaps the provider set. Despite the name, main
+    // Spinrun sign-in/out swaps the provider set. Despite the name, main
     // broadcasts this channel on every OAuth state change — including
     // disconnect (disconnectProvider emits { provider, success: false }).
     window.ipc.on('oauth:didConnect', refetch),

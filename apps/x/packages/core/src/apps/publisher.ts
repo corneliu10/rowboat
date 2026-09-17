@@ -128,12 +128,12 @@ async function collectSourceFiles(dir: string, rel = ''): Promise<string[]> {
 function generatedReadme(manifest: RowboatAppManifest): string {
     return `# ${manifest.name}
 
-${manifest.description || 'A Rowboat app.'}
+${manifest.description || 'A Spinrun app.'}
 
-## Install in Rowboat
+## Install in Spinrun
 
-Open Rowboat → Apps → Catalog → search for **${manifest.name}** → Install.
-${manifest.agents.length ? `\nBundled background agents: ${manifest.agents.map((a) => `\`${a}\``).join(', ')} (installed disabled; enable them in Rowboat).\n` : ''}`;
+Open Spinrun → Apps → Catalog → search for **${manifest.name}** → Install.
+${manifest.agents.length ? `\nBundled background agents: ${manifest.agents.map((a) => `\`${a}\``).join(', ')} (installed disabled; enable them in Spinrun).\n` : ''}`;
 }
 
 function generatedLicense(holder: string): string {

@@ -11,6 +11,7 @@ export * from './events.js';
 export * from './invite.js';
 export * from './search.js';
 export * from './mentions.js';
+export * from './brand.js';
 export * from './api.js';
 export * from './mcp.js';
 export * from './errors.js';

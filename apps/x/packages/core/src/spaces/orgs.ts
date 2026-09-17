@@ -15,15 +15,15 @@ import { SpacesLive } from './live.js';
 //
 // Three auth kinds (2026-09-14, one session two uses — auth/tokens.ts):
 //
-//   session  a MANAGED org (one on the Rowboat deployment): the org trusts
-//            the same login desk the Rowboat account comes from, so the
+//   session  a MANAGED org (one on the Spinrun deployment): the org trusts
+//            the same login desk the Spinrun account comes from, so the
 //            record holds no tokens — every request borrows the account's
 //            session. These records are a CACHE of the apex's "my orgs"
 //            listing (oauth.ts syncManagedOrgs): rebuilt on sign-in, launch
 //            and focus, dropped when the session goes.
 //   oauth    a FOREIGN org (self-hosted Harbor on its own login desk): the
 //            record owns its issuer, client id and tokens, exactly as before.
-//            An `oauth` record whose issuer IS the Rowboat desk — written by
+//            An `oauth` record whose issuer IS the Spinrun desk — written by
 //            builds before `session` existed — is treated as session-backed
 //            at every read (its stored tokens are ignored, never migrated);
 //            the next sync rewrites it as `session`.
@@ -33,7 +33,7 @@ import { SpacesLive } from './live.js';
 // refresh is single-flight per org and the new refresh token is persisted
 // BEFORE the new access token is handed out. A dead refresh marks the org
 // needs-relogin (`auth.error`) — visible and gentle, never a silently failing
-// org (spec §4). The Rowboat session's own refresh lives in auth/tokens.ts.
+// org (spec §4). The Spinrun session's own refresh lives in auth/tokens.ts.
 
 export interface OrgOAuthTokens {
   access: string;
@@ -45,7 +45,7 @@ export interface OrgOAuthTokens {
 export type OrgAuth =
   | { kind: 'dev'; memberId: string }
   | {
-      /** Managed org: borrows the Rowboat account session (auth/tokens.ts). */
+      /** Managed org: borrows the Spinrun account session (auth/tokens.ts). */
       kind: 'session';
       issuer: string;
       memberId: string;
@@ -65,7 +65,7 @@ export interface OrgRecord {
   /** Local identifier (not the org address — addresses can change via aliases). */
   id: string;
   name: string;
-  /** The org address links are minted on, e.g. localhost:4272 or acme.rowboat.space. */
+  /** The org address links are minted on, e.g. localhost:4272 or acme.spinball.space. */
   address: string;
   /** Where to reach it, scheme included, e.g. http://localhost:4272. */
   baseUrl: string;
@@ -104,7 +104,7 @@ let managedIssuerFailedAt = 0;
 const MANAGED_ISSUER_RETRY_MS = 60_000;
 
 /**
- * The login desk the Rowboat account comes from — `<supabaseUrl>/auth/v1`,
+ * The login desk the Spinrun account comes from — `<supabaseUrl>/auth/v1`,
  * from the api's /v1/config — which is also the issuer every managed org
  * pins. Resolved once per process; null when the config cannot be fetched
  * (offline first launch — retried a minute later, not on every call), in
@@ -135,7 +135,7 @@ export function sameIssuer(a: string, b: string): boolean {
 }
 
 /**
- * Does this org ride the Rowboat session? `session` records by definition;
+ * Does this org ride the Spinrun session? `session` records by definition;
  * pre-`session` `oauth` records by issuer (their stored tokens are ignored).
  */
 export async function isSessionBacked(auth: OrgAuth): Promise<boolean> {
@@ -246,7 +246,7 @@ function deriveWithNames(
       url: `${org.baseUrl}/mcp`,
       headers: {
         authorization: `Bearer ${currentBearer(org.auth, session.bearer, sessionBacked)}`,
-        'x-agent-name': 'Rowboat',
+        'x-agent-name': 'Spinrun',
       },
     };
     nameByOrgId[org.id] = name;
@@ -445,7 +445,7 @@ export function upsertOAuthOrg(input: {
 /**
  * How the renderer should show an org's auth: its kind, and the one gentle
  * error state — a foreign org whose refresh died, or a session-backed org
- * with no Rowboat session (signed out, or a pre-`session` record after an
+ * with no Spinrun session (signed out, or a pre-`session` record after an
  * upgrade). Both read as "Sign in again" in the sidebar.
  */
 export async function describeOrgAuth(record: OrgRecord): Promise<{
@@ -455,7 +455,7 @@ export async function describeOrgAuth(record: OrgRecord): Promise<{
   if (record.auth.kind === 'dev') return { authKind: 'dev' };
   if (await isSessionBacked(record.auth)) {
     const session = await readSession();
-    if (!session) return { authKind: 'session', authError: 'Sign in with your Rowboat account' };
+    if (!session) return { authKind: 'session', authError: 'Sign in with your Spinrun account' };
     return { authKind: 'session', ...(session.error ? { authError: session.error } : {}) };
   }
   if (record.auth.kind === 'oauth') {
@@ -579,7 +579,7 @@ export function applyManagedListing(listing: ManagedOrgListing[], input: { apexO
   return readConfig().orgs;
 }
 
-/** No Rowboat session (signed out): the managed orgs that borrowed it go too. */
+/** No Spinrun session (signed out): the managed orgs that borrowed it go too. */
 export function dropSessionOrgs(): void {
   const config = readConfig();
   const dropped = config.orgs.filter((o) => o.auth.kind === 'session');

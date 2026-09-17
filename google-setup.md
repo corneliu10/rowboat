@@ -1,6 +1,6 @@
-# Connecting Google to Rowboat
+# Connecting Google to Spinrun
 
-Rowboat requires Google OAuth credentials (Client ID and Client Secret) to connect to Gmail, Calendar, and Drive. Follow the steps below to generate them.
+Spinrun requires Google OAuth credentials (Client ID and Client Secret) to connect to Gmail, Calendar, and Drive. Follow the steps below to generate them.
 
 ---
 
@@ -21,12 +21,14 @@ Go to:
 https://console.cloud.google.com/projectcreate
 
 - Click **Create Project**
-- Give it a name (e.g. `Rowboat Integration`)
+- Give it a name (e.g. `Spinrun Integration`)
 - Click **Create**
 
 Once created, make sure the new project is selected in the top project dropdown.
 
 ![Select the new project in the dropdown](assets/google-setup/01-select-project-dropdown.png)
+
+Screenshots below show the previous UI.
 
 ---
 
@@ -64,7 +66,7 @@ https://console.cloud.google.com/auth/branding
 
 ### App Information
 
-- App name: (e.g. `Rowboat`)
+- App name: (e.g. `Spinrun`)
 - User support email: Your email
 
 ### Audience
@@ -94,7 +96,7 @@ https://console.cloud.google.com/auth/audience
 Under **Test Users**:
 
 - Click **Add Users**
-- Add the email address you plan to connect with Rowboat
+- Add the email address you plan to connect with Spinrun
 
 Save changes.
 
@@ -116,7 +118,7 @@ Select:
 
 **Web application**
 
-- Name it anything (e.g. `Rowboat Desktop`)
+- Name it anything (e.g. `Spinrun`)
 
 ### Authorized redirect URIs
 
@@ -137,9 +139,9 @@ After creation, Google will show:
 - **Client ID**
 - **Client Secret**
 
-Copy **both values** and paste them into Rowboat when prompted.
+Copy **both values** and paste them into Spinrun when prompted.
 
-![Enter credentials in Rowboat](assets/google-setup/07-enter-credentials.png)
+![Enter credentials in Spinrun](assets/google-setup/07-enter-credentials.png)
 
 ---
 

@@ -229,11 +229,13 @@ module.exports = {
         appBundleId: brand.appBundleId,
         appCategoryType: 'public.app-category.productivity',
         protocols: [
-            { name: brand.productName, schemes: [brand.deepLinkScheme] },
+            // Intentional dual value for one release: spinrun:// primary, rowboat:// fallback so old invite links still open.
+            { name: brand.productName, schemes: [brand.deepLinkScheme, "rowboat"] },
         ],
         extendInfo: {
-            NSAudioCaptureUsageDescription: 'Rowboat needs access to system audio to transcribe meetings from other apps (Zoom, Meet, etc.)',
-            NSCameraUsageDescription: 'Rowboat uses your camera in video chat mode so the assistant can see you and give feedback (e.g. pitch practice).',
+            CFBundleDisplayName: brand.productName,
+            NSAudioCaptureUsageDescription: 'Spinrun needs access to system audio to transcribe meetings from other apps (Zoom, Meet, etc.)',
+            NSCameraUsageDescription: 'Spinrun uses your camera in video chat mode so the assistant can see you and give feedback (e.g. pitch practice).',
         },
         // Signs the packaged app's executables (rowboat.exe etc.); the Squirrel
         // maker below separately signs the installer it produces.
@@ -309,7 +311,7 @@ module.exports = {
                     bin: brand.executableName,
                     description: 'AI coworker with memory',
                     maintainer: updateOwner,
-                    homepage: 'https://rowboatlabs.com',
+                    homepage: 'https://spinrun.ai',
                     icon: path.join(__dirname, 'icons/icon.png'),
                     mimeType: [`x-scheme-handler/${brand.deepLinkScheme}`],
                 }
@@ -322,7 +324,7 @@ module.exports = {
                     name: `${brand.productName}-linux`,
                     bin: brand.executableName,
                     description: 'AI coworker with memory',
-                    homepage: 'https://rowboatlabs.com',
+                    homepage: 'https://spinrun.ai',
                     icon: path.join(__dirname, 'icons/icon.png'),
                     mimeType: [`x-scheme-handler/${brand.deepLinkScheme}`],
                 }
@@ -338,7 +340,7 @@ module.exports = {
                 executableName: brand.executableName,
                 description: 'AI coworker with memory',
                 maintainer: updateOwner,
-                homepage: 'https://rowboatlabs.com',
+                homepage: 'https://spinrun.ai',
                 license: 'Apache',
                 icon: path.join(__dirname, 'icons/icon.png'),
                 mimeType: [`x-scheme-handler/${brand.deepLinkScheme}`],

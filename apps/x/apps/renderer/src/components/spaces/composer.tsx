@@ -24,13 +24,14 @@ import { containsRowboatAddress } from '@/lib/spaces-mentions'
 import { schedulePresets } from '@/lib/spaces-schedule'
 import { blobAppUrl, blobWireUrl, formatBytes, isImageMime } from '@/lib/spaces-presentation'
 import { toast } from '@/lib/toast'
+import { brand } from '@x/shared/dist/brand.js'
 
 // The space composer. A plain message box — Enter sends, Shift+Enter breaks a
 // line — with two things layered on: `@` autocompletes the org's people,
-// @here (notify everyone online), @rowboat, the org's spaces (#Name
+// @here (notify everyone online), @spinball, the org's spaces (#Name
 // references) and — once a query exists — files from every shared space
 // (picked files land as plain markdown links),
-// and the moment the draft addresses @rowboat, a strip of agent options
+// and the moment the draft addresses @spinball, a strip of agent options
 // (model · permissions · search · terminal) appears; they ride along with the
 // invocation for that one turn. The message itself always goes to the team.
 //
@@ -53,7 +54,7 @@ interface AttachmentState {
 }
 
 
-/** Per-turn agent options, sent with the invocation when the draft addresses @rowboat. */
+/** Per-turn agent options, sent with the invocation when the draft addresses @spinball. */
 export interface AgentOptions {
     model?: { provider: string; model: string; effort?: 'low' | 'medium' | 'high' }
     permissionMode?: 'auto' | 'manual'
@@ -72,8 +73,8 @@ export interface SlashCommand {
 
 type CommandEntry = Omit<SlashCommand, 'run'> & { run?: SlashCommand['run'] }
 
-/** Built into the composer itself: /ask rewrites to an @rowboat message and sends. */
-const ASK_COMMAND: CommandEntry = { name: 'ask', args: '<question>', hint: 'Ask your Rowboat — same as @rowboat' }
+/** Built into the composer itself: /ask rewrites to an @spinball message and sends. */
+const ASK_COMMAND: CommandEntry = { name: 'ask', args: '<question>', hint: 'Ask your Spinrun — same as @spinball' }
 
 /** A draft that IS a command: "/name" or "/name args". */
 const COMMAND_RE = /^\/([a-zA-Z]+)(?:\s+([\s\S]*))?$/
@@ -107,7 +108,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
     autoFocus?: boolean
     /** Called on every keystroke — drives the typing presence lease. */
     onType?: () => void
-    /** Prefill (e.g. "Ask @rowboat about this"); a new nonce re-applies it. `append` adds to the draft instead of replacing it. */
+    /** Prefill (e.g. "Ask @spinball about this"); a new nonce re-applies it. `append` adds to the draft instead of replacing it. */
     seed?: { text: string; nonce: number; append?: boolean } | null
     /**
      * Persist the unsent text under this key (per install, like read marks) —
@@ -133,7 +134,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
     // ------------------------------------------------------------------
     // The rich input (TipTap). The editor owns what you see; `draft` is the
     // serialized markdown mirror, re-derived on every update, so drafts,
-    // slash commands, @rowboat detection and buildBody all keep reading the
+    // slash commands, @spinball detection and buildBody all keep reading the
     // exact string a textarea used to hold. Editor callbacks go through
     // latest-closure refs — the instance is created once per mount.
     // ------------------------------------------------------------------
@@ -264,7 +265,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
     const editorDropGuard = (event: DragEvent): boolean =>
         !!(refs && event.dataTransfer && Array.from(event.dataTransfer.types).includes('Files'))
 
-    // Agent options — only meaningful (and only shown) when @rowboat is addressed.
+    // Agent options — only meaningful (and only shown) when @spinball is addressed.
     const [model, setModel] = useState<ModelSelection | null>(null)
     const [permissionMode, setPermissionMode] = useState<'auto' | 'manual'>('auto')
     const [searchEnabled, setSearchEnabled] = useState(false)
@@ -283,7 +284,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
 
     // Apply a new seed by rebuilding the doc from its markdown. Append (the
     // profile popover's "Mention") joins a draft in progress; a plain seed
-    // replaces it (quote-reply, ask-rowboat). Caret lands at the end.
+    // replaces it (quote-reply, ask-spinball). Caret lands at the end.
     useEffect(() => {
         if (!editor || !seed || seed.nonce === appliedSeed) return
         setAppliedSeed(seed.nonce)
@@ -371,7 +372,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
             .focus()
             .insertContent([
                 ...(needsSpace ? [{ type: 'text', text: ' ' }] : []),
-                { type: 'mention', attrs: { kind: 'rowboat', id: null, label: 'rowboat' } },
+                { type: 'mention', attrs: { kind: 'spinball', id: null, label: brand.mentionHandle } },
                 { type: 'text', text: ' ' },
             ])
             .run()
@@ -380,7 +381,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
     // --- send ----------------------------------------------------------------
     const mentioned = containsRowboatAddress(draft)
 
-    /** Per-turn agent options — attached whenever the outgoing text addresses @rowboat. */
+    /** Per-turn agent options — attached whenever the outgoing text addresses @spinball. */
     const agentOptionsFor = (text: string): AgentOptions | undefined =>
         containsRowboatAddress(text)
             ? {
@@ -444,7 +445,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
                     return
                 }
                 // Built-in /ask: rewrite and send through the normal path.
-                await send(`[@rowboat](#rowboat) ${args}`)
+                await send(`[@${brand.mentionHandle}](#${brand.mentionHandle}) ${args}`)
                 return
             }
         }
@@ -453,7 +454,7 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
         // buildBody, shared with send-later.
         const body = buildBody(raw)
         if (!body) return
-        // From the text actually going out — an /ask rewrite mentions @rowboat
+        // From the text actually going out — an /ask rewrite mentions @spinball
         // even though the draft it came from didn't.
         await onSend(body, agentOptionsFor(raw))
         editor?.chain().clearContent().run()
@@ -876,18 +877,18 @@ export function Composer({ placeholder, onSend, onSchedule, onCreatePoll, busy, 
                         <button
                             type="button"
                             onClick={insertRowboatChip}
-                            title="Address your Rowboat — it acts only when asked"
+                            title="Address your Spinrun — it acts only when asked"
                             className={cn(
                                 'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs',
                                 mentioned ? 'bg-foreground text-background' : 'bg-muted text-foreground/80 hover:bg-accent',
                             )}
                         >
-                            @rowboat
+                            @spinball
                         </button>
                         {mentioned && (
                             <>
                                 <span className="mx-0.5 h-4 w-px bg-border" />
-                                <span className="text-[11px] text-muted-foreground">runs as your Rowboat</span>
+                                <span className="text-[11px] text-muted-foreground">runs as your Spinrun</span>
                                 <ModelSelector value={model} onChange={setModel} defaultOption={{ label: 'Assistant model' }} effortSelectable />
                                 <button
                                     type="button"

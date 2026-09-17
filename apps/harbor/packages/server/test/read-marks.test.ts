@@ -20,7 +20,7 @@ let main: string;
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'Harsh' },
@@ -180,7 +180,7 @@ describe.each([['memory'], ['postgres']] as const)('read marks (%s store)', (sto
 
   it("an agent's post does not read the stream for its member", async () => {
     const before = (await unreadOf(harsh))!.readOffset;
-    const r = await harsh.post(`/v1/spaces/${main}/messages`, { body: 'digest', actingMode: 'agent', agentName: 'Rowboat' });
+    const r = await harsh.post(`/v1/spaces/${main}/messages`, { body: 'digest', actingMode: 'agent', agentName: 'Spinball' });
     expect(r.status).toBe(200);
     expect((await unreadOf(harsh))!.readOffset).toBe(before);
     // ...but it is a root by someone else for everyone else.

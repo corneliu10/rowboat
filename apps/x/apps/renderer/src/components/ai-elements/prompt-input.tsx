@@ -1105,7 +1105,7 @@ export const PromptInputTextarea = ({
       const newText = `${beforeAt}@${displayName} ${afterQuery}`;
       controller.textInput.setInput(newText);
 
-      // Record what the label stands for. @rowboat is a literal insertion —
+      // Record what the label stands for. @spinball is a literal insertion —
       // it addresses the assistant, nothing to attach.
       switch (target.kind) {
         case "file": {
@@ -1145,7 +1145,7 @@ export const PromptInputTextarea = ({
             displayName,
           });
           break;
-        case "rowboat":
+        case "spinball":
           break;
       }
 

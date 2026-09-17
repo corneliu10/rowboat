@@ -94,7 +94,7 @@ function tryBindPort(
       // No keep-alive, ever. These servers are per-flow and short-lived; a
       // pooled connection outlives server.close() (close() only stops
       // listening) and the browser then delivers the NEXT flow's callback to
-      // this DEAD flow's handler. Seen live: Chrome reused the Rowboat
+      // this DEAD flow's handler. Seen live: Chrome reused the Spinrun
       // sign-in's socket for the Microsoft connect redirect minutes later.
       res.setHeader('Connection', 'close');
       if (!req.url) {

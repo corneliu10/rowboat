@@ -7,7 +7,7 @@ const { refresh, invoke, sessions } = vi.hoisted(() => ({ refresh: vi.fn(), invo
 vi.mock('./use-code-sessions', () => ({ useCodeSessions: () => ({ sessions, refresh, statusOf: () => 'idle' }) }))
 afterEach(() => { cleanup(); vi.clearAllMocks(); sessions.length = 0 })
 const session: CodeSession = { id: 's1', projectId: 'p', title: 'First conversation', agent: 'codex', cwd: '/wt',
-  createdAt: '2026-09-01T00:00:00Z', worktree: { path: '/wt', branch: 'rowboat/one', baseBranch: 'main' } }
+  createdAt: '2026-09-01T00:00:00Z', worktree: { path: '/wt', branch: 'spinrun/one', baseBranch: 'main' } }
 
 describe('workspace session tabs', () => {
   it('shows only the selected worktree’s sessions, in stable order', () => {

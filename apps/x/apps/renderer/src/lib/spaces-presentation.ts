@@ -15,7 +15,7 @@ export function initials(name: string): string {
     return (words[0]![0]! + words[1]![0]!).toUpperCase()
 }
 
-/** Org monogram: "rowboat.team" → "RT", "Rowboat Labs (dev)" → "RL". */
+/** Org monogram: "rowboat.team" → "RT", "Spinrun (dev)" → "RL". */
 export function orgMonogram(org: { name: string; address: string }): string {
     const fromAddress = org.address.replace(/^https?:\/\//, '').split(/[.:/]/).filter(Boolean)
     if (fromAddress.length >= 2 && !/^\d+$/.test(fromAddress[1]!)) {
@@ -301,7 +301,8 @@ export function rewriteMentionLinks(body: string): string {
 }
 
 export const HERE_APP_URL = 'app://space-mention/here'
-export const ROWBOAT_APP_URL = 'app://space-mention/rowboat'
+// Kept name ROWBOAT_APP_URL: ripples through renderers; value is now spinball.
+export const ROWBOAT_APP_URL = 'app://space-mention/spinball'
 
 export function spaceMemberAppUrl(memberId: string): string {
     return `app://space-member/${encodeURIComponent(memberId)}`

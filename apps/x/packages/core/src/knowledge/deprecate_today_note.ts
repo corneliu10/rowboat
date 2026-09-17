@@ -10,7 +10,7 @@ const TODAY_NOTE_PATH = path.join(KNOWLEDGE_DIR, 'Today.md');
 const STATE_FILE = path.join(WorkDir, 'config', 'today-note-deprecation.json');
 const NOTICE_MARKER = '<!-- rowboat-today-md-deprecated -->';
 const DEPRECATION_NOTICE = `${NOTICE_MARKER}
-> Rowboat's Today.md live dashboard is paused for now while we work on a better experience. You can keep using this note as a regular markdown file. If you want Rowboat to keep updating it automatically, re-enable the live note settings; automatic updates may use credits.
+> Spinrun's Today.md live dashboard is paused for now while we work on a better experience. You can keep using this note as a regular markdown file. If you want Spinrun to keep updating it automatically, re-enable the live note settings; automatic updates may use credits.
 
 `;
 

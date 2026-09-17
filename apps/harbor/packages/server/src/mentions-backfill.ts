@@ -1,8 +1,8 @@
-import { mentionToken } from '@rowboat/spaces-protocol';
+import { MENTION_HANDLE, mentionToken } from '@rowboat/spaces-protocol';
 
 // The pre-token spelling → mention tokens (the one-time backfill behind
 // service.migrateMentions, 2026-09-10). Before tokens, the composer wrote
-// "@<memberId>" as bare text and "@here" / "@rowboat" as bare words; readers
+// "@<memberId>" as bare text and "@here" / "@spinball" as bare words; readers
 // regex-matched them. Every reader now parses tokens only, so stored text
 // gets rewritten once — through the ordinary edit path, as the author.
 
@@ -25,7 +25,7 @@ export function legacyToTokens(text: string, names: ReadonlyMap<string, string>)
         }
         const lower = id.toLowerCase();
         if (lower === 'here') return `${pre}${mentionToken({ kind: 'here' })}${tail}`;
-        if (lower === 'rowboat') return `${pre}${mentionToken({ kind: 'rowboat' })}${tail}`;
+        if (lower === MENTION_HANDLE) return `${pre}${mentionToken({ kind: 'spinball' })}${tail}`;
         const name = names.get(id);
         if (name === undefined) return raw;
         return `${pre}${mentionToken({ kind: 'member', id, label: name })}${tail}`;

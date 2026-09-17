@@ -12,7 +12,7 @@ import { IOAuthRepo } from '../auth/repo.js';
  * One-time migration that moves Composio-connected Gmail/Calendar users
  * to the native rowboat-mode Google OAuth flow.
  *
- * Triggered by the renderer on app launch and after Rowboat sign-in. The
+ * Triggered by the renderer on app launch and after Spinrun sign-in. The
  * single guard is `dismissed_at` in the migration state file — once set,
  * none of the migration's side effects run again. This protects users who
  * later re-add Composio Google for non-sync purposes (e.g. a tool that
@@ -98,7 +98,7 @@ export async function qualifyAndDisconnectComposioGoogle(): Promise<{ shouldShow
         return { shouldShow: false };
     }
 
-    // Rule 1 — must be signed in to Rowboat
+    // Rule 1 — must be signed in to Spinrun
     if (!(await isSignedIn())) {
         return { shouldShow: false };
     }

@@ -89,7 +89,7 @@ describe('ModelSelectionSection', () => {
     await waitFor(() => expect(screen.getByTitle('Assistant model')).toHaveTextContent('google/gemini-3.5-flash'))
     // The old sentinel labels are gone for good.
     expect(screen.queryByText(/Auto \(/)).toBeNull()
-    expect(screen.queryByText('Rowboat default')).toBeNull()
+    expect(screen.queryByText('Spinrun default')).toBeNull()
 
     // All seven tasks render, inheriting.
     for (const label of ['Background agents', 'Subagents', 'Knowledge graph', 'Meeting notes', 'Live notes', 'Permission checks', 'Chat titles']) {
@@ -97,7 +97,7 @@ describe('ModelSelectionSection', () => {
     }
     expect(screen.getAllByText('Same as Assistant').length).toBe(7)
     // Inherit subtext names the resolved assistant.
-    expect(screen.getAllByText('Currently uses Rowboat · google/gemini-3.5-flash').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Currently uses Spinrun · google/gemini-3.5-flash').length).toBeGreaterThan(0)
   })
 
   it('an overridden task shows "Use Assistant model" and clicking it clears the override', async () => {
@@ -137,7 +137,7 @@ describe('ModelSelectionSection', () => {
       { imageModel: { provider: 'rowboat', model: 'google/gemini-2.5-flash-image' } },
     ]))
     await waitFor(() => expect(screen.getByTitle('Image model')).toHaveTextContent('google/gemini-2.5-flash-image'))
-    expect(screen.getByText('Currently uses Rowboat · google/gemini-2.5-flash-image')).toBeInTheDocument()
+    expect(screen.getByText('Currently uses Spinrun · google/gemini-2.5-flash-image')).toBeInTheDocument()
   })
 
   it('a set image model shows Clear, and clearing nulls the field', async () => {

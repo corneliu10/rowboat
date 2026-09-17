@@ -852,27 +852,27 @@ export class PgStore implements Store {
     await this.sql.query(
       `update messages set body = $3, edited_at = $4, mentions = $5::jsonb, mentions_here = $6, mentions_rowboat = $7, search_text = $8
        where space_id = $1 and id = $2`,
-      [spaceId, messageId, body, editedAt, JSON.stringify(stamps.members), stamps.here, stamps.rowboat, searchTextFor(body)],
+      [spaceId, messageId, body, editedAt, JSON.stringify(stamps.members), stamps.here, stamps.spinball, searchTextFor(body)],
     );
     // Rewrite the stored message event too — replay must serve the edit, stamps included.
     await this.sql.query(
       `update events set event = jsonb_set(event, '{message}', (event->'message') || jsonb_build_object(
          'body', $3::text, 'editedAt', $4::text, 'mentions', $5::jsonb, 'mentionsHere', $6::boolean, 'mentionsRowboat', $7::boolean))
        where space_id = $1 and event->>'type' = 'message' and event->'message'->>'id' = $2`,
-      [spaceId, messageId, body, editedAt, JSON.stringify(stamps.members), stamps.here, stamps.rowboat],
+      [spaceId, messageId, body, editedAt, JSON.stringify(stamps.members), stamps.here, stamps.spinball],
     );
   }
 
   async restampMessage(spaceId: string, messageId: string, stamps: MentionStamps): Promise<void> {
     await this.sql.query(
       `update messages set mentions = $3::jsonb, mentions_here = $4, mentions_rowboat = $5 where space_id = $1 and id = $2`,
-      [spaceId, messageId, JSON.stringify(stamps.members), stamps.here, stamps.rowboat],
+      [spaceId, messageId, JSON.stringify(stamps.members), stamps.here, stamps.spinball],
     );
     await this.sql.query(
       `update events set event = jsonb_set(event, '{message}', (event->'message') || jsonb_build_object(
          'mentions', $3::jsonb, 'mentionsHere', $4::boolean, 'mentionsRowboat', $5::boolean))
        where space_id = $1 and event->>'type' = 'message' and event->'message'->>'id' = $2`,
-      [spaceId, messageId, JSON.stringify(stamps.members), stamps.here, stamps.rowboat],
+      [spaceId, messageId, JSON.stringify(stamps.members), stamps.here, stamps.spinball],
     );
   }
 

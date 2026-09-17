@@ -905,7 +905,7 @@ export function createCoreRpcHandlers(opts?: { sessionsIndexReady?: Promise<void
         throw err;
       }
     },
-    // Managed (rowboat-mode) OAuth-redirect Picker: the Rowboat backend runs the
+    // Managed (rowboat-mode) OAuth-redirect Picker: the Spinrun backend runs the
     // pick with the company Google client; the desktop opens the start URL,
     // waits for the deep link, and imports the picked doc with the existing
     // managed token. No API key, appId, or local credentials.
@@ -1564,7 +1564,7 @@ export function createCoreRpcHandlers(opts?: { sessionsIndexReady?: Promise<void
     ...spacesRpcHandlers,
 
 
-    // Rowboat Apps handlers (spec §13)
+    // Spinrun Apps handlers (spec §13)
 
   };
 }

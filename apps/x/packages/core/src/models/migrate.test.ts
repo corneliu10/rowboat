@@ -107,7 +107,7 @@ describe('migrateModelsConfig', () => {
         expect(migrateModelsConfig(v1, false)?.taskModels).toBeUndefined();
     });
 
-    it('a rowboat defaultSelection is skipped while signed out (needs auth), like v1 resolution did', () => {
+    it("a 'rowboat' defaultSelection is skipped while signed out (needs auth), like v1 resolution did", () => {
         const v1 = {
             provider: { flavor: 'openai', apiKey: 'sk-a' },
             model: 'gpt-5.4',

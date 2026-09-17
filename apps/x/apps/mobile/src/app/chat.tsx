@@ -202,7 +202,7 @@ export default function ChatScreen() {
           </ScrollView>
         ) : (
           <Pressable style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 }} onPress={() => navigation.openDrawer()}>
-            <Text style={{ fontSize: 22, fontWeight: '600', color: colors.label }}>Rowboat</Text>
+            <Text style={{ fontSize: 22, fontWeight: '600', color: colors.label }}>Spinrun</Text>
             <Text style={{ fontSize: 15, color: colors.tertiaryLabel }}>Ask anything to get started</Text>
           </Pressable>
         )}
@@ -220,7 +220,7 @@ export default function ChatScreen() {
         >
           <TextInput
             style={{ fontSize: 16, color: colors.label, maxHeight: 120, paddingHorizontal: 2 }}
-            placeholder="Message Rowboat"
+            placeholder="Message Spinrun"
             placeholderTextColor={colors.tertiaryLabel}
             value={draft}
             onChangeText={setDraft}

@@ -110,7 +110,7 @@ export function createBoardSaver(init: BoardSaverInit): BoardSaver {
             const json = JSON.stringify({
                 type: 'excalidraw',
                 version: 2,
-                source: 'rowboat',
+                source: 'spinrun',
                 elements: latest,
                 appState: {},
                 files: {},

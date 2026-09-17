@@ -197,7 +197,7 @@ await esbuild.build({
   define: {
     'import.meta.url': '__import_meta_url',
     // Without this constant the CLI's --version walks up the directory tree
-    // for a package.json and would find Rowboat's instead of agent-slack's.
+    // for a package.json and would find Spinrun's instead of agent-slack's.
     'AGENT_SLACK_BUILD_VERSION': JSON.stringify(agentSlackPkg.version),
   },
   // The CLI probes bun:sqlite via dynamic import inside a try/catch and falls

@@ -3,13 +3,15 @@ import { ArrowUpRight, Bot, Check, ChevronDown, FileText, ListPlus, Loader2, Mes
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { toast } from 'sonner'
 import type { TodoBlock, TodoChatBubble, TodoEventType, TodoItem, TodoLink, TodoList } from '@x/shared/dist/todo.js'
+import { brand } from '@x/shared/dist/brand.js'
+import { mentionRegex } from '@x/shared/dist/mention.js'
 import type { HomeThread } from '@x/shared/dist/home-threads.js'
 
 // ---------------------------------------------------------------------------
-// The home to-do list — one rolling ~/.rowboat/todo.md shared with @rowboat.
+// The home to-do list — one rolling ~/.rowboat/todo.md shared with @spinball.
 // The file is the truth: items, receipts (agent outcomes as indented "→"
 // lines), checked state. This view is a lens over it plus ephemeral overlays
-// (working spinners) from todo:events. Tagging @rowboat in a line delegates
+// (working spinners) from todo:events. Tagging @spinball in a line delegates
 // it; the agent's receipt lands under the item when the run finishes.
 // ---------------------------------------------------------------------------
 
@@ -46,7 +48,8 @@ type ComposeTarget =
   | { kind: 'comment'; key: string; itemText: string; quote?: string }
   | { kind: 'chatReply'; sessionId: string; title: string; quote?: string }
 
-const ROWBOAT_MENTION_RE = /(^|\s)@rowboat\b/i
+// Kept name ROWBOAT_MENTION_RE: ripples through protocol types; value is now @spinball via MENTION_HANDLE.
+const ROWBOAT_MENTION_RE = mentionRegex(brand.mentionHandle)
 // Notion-idiom chrome: 4px-radius chips, ink-alpha hovers, ≤100ms color
 // transitions, hierarchy by alpha not size. Rows carry NO borders — hover
 // backgrounds and whitespace do the separating.
@@ -75,17 +78,17 @@ function normKey(text: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// @rowboat autocomplete — shared by every composer (main, reply, sub-task).
+// @spinball autocomplete — shared by every composer (main, reply, sub-task).
 // A trailing "@" or partial "@row…" offers the completion; Tab or click
 // completes it. Chat-app muscle memory, everywhere text is typed.
 // ---------------------------------------------------------------------------
 
 function useMention(text: string, setText: (t: string) => void) {
   const match = /(^|\s)@(r(o(w(b(o(a(t?)?)?)?)?)?)?)?$/i.exec(text)
-  const show = match !== null && !/(^|\s)@rowboat$/i.test(text)
+  const show = match !== null && !/(^|\s)@spinball$/i.test(text)
   const complete = () => {
     if (!match) return
-    setText(`${text.slice(0, match.index)}${match[1]}@rowboat `)
+    setText(`${text.slice(0, match.index)}${match[1]}@spinball `)
   }
   return { show, complete }
 }
@@ -108,7 +111,7 @@ function MentionPopup({ onPick }: { onPick: () => void }) {
       className="absolute bottom-full left-3 z-10 mb-1.5 flex items-center gap-2 rounded-lg border-none bg-[var(--rowboat-raised)] px-3 py-1.5 text-sm shadow-[var(--rowboat-shadow-soft)] hover:bg-accent"
     >
       <Bot className="size-3.5 text-primary" />
-      <span className="font-medium">@rowboat</span>
+      <span className="font-medium">@spinball</span>
       <span className="text-xs text-muted-foreground">hand this off — Tab</span>
     </button>
   )
@@ -123,18 +126,18 @@ function openLink(link: TodoLink, onOpenNote: (path: string) => void) {
   else if (link.path) onOpenNote(link.path)
 }
 
-// Render @rowboat mentions as chips, [label](target) links as buttons, and
+// Render @spinball mentions as chips, [label](target) links as buttons, and
 // light inline markdown (**bold**, `code`) inside a read-only text row.
 function TextWithMentions({ text, onOpenLink }: { text: string; onOpenLink?: (link: TodoLink) => void }) {
-  const parts = text.split(/(@rowboat|\[[^\]]+\]\([^)]+\)|\*\*[^*\n]+\*\*|`[^`\n]+`)/i)
+  const parts = text.split(/(@spinball|\[[^\]]+\]\([^)]+\)|\*\*[^*\n]+\*\*|`[^`\n]+`)/i)
   return (
     <>
       {parts.map((part, i) => {
-        if (/^@rowboat$/i.test(part)) {
+        if (/^@spinball$/i.test(part)) {
           return (
             <span key={i} className="inline-flex items-center gap-0.5 rounded bg-primary/10 px-1 text-primary">
               <Bot className="size-3" />
-              rowboat
+              spinball
             </span>
           )
         }
@@ -215,7 +218,7 @@ function BubbleText({ text, onOpenNote }: { text: string; onOpenNote: (path: str
 }
 
 // ---------------------------------------------------------------------------
-// Receipt rows — the durable record of what @rowboat did
+// Receipt rows — the durable record of what @spinball did
 // ---------------------------------------------------------------------------
 
 function ReceiptRow({ item, onOpenNote, onRetry, onOpenThread }: {
@@ -312,7 +315,7 @@ function SubComposer({ onSubmit, onCancel, onHandoff }: {
           if (e.key === 'Enter' && !text.trim()) onCancel()
           if (e.key === 'Escape') onCancel()
         }}
-        placeholder="Add a step… mention @rowboat to hand it off"
+        placeholder="Add a step… mention @spinball to hand it off"
         className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-muted-foreground"
       />
     </div>
@@ -341,7 +344,7 @@ function CommentComposer({ onSend, onCancel }: {
           }
           if (e.key === 'Escape') onCancel()
         }}
-        placeholder="Tell @rowboat something about this…"
+        placeholder="Tell @spinball something about this…"
         className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-muted-foreground"
       />
     </div>
@@ -350,7 +353,7 @@ function CommentComposer({ onSend, onCancel }: {
 
 // ---------------------------------------------------------------------------
 // The conversation under an item — WhatsApp-style bubbles derived from the
-// item's session: yours on the right, @rowboat's on the left with its
+// item's session: yours on the right, @spinball's on the left with its
 // artifact links. Long threads cap here and continue in the chat dock.
 // ---------------------------------------------------------------------------
 
@@ -379,7 +382,7 @@ function Bubble({ b, onOpenNote, onRetry }: {
             : 'text-foreground'
         }`}
       >
-        <span className="mr-1.5 text-[12px] font-bold">{isUser ? 'you' : 'rowboat'}</span>
+        <span className="mr-1.5 text-[12px] font-bold">{isUser ? 'you' : 'spinball'}</span>
         {b.kind === 'error' ? `failed: ${b.text}` : <BubbleText text={b.text} onOpenNote={onOpenNote} />}
         {b.kind === 'error' && onRetry && (
           <button
@@ -522,7 +525,7 @@ function ItemRow({ item, isRunning, needsApproval = null, commentOpen, sessionId
       {!item.checked && item.receipts.some((r) => r.kind === 'question') && (
         /* Needs-you tick: short, beside the title only — never tall enough
            to read as a structural rail. */
-        <span title="Rowboat needs an answer from you" className="absolute -left-3 top-[9px] h-4 w-[2.5px] rounded bg-amber-500/80" />
+        <span title="Spinrun needs an answer from you" className="absolute -left-3 top-[9px] h-4 w-[2.5px] rounded bg-amber-500/80" />
       )}
       {collapsible && onToggleCollapsed && (
         <IconTip label={isCollapsed ? 'Expand' : 'Collapse'}>
@@ -582,7 +585,7 @@ function ItemRow({ item, isRunning, needsApproval = null, commentOpen, sessionId
           >
             <TextWithMentions text={item.text} onOpenLink={(l) => openLink(l, onOpenNote)} />
             {item.proposed && (
-              <span className="ml-2 rounded-full bg-muted px-1.5 py-0.5 align-middle text-[10px] font-medium text-muted-foreground">via rowboat</span>
+              <span className="ml-2 rounded-full bg-muted px-1.5 py-0.5 align-middle text-[10px] font-medium text-muted-foreground">via spinball</span>
             )}
             {item.children.length > 0 && (
               <span
@@ -629,11 +632,11 @@ function ItemRow({ item, isRunning, needsApproval = null, commentOpen, sessionId
               </button>
             )}
             {/* One-click delegation — prepends the mention, which routes
-                through the same "typed @rowboat" go path. */}
+                through the same "typed @spinball" go path. */}
             {!item.delegated && !item.checked && !isRunning && (
               <button
                 type="button"
-                onClick={(e) => { e.stopPropagation(); onCommitText(`@rowboat ${item.text}`) }}
+                onClick={(e) => { e.stopPropagation(); onCommitText(`@spinball ${item.text}`) }}
                 className={`${CHIP} ml-2 bg-foreground/[0.05] text-muted-foreground opacity-0 transition-opacity duration-100 hover:bg-foreground/[0.09] hover:text-foreground focus-visible:opacity-100 group-hover/todo:opacity-100`}
               >
                 <Bot className="size-3" /> assign
@@ -686,7 +689,7 @@ function ItemRow({ item, isRunning, needsApproval = null, commentOpen, sessionId
           controls. Opacity (not display) so Tab can reach the buttons. */}
       <div className="pointer-events-none absolute right-1 top-1 z-10 flex items-center gap-0.5 rounded-md border-none bg-[var(--rowboat-raised)] p-0.5 opacity-0 shadow-[var(--rowboat-shadow-soft)] transition-opacity duration-100 focus-within:pointer-events-auto focus-within:opacity-100 group-hover/todo:pointer-events-auto group-hover/todo:opacity-100">
         {!showConversation && (
-          <IconTip label="Reply — tell @rowboat something about this">
+          <IconTip label="Reply — tell @spinball something about this">
             <button
               type="button"
               onClick={onToggleComment}
@@ -737,12 +740,12 @@ function ItemRow({ item, isRunning, needsApproval = null, commentOpen, sessionId
 }
 
 // ---------------------------------------------------------------------------
-// Composer — with the @rowboat autocomplete popup
+// Composer — with the @spinball autocomplete popup
 // ---------------------------------------------------------------------------
 
 // The page-bottom composer is PURELY the assistant — no modes, nothing to
 // remember. Tasks are born where tasks live (the add-row inside the list),
-// or by meaning: an @rowboat mention here creates a delegated item, and
+// or by meaning: an @spinball mention here creates a delegated item, and
 // "add X to my list" works because the copilot has the todo-add tool.
 function Composer({ onSubmit }: { onSubmit: (text: string, kind: 'task' | 'chat') => void }) {
   const [text, setText] = useState('')
@@ -767,7 +770,7 @@ function Composer({ onSubmit }: { onSubmit: (text: string, kind: 'task' | 'chat'
             if (e.key === 'Tab' && mention.show) { e.preventDefault(); mention.complete(); return }
             if (e.key === 'Enter') { e.preventDefault(); submit() }
           }}
-          placeholder="Ask anything… mention @rowboat to hand off a task"
+          placeholder="Ask anything… mention @spinball to hand off a task"
           className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
         <button
@@ -827,7 +830,7 @@ function AddItemRow({ onAdd, onHandoff, focusSignal }: {
           }
           if (e.key === 'Escape') e.currentTarget.blur()
         }}
-        placeholder="Add a to-do… @rowboat hands it off"
+        placeholder="Add a to-do… @spinball hands it off"
         aria-label="Add a to-do"
         className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/70"
       />
@@ -1109,7 +1112,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
       setSuggesting(false)
       // A beat for the refetch above; compare via fresh fetch result.
       void window.ipc.invoke('todo:get', null).then((r) => {
-        if (r.suggestions.length <= before) toast('Nothing new worth suggesting', { description: 'Rowboat looked and came back empty-handed — that\'s a feature.' })
+        if (r.suggestions.length <= before) toast('Nothing new worth suggesting', { description: 'Spinrun looked and came back empty-handed — that\'s a feature.' })
       }).catch(() => {})
     }
   }, [planner, suggesting, suggestions.length, refetch])
@@ -1335,7 +1338,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
     if (res.success && res.wasProposed && itemText) {
       // The dismissal already taught by example; this offers the durable rule.
       toast('Suggestion dismissed', {
-        description: 'Rowboat won\'t re-suggest this one.',
+        description: 'Spinrun won\'t re-suggest this one.',
         action: {
           label: "Don't suggest things like this",
           onClick: () => {
@@ -1430,7 +1433,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
               )}
               {planner?.slug && (
                 <div ref={plannerMenuRef} className="relative flex items-center">
-                  <IconTip label="Ask Rowboat for suggestions now">
+                  <IconTip label="Ask Spinrun for suggestions now">
                     <button
                       type="button"
                       onClick={() => void runPlannerNow()}
@@ -1567,7 +1570,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
                       const updated: TodoItem = { ...item, text, key: normKey(text), delegated: mentionsRowboat(text) }
                       next[index] = { kind: 'item', item: updated }
                       mutate(next)
-                      // Typing @rowboat into a line is the go signal.
+                      // Typing @spinball into a line is the go signal.
                       if (!wasDelegated && updated.delegated && !updated.checked) {
                         void saveNowRef.current().then(() => runItem(updated.key))
                       }
@@ -1653,12 +1656,12 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
             )}
             {blocks !== null && !itemBlocks.some(({ block }) => block.kind === 'item') && (
               <div className="px-2 py-2 text-[13px] text-muted-foreground/70">
-                <TextWithMentions text="Nothing on the list — add your first to-do below, or mention @rowboat to hand one off." />
+                <TextWithMentions text="Nothing on the list — add your first to-do below, or mention @spinball to hand one off." />
               </div>
             )}
             {blocks !== null && (
               // Plain to-dos are typed in place — no chat chrome. Typing
-              // @rowboat hands the text off to the composer below, where
+              // @spinball hands the text off to the composer below, where
               // model and attachments apply to the delegated run.
               <AddItemRow
                 onAdd={(text) => void addItem(text)}
@@ -1672,7 +1675,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
           {showCallout && (
             <div className="flex items-center gap-2 rounded-lg bg-foreground/[0.035] px-4 py-2.5 text-sm">
               <Bot className="size-4 shrink-0 text-primary" />
-              <span className="flex-1">@rowboat finished an item — the → line under it links to what it did. Hit ＋ on the row to refine the work with a comment; 💬 opens the whole conversation in the sidebar.</span>
+              <span className="flex-1">@spinball finished an item — the → line under it links to what it did. Hit ＋ on the row to refine the work with a comment; 💬 opens the whole conversation in the sidebar.</span>
               <button
                 type="button"
                 onClick={() => { localStorage.setItem(CALLOUT_KEY, '1'); setShowCallout(false) }}
@@ -1707,7 +1710,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
                         <Check className="size-3" /> Add
                       </button>
                     </IconTip>
-                    <IconTip label="Decline — Rowboat learns from this">
+                    <IconTip label="Decline — Spinrun learns from this">
                       <button
                         type="button"
                         onClick={() => void declineSuggestion(text)}
@@ -1753,7 +1756,7 @@ export function TodoView({ onOpenNote, onOpenInChat, onFocusComposer, composer, 
       </div>
 
       {/* The assistant composer — hidden until something summons it:
-          typing @rowboat in the list hands off here, and reply/comment
+          typing @spinball in the list hands off here, and reply/comment
           affordances land here with their destination chip. Dismissing
           the chip (Escape/✕) or sending puts it away again. */}
       {composeTarget != null && (

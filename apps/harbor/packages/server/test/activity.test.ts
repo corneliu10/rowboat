@@ -22,7 +22,7 @@ let main: string;
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'Harsh' },
@@ -234,7 +234,7 @@ describe.each([['memory'], ['postgres']] as const)('activity (%s store)', (store
     expect((await ramnique.post('/v1/activity/read-all', { spaceId: main })).body.spaces.map((s: { spaceId: string }) => s.spaceId)).toEqual([main]);
     expect(kinds(await activity(ramnique, '?unread=true'))).toEqual(['dm']);
     // The agent face does the same.
-    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
+    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
     const out = await callStructured<{ spaces: Array<{ spaceId: string }>; threads: number }>(agent, 'mark_all_read', {});
     expect(out.spaces.map((s) => s.spaceId)).toEqual(expect.arrayContaining([main, dm.id]));
     expect((await activity(ramnique, '?unread=true')).items).toEqual([]);
@@ -252,7 +252,7 @@ describe.each([['memory'], ['postgres']] as const)('activity (%s store)', (store
   });
 
   it('the agent face reads it in one call, names resolved', async () => {
-    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
+    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
     const out = await callStructured<{ items: Array<{ kind: string; message: Message; actors: Array<{ memberId: string; displayName: string }> }>; truncated: boolean }>(
       agent,
       'read_activity',

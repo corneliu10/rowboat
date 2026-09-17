@@ -7,7 +7,7 @@ import { loadAppSettings, saveAppSettings } from "@x/core/dist/config/app_settin
  * OS login-item registration.
  *
  * On Squirrel.Windows, process.execPath is the VERSIONED exe
- * (...\Rowboat-win32-x64\app-x.y.z\rowboat.exe), and Electron defaults the
+ * (...\Spinrun-win32-x64\app-x.y.z\rowboat.exe), and Electron defaults the
  * login item's `path` to process.execPath. Registering without an explicit
  * path bakes the versioned folder into HKCU\...\CurrentVersion\Run, so after
  * the next update Windows keeps auto-starting the OLD version (Squirrel

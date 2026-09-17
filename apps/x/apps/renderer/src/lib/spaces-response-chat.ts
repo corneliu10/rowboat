@@ -2,7 +2,7 @@ import type { spaces } from '@x/shared'
 import { requestChatJump, turnInputMessageId } from '@/lib/chat-jump'
 import { toast } from '@/lib/toast'
 
-// "Open agent chat" on one of the viewer's own Rowboat posts: resolve the run
+// "Open agent chat" on one of the viewer's own Spinrun posts: resolve the run
 // that wrote it (core/spaces/response-index via spaces:responseSession) and
 // open the session landing on that run's input. A recorded link whose
 // session is gone says so — it never falls through to the thread's session,

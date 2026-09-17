@@ -142,9 +142,9 @@ interface InlineTask {
 }
 
 /**
- * Parse the tell-rowboat block content (JSON format).
+ * Parse the tell-spinball block content (JSON format).
  * Returns { instruction, schedule } or null if not valid JSON.
- * Also supports legacy @rowboat format.
+ * Also supports legacy @spinball format.
  */
 function parseBlockContent(contentLines: string[]): { instruction: string; schedule: InlineTaskSchedule | null; lastRunAt: string | null; targetId: string | null } | null {
     const raw = contentLines.join('\n').trim();
@@ -169,10 +169,10 @@ function parseBlockContent(contentLines: string[]): { instruction: string; sched
             };
         }
     } catch {
-        // Legacy format: @rowboat lines + optional schedule: JSON line
+        // Legacy format: @spinball lines + optional schedule: JSON line
     }
 
-    // Legacy fallback: parse @rowboat instruction and schedule: line
+    // Legacy fallback: parse @spinball instruction and schedule: line
     let schedule: InlineTaskSchedule | null = null;
     const instructionLines: string[] = [];
     for (const cl of contentLines) {
@@ -188,9 +188,9 @@ function parseBlockContent(contentLines: string[]): { instruction: string; sched
             instructionLines.push(cl);
         }
     }
-    const firstRowboatLine = instructionLines.find(l => l.trim().startsWith('@rowboat'));
-    const rawInstruction = firstRowboatLine?.trim() ?? instructionLines.join('\n').trim();
-    const instruction = rawInstruction.replace(/^@rowboat:?\s*/, '');
+    const firstSpinballLine = instructionLines.find(l => l.trim().startsWith('@spinball'));
+    const rawInstruction = firstSpinballLine?.trim() ?? instructionLines.join('\n').trim();
+    const instruction = rawInstruction.replace(/^@spinball:?\s*/, '');
     if (!instruction) return null;
     return { instruction, schedule, lastRunAt: null, targetId: null };
 }
@@ -253,7 +253,7 @@ function isScheduledTaskDue(schedule: InlineTaskSchedule, lastRunAt: string | nu
 
 
 /**
- * Find ```tell-rowboat code blocks in a note body and return tasks that are pending execution.
+ * Find ```tell-spinball code blocks in a note body and return tasks that are pending execution.
  */
 function findPendingTasks(body: string): InlineTask[] {
     const tasks: InlineTask[] = [];
@@ -261,7 +261,7 @@ function findPendingTasks(body: string): InlineTask[] {
     let i = 0;
     while (i < lines.length) {
         const trimmed = lines[i].trim();
-        if (trimmed.startsWith('```task') || trimmed.startsWith('```tell-rowboat')) {
+        if (trimmed.startsWith('```task') || trimmed.startsWith('```tell-spinball')) {
             const startLine = i;
             i++;
             const contentLines: string[] = [];
@@ -293,7 +293,7 @@ function findPendingTasks(body: string): InlineTask[] {
 }
 
 /**
- * Insert the agent result below the tell-rowboat code block in the body.
+ * Insert the agent result below the tell-spinball code block in the body.
  * Returns the updated body string.
  */
 function insertResultBelow(body: string, endLine: number, result: string): string {
@@ -331,7 +331,7 @@ function replaceTargetRegion(body: string, targetId: string, result: string, end
 }
 
 /**
- * Determine if a note has any "live" tell-rowboat tasks.
+ * Determine if a note has any "live" tell-spinball tasks.
  * A task is live if:
  *   - It's a one-time task that hasn't been completed yet
  *   - It's a scheduled task whose endDate hasn't passed (or has no endDate)
@@ -343,7 +343,7 @@ function hasLiveTasks(body: string): boolean {
     let i = 0;
     while (i < lines.length) {
         const trimmed = lines[i].trim();
-        if (trimmed.startsWith('```task') || trimmed.startsWith('```tell-rowboat')) {
+        if (trimmed.startsWith('```task') || trimmed.startsWith('```tell-spinball')) {
             i++;
             const contentLines: string[] = [];
             while (i < lines.length && lines[i].trim() !== '```') {
@@ -442,8 +442,8 @@ async function processInlineTasks(): Promise<void> {
             const live = hasLiveTasks(body);
             if (!live) {
                 fields['live_note'] = 'false';
-                // Remove rowboat_tasks if present (legacy cleanup)
-                delete fields['rowboat_tasks'];
+                // Remove spinball_tasks if present (legacy cleanup)
+                delete fields['spinball_tasks'];
                 const newRaw = buildFrontmatter(fields);
                 const newContent = joinFrontmatter(newRaw, body);
                 try {
@@ -507,10 +507,10 @@ async function processInlineTasks(): Promise<void> {
             }
         }
 
-        // Update frontmatter — only manage live_note, remove legacy rowboat_tasks
+        // Update frontmatter — only manage live_note, remove legacy spinball_tasks
         const live = hasLiveTasks(currentBody);
         fields['live_note'] = live ? 'true' : 'false';
-        delete fields['rowboat_tasks'];
+        delete fields['spinball_tasks'];
         const newRaw = buildFrontmatter(fields);
         const newContent = joinFrontmatter(newRaw, currentBody);
 
@@ -530,7 +530,7 @@ async function processInlineTasks(): Promise<void> {
 }
 
 /**
- * Process a @rowboat instruction via the inline task agent.
+ * Process a @spinball instruction via the inline task agent.
  * The agent can execute one-off tasks and/or detect scheduling intent.
  * Returns schedule info (if any), a schedule label, and optional response text.
  */
@@ -550,7 +550,7 @@ export async function processRowboatInstruction(
     response: string | null;
 }> {
     const message = [
-        `Process the following @rowboat instruction from the note "${notePath}":`,
+        `Process the following @spinball instruction from the note "${notePath}":`,
         '',
         `**Instruction:** ${instruction}`,
         '',
@@ -572,11 +572,11 @@ export async function processRowboatInstruction(
     }
 
     // Parse out the schedule marker if present (allow multiline JSON)
-    const scheduleMarkerRegex = /<!--rowboat-schedule:([\s\S]*?)-->/;
+    const scheduleMarkerRegex = /<!--spinball-schedule:([\s\S]*?)-->/;
     const scheduleMatch = rawResponse.match(scheduleMarkerRegex);
 
     // Parse out the instruction marker if present
-    const instructionMarkerRegex = /<!--rowboat-instruction:([\s\S]*?)-->/;
+    const instructionMarkerRegex = /<!--spinball-instruction:([\s\S]*?)-->/;
     const instructionMatch = rawResponse.match(instructionMarkerRegex);
 
     let schedule: ScheduleWithoutLabel | null = null;

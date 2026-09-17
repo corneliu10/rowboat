@@ -41,7 +41,7 @@ export default function PairingScreen() {
       const healthy = await probeUrls(candidates);
       if (!healthy) {
         setError(
-          "Couldn't reach your Mac. Make sure both devices are on the same Wi-Fi and that network access is on in Rowboat's Phone app settings.",
+          "Couldn't reach your Mac. Make sure both devices are on the same Wi-Fi and that network access is on in Spinrun's Phone app settings.",
         );
         setBusy(false);
         handled.current = false;
@@ -89,14 +89,14 @@ export default function PairingScreen() {
             <Image source="sf:laptopcomputer.and.iphone" style={{ width: 44, height: 44 }} tintColor={colors.label} />
             <Text style={{ fontSize: 21, fontWeight: '700', color: colors.label }}>Connect your Mac</Text>
             <Text style={{ fontSize: 14, lineHeight: 20, textAlign: 'center', color: colors.secondaryLabel }}>
-              Use Rowboat on your Mac from your phone: continue your chats, talk to your agents, and read your
+              Use Spinrun on your Mac from your phone: continue your chats, talk to your agents, and read your
               Brain — live, over your home Wi-Fi.
             </Text>
           </View>
 
           {/* The three steps */}
           <View style={{ gap: 14, marginTop: 4 }}>
-            <StepRow n={1} text="Open the Rowboat app on your Mac." />
+            <StepRow n={1} text="Open the Spinrun app on your Mac." />
             <StepRow n={2} text="Go to Settings → Phone app — a QR code appears." />
             <StepRow n={3} text="Tap Scan below and point your phone at it." />
           </View>

@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import { PrefixLogger } from '@x/shared/dist/prefix-logger.js';
 import type { GitStatusFile } from '@x/shared/dist/code-sessions.js';
+import { CODE_SESSION_BRANCH_PREFIX } from '@x/shared/dist/brand.js';
 import container from '../di/container.js';
 import type { CodeSessionService } from '../code-mode/sessions/service.js';
 import type { ICodeProjectsRepo } from '../code-mode/projects/repo.js';
@@ -290,7 +291,7 @@ export async function launchCodeTask(args: LaunchCodeTaskArgs): Promise<LaunchCo
         return { success: false, error: `Could not create code session: ${msg}` };
     }
 
-    const branch = session.worktree?.branch ?? 'rowboat/' + session.id;
+    const branch = session.worktree?.branch ?? CODE_SESSION_BRANCH_PREFIX + session.id;
     const baseBranch = session.worktree?.baseBranch ?? undefined;
     const worktreePath = session.cwd;
 

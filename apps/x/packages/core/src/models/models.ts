@@ -187,7 +187,7 @@ function capabilityWarnings(
     const warnings: string[] = [];
     if (capabilities.supportsTools === false) {
         warnings.push(
-            `${model} does not support tool calling. Rowboat's assistant and background agents rely on tools; pick a tool-capable model (e.g. qwen3, gpt-oss, llama3.3).`,
+            `${model} does not support tool calling. Spinrun's assistant and background agents rely on tools; pick a tool-capable model (e.g. qwen3, gpt-oss, llama3.3).`,
         );
     }
     const configured = providerConfig.contextLength
@@ -195,7 +195,7 @@ function capabilityWarnings(
     if (capabilities.maxContextLength !== undefined) {
         if (capabilities.maxContextLength < 16384) {
             warnings.push(
-                `${model} has a ${capabilities.maxContextLength}-token context window. Rowboat's assistant needs ~16k+ tokens; expect truncated or confused responses.`,
+                `${model} has a ${capabilities.maxContextLength}-token context window. Spinrun's assistant needs ~16k+ tokens; expect truncated or confused responses.`,
             );
         } else if (configured !== undefined && capabilities.maxContextLength < configured) {
             warnings.push(

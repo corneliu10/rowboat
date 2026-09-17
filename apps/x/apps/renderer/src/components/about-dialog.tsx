@@ -7,10 +7,10 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 type UpdaterStatus = ipcShared.IPCChannels["updater:status"]["req"]
 type Versions = ipcShared.IPCChannels["app:getVersions"]["res"]
 
-const WEBSITE_URL = "https://www.rowboatlabs.com/"
-const RELEASES_URL = "https://github.com/rowboatlabs/rowboat/releases"
-const REPO_URL = "https://github.com/rowboatlabs/rowboat"
-const SUPPORT_URL = "mailto:contact@rowboatlabs.com"
+const WEBSITE_URL = "https://spinrun.ai/"
+const RELEASES_URL = "https://github.com/corneliu10/rowboat/releases"
+const REPO_URL = "https://github.com/corneliu10/rowboat"
+const SUPPORT_URL = "mailto:support@spinrun.ai"
 
 interface AboutDialogProps {
   open: boolean
@@ -61,7 +61,7 @@ function AboutUpdate({ status }: { status: UpdaterStatus | null }) {
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium">Update ready</p>
           <p className="truncate text-xs text-muted-foreground">
-            {version ? `Rowboat ${version} is ready to install.` : "A new version is ready to install."}
+            {version ? `Spinrun ${version} is ready to install.` : "A new version is ready to install."}
           </p>
         </div>
         <Button size="sm" className="shrink-0" onClick={() => void window.ipc.invoke("updater:quitAndInstall", null)}>
@@ -104,7 +104,7 @@ function AboutUpdate({ status }: { status: UpdaterStatus | null }) {
         <RefreshCw className="size-4 shrink-0 text-muted-foreground" />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium">Manual updates</p>
-          <p className="truncate text-xs text-muted-foreground">Get the latest Rowboat release from GitHub.</p>
+          <p className="truncate text-xs text-muted-foreground">Get the latest Spinrun release from GitHub.</p>
         </div>
         <Button size="sm" variant="outline" className="shrink-0" onClick={() => window.open(`${RELEASES_URL}/latest`, "_blank")}>
           Releases
@@ -160,7 +160,7 @@ export function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
   const appVersion = status?.version || "—"
   const copyDiagnostics = async () => {
     const lines = [
-      `Rowboat ${appVersion}`,
+      `Spinrun ${appVersion}`,
       versions?.electron ? `Electron ${versions.electron}` : null,
       versions?.chrome ? `Chromium ${versions.chrome}` : null,
       versions?.node ? `Node ${versions.node}` : null,
@@ -180,9 +180,9 @@ export function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-[540px]" aria-describedby="about-rowboat-description">
         <header className="grid justify-items-center px-8 pb-8 pt-10 text-center">
-          <img src="./logo-only.png" alt="Rowboat logo" width={82} height={82} className="size-[82px] object-contain" />
+          <img src="./logo-only.png" alt="Spinrun logo" width={82} height={82} className="size-[82px] object-contain" />
           <DialogTitle className="mt-4 text-2xl font-semibold tracking-tight">
-            Rowboat
+            Spinrun
           </DialogTitle>
           <p className="mt-1 text-xs text-muted-foreground">Version {appVersion} · Desktop</p>
           <DialogDescription id="about-rowboat-description" className="mt-3 max-w-[360px] text-sm leading-relaxed">
@@ -193,7 +193,7 @@ export function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
         <div className="px-7 pb-6">
           <AboutUpdate status={status} />
 
-          <nav className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium" aria-label="About Rowboat links">
+          <nav className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium" aria-label="About Spinrun links">
             <a className="text-muted-foreground transition-colors hover:text-foreground hover:underline hover:underline-offset-4" href={WEBSITE_URL} target="_blank" rel="noreferrer">Website</a>
             <a className="text-muted-foreground transition-colors hover:text-foreground hover:underline hover:underline-offset-4" href={RELEASES_URL} target="_blank" rel="noreferrer">Release notes</a>
             <a className="text-muted-foreground transition-colors hover:text-foreground hover:underline hover:underline-offset-4" href={REPO_URL} target="_blank" rel="noreferrer">GitHub</a>
@@ -206,7 +206,7 @@ export function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
               <ChevronDown className="size-3.5 transition-transform group-open:rotate-180" />
             </summary>
             <dl className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 pb-3 text-xs">
-              <dt className="text-muted-foreground">Rowboat</dt><dd>Version {appVersion}</dd>
+              <dt className="text-muted-foreground">Spinrun</dt><dd>Version {appVersion}</dd>
               <dt className="text-muted-foreground">Electron</dt><dd>{versions?.electron ?? "—"}</dd>
               <dt className="text-muted-foreground">Chromium</dt><dd>{versions?.chrome ?? "—"}</dd>
               <dt className="text-muted-foreground">Node.js</dt><dd>{versions?.node ?? "—"}</dd>
@@ -218,7 +218,7 @@ export function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
             </Button>
           </details>
 
-          <p className="mt-4 text-center text-[0.7rem] text-muted-foreground">Made by Rowboat Labs · Apache 2.0</p>
+          <p className="mt-4 text-center text-[0.7rem] text-muted-foreground">Made by Spinrun · Apache 2.0</p>
         </div>
       </DialogContent>
     </Dialog>

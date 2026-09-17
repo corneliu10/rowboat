@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import type { ipc as ipcShared } from "@x/shared"
 
 /**
- * Settings → Permissions: every OS permission Rowboat uses, grouped by the
+ * Settings → Permissions: every OS permission Spinrun uses, grouped by the
  * FEATURE it serves — the mental model is "enable what I use", never "make
  * the checklist green" (over-granting is attack surface, especially
  * Accessibility). Statuses are honest: where the OS gives us no read API
@@ -115,7 +115,7 @@ const GROUPS: GroupSpec[] = [
         why: "Share your screen on calls so the assistant can see it.",
         hint: {
           granted: "Just granted it? macOS applies a fresh Screen Recording grant only after the app relaunches.",
-          denied: "macOS doesn't allow apps to prompt for this — enable Rowboat in the pane, then relaunch the app.",
+          denied: "macOS doesn't allow apps to prompt for this — enable Spinrun in the pane, then relaunch the app.",
         },
         settingsSection: "screen-recording",
       },
@@ -188,7 +188,7 @@ export function PermissionsSettings({ dialogOpen }: { dialogOpen: boolean }) {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <p className="text-xs text-muted-foreground">
-          What Rowboat can access on this {status.platform === "darwin" ? "Mac" : "device"}, grouped by the feature
+          What Spinrun can access on this {status.platform === "darwin" ? "Mac" : "device"}, grouped by the feature
           that uses it. Grant what you use — nothing here is required except for its feature.
         </p>
         <Button variant="ghost" size="sm" className="h-7 shrink-0 gap-1.5 text-xs" onClick={refresh}>

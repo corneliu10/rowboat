@@ -31,7 +31,7 @@ export function useRowboatAccount() {
       setState(next);
       return next;
     } catch (error) {
-      console.error('Failed to load Rowboat account state:', error);
+      console.error('Failed to load Spinrun account state:', error);
       setState(DEFAULT_STATE);
       return null;
     } finally {

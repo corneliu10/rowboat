@@ -15,7 +15,7 @@ let sqlDb: SqlDb | undefined;
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'harsh' }, // lowercase: the sort is case-insensitive

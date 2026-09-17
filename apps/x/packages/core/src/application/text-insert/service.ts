@@ -15,7 +15,7 @@ export interface ITextInsertService {
     /** Platform support (macOS only for now). */
     isSupported(): boolean;
     /**
-     * Remember the frontmost non-Rowboat app as the paste target. Called at
+     * Remember the frontmost non-Spinrun app as the paste target. Called at
      * the moments the user's intent is legible — companion summon, the
      * paste chord — BEFORE any window focus can shift.
      */

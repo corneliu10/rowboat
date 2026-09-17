@@ -47,7 +47,7 @@ type TalkingHeadProps = {
 }
 
 /**
- * The Rowboat mascot as an animated inline SVG: a round pale character sitting
+ * The Spinrun mascot as an animated inline SVG: a round pale character sitting
  * in a wooden rowboat holding an oar. The mouth is driven every animation
  * frame from the live TTS audio level; eyes blink on a randomized timer.
  */
@@ -393,7 +393,7 @@ export function TalkingHeadOverlay({ ttsState, getLevel, onDismiss }: TalkingHea
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
       role="img"
-      aria-label="Rowboat talking head"
+      aria-label="Spinrun talking head"
     >
       <style>{`
         @keyframes talking-head-pop {
@@ -506,7 +506,7 @@ function MascotHatArt({ hat }: { hat: MascotHat }) {
 
 /** Small static mascot face used as the toolbar toggle icon. */
 export function MascotFaceIcon({ className, size = 16, style }: { className?: string; size?: number | string; style?: React.CSSProperties }) {
-  // The Rowboat mark as a 24px outline glyph (from rowboat-assistant-outline.svg),
+  // The Spinrun mark as a 24px outline glyph (from rowboat-assistant-outline.svg),
   // stroke-scaled to match a 1.5px icon set. currentColor so it inks like any
   // sidebar/dock glyph.
   return (

@@ -111,9 +111,9 @@ export const SpacesOrgSummary = z.object({
   baseUrl: z.string(),
   /** Who we are on this org (org-scoped identity, spec §4). */
   memberId: z.string(),
-  /** `session` = a managed org riding the Rowboat account session (one session, two uses — 2026-09-14). */
+  /** `session` = a managed org riding the Spinrun account session (one session, two uses — 2026-09-14). */
   authKind: z.enum(['dev', 'oauth', 'session']),
-  /** Present = the org needs a re-login (refresh dead, or no Rowboat session). Visible and gentle, never silent. */
+  /** Present = the org needs a re-login (refresh dead, or no Spinrun session). Visible and gentle, never silent. */
   authError: z.string().optional(),
 });
 export type SpacesOrgSummary = z.infer<typeof SpacesOrgSummary>;
@@ -327,7 +327,7 @@ export {
 } from '@rowboat/spaces-protocol';
 export type { MentionRef, MentionStamps, OrgLink } from '@rowboat/spaces-protocol';
 
-/** Does the body deliberately address @rowboat — a token, never the bare word (spec §8)? */
+/** Does the body deliberately address @spinball — a token, never the bare word (spec §8)? */
 export function containsRowboatAddress(body: string): boolean {
   return addressesRowboat(body);
 }

@@ -54,7 +54,7 @@ function getSnapshot(): RowboatConfig | null {
   return cached
 }
 
-/** The Rowboat bootstrap config, or null while loading / when unreachable. */
+/** The Spinrun bootstrap config, or null while loading / when unreachable. */
 export function useRowboatConfig(): RowboatConfig | null {
   return useSyncExternalStore(subscribe, getSnapshot)
 }

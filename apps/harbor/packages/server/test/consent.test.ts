@@ -28,7 +28,7 @@ describe('login/consent page', () => {
     const harbor = await startHarbor({
       auth: new OidcAuthDriver({ issuer: ISSUER }),
       consent: { publishableKey: 'pk-test-123' },
-      orgName: 'Rowboat <Labs>',
+      orgName: 'Spinrun <Labs>',
     });
     const res = await fetch(`${harbor.url}/oauth/consent?authorization_id=auth-1`);
     expect(res.status).toBe(200);
@@ -45,8 +45,8 @@ describe('login/consent page', () => {
     // Harbor never renders a credential form — social sign-in only.
     expect(html).not.toContain('type="password"');
     // Org name is escaped.
-    expect(html).toContain('Rowboat &#60;Labs&#62;');
-    expect(html).not.toContain('Rowboat <Labs>');
+    expect(html).toContain('Spinrun &#60;Labs&#62;');
+    expect(html).not.toContain('Spinrun <Labs>');
     await harbor.close();
   });
 });

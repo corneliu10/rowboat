@@ -26,13 +26,13 @@ const msg = (body: string, author = 'harsh', opts: { agent?: boolean; threadRoot
     id: '01HYYYYYYYYYYYYYYYYYYYYYYY',
     spaceId: SPACE,
     ...(opts.threadRoot ? { threadRoot: opts.threadRoot } : {}),
-    author: { memberId: author, actingMode: opts.agent ? 'agent' : 'direct', ...(opts.agent ? { agentName: 'Rowboat' } : {}) },
+    author: { memberId: author, actingMode: opts.agent ? 'agent' : 'direct', ...(opts.agent ? { agentName: 'Spinball' } : {}) },
     body,
     postedAt: new Date().toISOString(),
     offset: 2,
     replyCount: 0,
     reactions: [],
-    ...(({ members, here, rowboat }) => ({ mentions: members, mentionsHere: here, mentionsRowboat: rowboat }))(parseMentions(body)),
+    ...(({ members, here, spinball }) => ({ mentions: members, mentionsHere: here, mentionsRowboat: spinball }))(parseMentions(body)),
   }) as Message;
 
 describe('classification', () => {
@@ -52,7 +52,7 @@ describe('classification', () => {
     expect(classifyFor('gagan', space('shared'), msg('a bare @gagan is prose, not an address'), none)).toBe('message');
     expect(classifyFor('gagan', space('shared'), msg('`[@Gagan](#member:gagan)` in code'), none)).toBe('message');
     expect(classifyFor('gagan', space('shared'), msg('```\n[@Gagan](#member:gagan)\n```'), none)).toBe('message');
-    expect(classifyFor('gagan', space('shared'), msg('[@rowboat](#rowboat) summarize'), none)).toBe('message');
+    expect(classifyFor('gagan', space('shared'), msg('[@spinball](#spinball) summarize'), none)).toBe('message');
   });
 
   it('titles name the person in a DM and the space elsewhere; mentions in the body resolve to names', () => {
@@ -157,7 +157,7 @@ let main: string;
 
 async function startForStore(kind: 'memory' | 'postgres'): Promise<void> {
   const options: HarborOptions = {
-    orgName: 'Rowboat Labs',
+    orgName: 'Spinrun',
     seedMembers: [
       { id: 'ramnique', displayName: 'Ramnique' },
       { id: 'harsh', displayName: 'Harsh' },

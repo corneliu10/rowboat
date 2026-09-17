@@ -146,7 +146,7 @@ function MessageRowImpl({
     memberNames: Map<string, string>
     /** Space id → current name (useSpaceNames) — the `#Name` face of a space token in copied text. */
     spaceNames?: ReadonlyMap<string, string>
-    /** Names the viewer's own agent "Your Rowboat" on thread rows. */
+    /** Names the viewer's own agent "Your Spinrun" on thread rows. */
     selfMemberId?: string
     continuation: boolean
     /** Present when a thread hangs under this message (stream only). */
@@ -157,13 +157,13 @@ function MessageRowImpl({
     /** Opens the thread's agent session in the chat view (working strip's "Open chat"). */
     onOpenAgentChat?: (rootMessageId: string) => void
     /**
-     * Opens the run that posted THIS message (the viewer's own Rowboat's
-     * reply), landing on its turn — the "via Rowboat" label and the menu's
+     * Opens the run that posted THIS message (the viewer's own Spinrun's
+     * reply), landing on its turn — the "via Spinrun" label and the menu's
      * "Open agent chat". Offered only on the viewer's own agent posts: the
      * session lives on this machine, nobody else's.
      */
     onOpenResponseChat?: (message: spaces.Message) => void
-    /** Stops the viewer's own Rowboat working this thread (working strip's stop square). */
+    /** Stops the viewer's own Spinrun working this thread (working strip's stop square). */
     onStopAgent?: (rootMessageId: string) => void
     onReplyInThread?: (message: spaces.Message) => void
     onAskRowboat?: (message: spaces.Message) => void
@@ -304,7 +304,7 @@ function MessageRowImpl({
                         </MemberProfilePopover>
                         {viaAgent && (
                             canOpenResponseChat ? (
-                                // Your own Rowboat's post: the label is the subtle way in
+                                // Your own Spinrun's post: the label is the subtle way in
                                 // to the run that wrote it (the ⋯ menu has it too).
                                 <button
                                     type="button"
@@ -428,8 +428,8 @@ function MessageRowImpl({
                                 <Bot className="size-3" />
                                 {thread.workingAgents.length === 1
                                     ? thread.workingAgents[0] === selfMemberId
-                                        ? 'Your Rowboat is working…'
-                                        : `${memberNames.get(thread.workingAgents[0]!) ?? thread.workingAgents[0]}’s Rowboat is working…`
+                                        ? 'Your Spinrun is working…'
+                                        : `${memberNames.get(thread.workingAgents[0]!) ?? thread.workingAgents[0]}’s Spinrun is working…`
                                     : `${thread.workingAgents.length} agents working…`}
                             </span>
                         )}
@@ -449,7 +449,7 @@ function MessageRowImpl({
                             title="Open the thread"
                             className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2 py-1 text-xs text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                         >
-                            <Loader2 className="size-3 animate-spin" /> Rowboat is working on a reply…
+                            <Loader2 className="size-3 animate-spin" /> Spinrun is working on a reply…
                         </button>
                         {onOpenAgentChat && (
                             <button
@@ -465,7 +465,7 @@ function MessageRowImpl({
                             <button
                                 type="button"
                                 onClick={() => onStopAgent(thread.rootMessageId)}
-                                title="Stop your Rowboat"
+                                title="Stop your Spinrun"
                                 className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
                             >
                                 <Square className="size-2.5 fill-current" /> Stop
@@ -503,7 +503,7 @@ function MessageRowImpl({
                     {onAskRowboat && (
                         <button
                             type="button"
-                            title="Ask @rowboat about this"
+                            title="Ask @spinball about this"
                             onClick={() => onAskRowboat(message)}
                             className={cn('inline-flex size-8 items-center justify-center rounded text-muted-foreground', ICON_HOVER)}
                         >
@@ -630,7 +630,7 @@ function MessageRowImpl({
                 )}
                 {onAskRowboat && (
                     <ContextMenuItem onSelect={() => onAskRowboat(message)}>
-                        <Bot className="size-3.5 mr-2" /> Ask @rowboat about this
+                        <Bot className="size-3.5 mr-2" /> Ask @spinball about this
                     </ContextMenuItem>
                 )}
                 {canEdit && (

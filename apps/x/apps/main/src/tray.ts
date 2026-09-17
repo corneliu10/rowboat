@@ -102,7 +102,7 @@ export function setTrayRecordingState(isRecording: boolean): void {
 // --- Recording indicator: animated mini-waveform beside the tray icon ---
 // macOS renders tray titles to the right of the icon. Braille cells give
 // 1-dot-wide bars (two bars per character, four height steps each) — a slim
-// waveform, an unmissable "Rowboat is capturing this meeting" signal.
+// waveform, an unmissable "Spinrun is capturing this meeting" signal.
 
 const WAVE_FRAME_MS = 300;
 const WAVE_BAR_COUNT = 5;
@@ -156,7 +156,7 @@ function stopWaveAnimation(): void {
 function rebuildMenu(): void {
   if (!tray) return;
   const menu = Menu.buildFromTemplate([
-    { label: "Open Rowboat", click: () => actions?.openApp() },
+    { label: "Open Spinrun", click: () => actions?.openApp() },
     // Permanent discoverability for the global quick-ask shortcut — the
     // accelerator renders next to the label (display only; the real binding
     // is the globalShortcut in quick-ask.ts). Hidden while the chord is
@@ -180,8 +180,8 @@ function rebuildMenu(): void {
           click: () => actions?.toggleMeetingNotes(),
         },
     { type: "separator" },
-    { label: "Quit Rowboat", click: () => app.quit() },
+    { label: "Quit Spinrun", click: () => app.quit() },
   ]);
   tray.setContextMenu(menu);
-  tray.setToolTip(recording ? "Rowboat — recording meeting" : "Rowboat");
+  tray.setToolTip(recording ? "Spinrun — recording meeting" : "Spinrun");
 }

@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react'
 import type { spaces } from '@x/shared'
 import { subscribeSpacesFeed } from '@/lib/spaces-feed'
 
-// "My Rowboat is working on this thread" — a mirror of core's agent-activity
+// "My Spinrun is working on this thread" — a mirror of core's agent-activity
 // feed (core/spaces/agent-activity.ts). Core folds the runtime's turn and
 // session buses into one list per org and emits the WHOLE list on every
 // change (and every 10s while non-empty, so a window that loads mid-turn

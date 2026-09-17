@@ -176,7 +176,7 @@ export function ProjectsRail({ tree, selectedPath, selectedFile, selectedChat, p
                                     <button aria-label={`New chat in ${item.name}`} title="New chat" className="rounded p-1 hover:bg-accent" onClick={() => void run(() => onNewChat(item))}><Plus className="size-3.5" /></button>
                                     {fileMenu({ ...item, kind: 'dir' })}
                                 </div>
-                                {expanded.has(item.id) && <div>{item.chats.map((chat) => <ChatRow key={chat.id} working={processingRunIds.has(chat.id)} chat={chat} selected={selectedChat === chat.id && project?.id === item.id} onOpen={() => onOpenChat(item, chat.id)} />)}{item.chats.length === 0 && <button className="h-8 pl-7 text-xs text-muted-foreground hover:text-foreground" onClick={() => void run(() => onNewChat(item))}>Start a chat with Rowboat</button>}</div>}
+                                {expanded.has(item.id) && <div>{item.chats.map((chat) => <ChatRow key={chat.id} working={processingRunIds.has(chat.id)} chat={chat} selected={selectedChat === chat.id && project?.id === item.id} onOpen={() => onOpenChat(item, chat.id)} />)}{item.chats.length === 0 && <button className="h-8 pl-7 text-xs text-muted-foreground hover:text-foreground" onClick={() => void run(() => onNewChat(item))}>Start a chat with Spinrun</button>}</div>}
                             </div>)}
                         </div></FileListContextMenu>}
                     </section>

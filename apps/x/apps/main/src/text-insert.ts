@@ -10,9 +10,9 @@
  *
  * Target selection: the frontmost app is captured at intent moments
  * (companion summon, the paste chord) and again live at insert time. A live
- * non-Rowboat frontmost wins (the user is looking at it right now); the
- * stored capture covers the case where a Rowboat window took focus in
- * between. Never pastes into Rowboat itself.
+ * non-Spinrun frontmost wins (the user is looking at it right now); the
+ * stored capture covers the case where a Spinrun window took focus in
+ * between. Never pastes into Spinrun itself.
  */
 import { execFile } from 'child_process';
 import { app, clipboard } from 'electron';
@@ -127,7 +127,7 @@ export class ElectronTextInsertService implements ITextInsertService {
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       const friendly = /not allowed|1002|assistive|osascript is not allowed/i.test(msg)
-        ? 'macOS blocked the keystroke — allow Rowboat (in dev: "Electron") under Privacy & Security → Accessibility, and → Automation → System Events.'
+        ? 'macOS blocked the keystroke — allow Spinrun (in dev: "Electron") under Privacy & Security → Accessibility, and → Automation → System Events.'
         : `Paste failed: ${msg}`;
       // Failure path: leave the payload ON the clipboard — losing the old
       // clipboard is the lesser cost; the words being one ⌘V away is the

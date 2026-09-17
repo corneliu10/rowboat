@@ -58,9 +58,9 @@ describe("filesystem files", () => {
   it("expands home-relative paths", async () => {
     const files = await loadFiles();
 
-    const resolved = files.resolveFilePath("~/rowboat-test.txt");
+    const resolved = files.resolveFilePath("~/spinrun-test.txt");
 
-    expect(resolved.resolvedPath).toBe(path.join(os.homedir(), "rowboat-test.txt"));
+    expect(resolved.resolvedPath).toBe(path.join(os.homedir(), "spinrun-test.txt"));
     expect(resolved.isInsideWorkspace).toBe(false);
   });
 

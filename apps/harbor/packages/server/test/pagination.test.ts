@@ -173,7 +173,7 @@ describe.each([['memory'], ['postgres']] as const)('windowed reads (%s store)', 
   });
 
   it('read_stream and read_thread (MCP) window the same way and state truncation', async () => {
-    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Rowboat' });
+    const agent = await agentClient(harbor, 'dev-ramnique', { agentName: 'Spinball' });
     const page = await callStructured<{ messages: Message[]; topics: Topic[]; truncated: boolean }>(agent, 'read_stream', {
       spaceId, limit: 2,
     });

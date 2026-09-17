@@ -10,7 +10,7 @@ import { mapMentionTokens, type Member } from '@rowboat/spaces-protocol';
 /**
  * What the index holds for a body or a title (messages.search_text,
  * topics.search_text — migration 017): every mention token collapses to its
- * bare key (the member id, or "here" / "rowboat"), everything else stays
+ * bare key (the member id, or "here" / "spinball"), everything else stays
  * verbatim. So neither a token's label nor the word "member" is ever indexed,
  * and a name query reaches a mention only through the rename-safe id
  * expansion below. App-computed, written in the same transaction as the

@@ -66,7 +66,7 @@ export async function deliverLoopbackCallback(args: {
 }): Promise<{ accepted: boolean; message?: string }> {
   const entry = pending.get(args.bindingId);
   if (!entry) {
-    return { accepted: false, message: 'This sign-in attempt is no longer active. Close this tab and retry from Rowboat.' };
+    return { accepted: false, message: 'This sign-in attempt is no longer active. Close this tab and retry from Spinrun.' };
   }
   let url: URL;
   try {

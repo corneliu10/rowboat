@@ -12,7 +12,7 @@ import type { Store } from './store.js';
 // The agent face (CONTRACT.md decision 5): the protocol tools served over
 // MCP streamable HTTP at /mcp. Every call is attributed as the token's member;
 // actingMode defaults to 'agent' ('scheduled' via the x-acting-mode header,
-// display label via x-agent-name). Rowboat's own agent uses this exact
+// display label via x-agent-name). Spinrun's own agent uses this exact
 // endpoint — there is no privileged path. PARITY (2026-09-09): every member
 // operation the render face has is projected here; an agent's vote, reaction,
 // or edit is the member's act, attributed by mode.

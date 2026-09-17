@@ -2,7 +2,7 @@ import { app, Menu, shell, type BrowserWindow, type MenuItemConstructorOptions }
 import { WorkDir } from "@x/core/dist/config/config.js";
 import type { ipc } from "@x/shared";
 import { brand } from "@x/shared";
-import { dispatchDeepLink } from "./deeplink.js";
+import { DEEP_LINK_SCHEME, dispatchDeepLink } from "./deeplink.js";
 import {
   getQuickAskShortcutState,
   onQuickAskShortcutChanged,
@@ -97,7 +97,7 @@ function sendCommand(payload: MenuCommand): void {
  */
 function navigate(type: string): void {
   actions?.openApp();
-  dispatchDeepLink(`rowboat://open?type=${type}`);
+  dispatchDeepLink(`${DEEP_LINK_SCHEME}://open?type=${type}`);
 }
 
 function withMainWindow(fn: (win: BrowserWindow) => void): void {
@@ -165,7 +165,7 @@ function rebuildMenu(): void {
   const macAppMenu: MenuItemConstructorOptions = {
     label: app.name,
     submenu: [
-      { label: "About Rowboat", click: () => showAboutDialog() },
+      { label: "About Spinrun", click: () => showAboutDialog() },
       { type: "separator" },
       settingsItem,
       updateMenuItem(),
@@ -355,7 +355,7 @@ function rebuildMenu(): void {
   const helpMenu: MenuItemConstructorOptions = {
     role: "help",
     submenu: [
-      { label: "Rowboat on GitHub", click: () => void shell.openExternal(REPO_URL) },
+      { label: "Spinrun on GitHub", click: () => void shell.openExternal(REPO_URL) },
       { label: "Report an Issue…", click: () => void shell.openExternal(`${REPO_URL}/issues/new`) },
       { label: "Release Notes", click: () => void shell.openExternal(`${REPO_URL}/releases`) },
       { type: "separator" },
@@ -371,7 +371,7 @@ function rebuildMenu(): void {
         : [
             { type: "separator" } as MenuItemConstructorOptions,
             updateMenuItem(),
-            { label: "About Rowboat", click: () => showAboutDialog() } as MenuItemConstructorOptions,
+            { label: "About Spinrun", click: () => showAboutDialog() } as MenuItemConstructorOptions,
           ]),
     ],
   };

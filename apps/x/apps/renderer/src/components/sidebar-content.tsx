@@ -1339,7 +1339,7 @@ export function SidebarContentPanel({
             disabled={loggingIn}
             className="flex w-full items-center justify-center rounded-lg border border-sidebar-border bg-sidebar-accent/20 px-3 py-2.5 text-xs font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent/40 disabled:opacity-50"
           >
-            {loggingIn ? 'Signing in…' : 'Sign in to Rowboat'}
+            {loggingIn ? 'Signing in…' : 'Sign in to Spinrun'}
           </button>
         </div>
       )}

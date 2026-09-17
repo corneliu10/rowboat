@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 /**
  * Whether voice input (push-to-talk STT) is configured: a local Deepgram key
- * or a connected Rowboat account. The same probe App runs for the assistant
+ * or a connected Spinrun account. The same probe App runs for the assistant
  * composer's mic button, re-checked when sign-in state changes.
  */
 export function useVoiceInputAvailable(): boolean {

@@ -10,7 +10,7 @@ import { OAuthTokens } from "./types.js";
  *                                   (the secret-requiring step that can't
  *                                   happen on the desktop)
  *
- * Both are called with the user's Rowboat Supabase bearer (via getAccessToken).
+ * Both are called with the user's Spinrun Supabase bearer (via getAccessToken).
  *
  * The api response shape uses `scope: string` (space-delimited); we convert
  * to the desktop's `scopes: string[]`. On refresh, api may omit `scope` and

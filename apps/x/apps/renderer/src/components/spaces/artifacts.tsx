@@ -40,7 +40,7 @@ export function FoldIntoFileButton({ entries, onPick, busy }: {
                     type="button"
                     disabled={busy}
                     className="inline-flex items-center gap-1 whitespace-nowrap rounded-md border border-border px-2 py-0.5 text-[11.5px] text-foreground/90 hover:bg-accent disabled:opacity-50"
-                    title="Ask your Rowboat to fold this topic’s decision into a file"
+                    title="Ask your Spinrun to fold this topic’s decision into a file"
                 >
                     {busy ? <Loader2 className="size-3 animate-spin" /> : <Bot className="size-3" />} Fold into file… <ChevronDown className="size-3 text-muted-foreground" />
                 </button>
@@ -102,7 +102,7 @@ export function ArtifactsRail({ org, space, groups, memberNames, working, entrie
             <div className="flex flex-1 min-h-0 flex-col gap-1.5 overflow-y-auto px-2.5 pt-2.5 pb-2">
                 {groups.length === 0 && !working && (
                     <div className="rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground">
-                        Nothing changed from this topic yet. Ask @rowboat to fold a decision into a file, or pick one above.
+                        Nothing changed from this topic yet. Ask @spinball to fold a decision into a file, or pick one above.
                     </div>
                 )}
                 {groups.map((g) => (
@@ -130,7 +130,7 @@ export function ArtifactsRail({ org, space, groups, memberNames, working, entrie
                     </div>
                 ))}
                 {working && (
-                    <div className="flex items-center gap-2 px-1 py-1 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" /> A Rowboat is working in this topic…</div>
+                    <div className="flex items-center gap-2 px-1 py-1 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" /> A Spinrun is working in this topic…</div>
                 )}
             </div>
             <Dialog open={diffView !== null} onOpenChange={(open) => !open && setDiffView(null)}>

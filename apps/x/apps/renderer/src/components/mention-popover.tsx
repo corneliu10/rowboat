@@ -153,10 +153,10 @@ export function MentionPopover({
         className={index === selectedIndex ? 'bg-accent' : ''}
         onMouseMove={() => setSelectedIndex(index)}
       >
-        {target.kind === 'rowboat' ? (
+        {target.kind === 'spinball' ? (
           <>
             <Bot className="mr-2 h-4 w-4 shrink-0 text-primary" />
-            <span className="truncate font-medium">rowboat</span>
+            <span className="truncate font-medium">spinball</span>
             <span className="ml-auto truncate pl-2 text-xs text-muted-foreground">hand off a task</span>
           </>
         ) : target.kind === 'file' ? (

@@ -1,7 +1,7 @@
-# Control-plane stub (lane A)
+# Control-plane stub (lane A; defaults updated lane F2)
 
-A dependency-free `node:http` stand-in for `https://api.x.rowboatlabs.com`
-(`API_URL`). Answers `GET /v1/config` and `GET /v1/me` so the desktop app
+A dependency-free `node:http` stand-in for `https://api.spinrun.ai`
+(`API_URL` default since lane F2). Answers `GET /v1/config` and `GET /v1/me` so the desktop app
 boots signed-out and un-throttled; everything else is 404 JSON. See the
 header comment in `server.mjs` for the shape rationale and
 `docs/fork/01-control-plane.md` for the full endpoint inventory.

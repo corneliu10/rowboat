@@ -20,7 +20,7 @@ export const SpaceMentionOrigin = z.object({
     // The thread the mention lives in: the message's root (its own id when
     // it IS a root). Activity is keyed per thread.
     threadRootId: z.string(),
-    // The @rowboat feed message itself — the invocation's provenance.
+    // The @spinball feed message itself — the invocation's provenance.
     messageId: z.string(),
 });
 export type SpaceMentionOrigin = z.infer<typeof SpaceMentionOrigin>;

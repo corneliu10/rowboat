@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the Rowboat desktop app as an Arch package and install it with pacman.
+# Build the Spinrun desktop app as an Arch package and install it with pacman.
 #
 # Usage: apps/x/scripts/install-arch.sh
 #

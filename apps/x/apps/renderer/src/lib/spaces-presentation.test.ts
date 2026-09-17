@@ -43,7 +43,7 @@ function cs(over: Partial<spaces.ChangeSet> & { id: string; committedAt: string 
         assetPath: 'roadmap.md',
         baseVersion: 1,
         resultVersion: 2,
-        attribution: { memberId: 'ramnique', actingMode: 'agent', agentName: 'Rowboat' },
+        attribution: { memberId: 'ramnique', actingMode: 'agent', agentName: 'Spinrun' },
         offset: 1,
         ...over,
     }
@@ -56,8 +56,8 @@ describe('initials / monograms', () => {
         expect(initials('')).toBe('?')
     })
     it('derives an org monogram from the address, falling back to the name', () => {
-        expect(orgMonogram({ name: 'Rowboat Labs', address: 'rowboat.team' })).toBe('RT')
-        expect(orgMonogram({ name: 'Rowboat Labs (dev)', address: 'localhost:4272' })).toBe('RL')
+        expect(orgMonogram({ name: 'Spinrun', address: 'rowboat.team' })).toBe('RT')
+        expect(orgMonogram({ name: 'Spinrun (dev)', address: 'localhost:4272' })).toBe('SP')
     })
 })
 
@@ -243,8 +243,8 @@ describe('mentions — tokens carry ids, the roster supplies names', () => {
     })
 
     it('rewriteMentionLinks turns tokens into the app links the anchor renders as chips', () => {
-        expect(rewriteMentionLinks(`ping ${tok('01HXAMPLEULIDHARSH000000', 'Harsh')} [@here](#here) [@rowboat](#rowboat)`))
-            .toBe('ping [@Harsh](app://space-member/01HXAMPLEULIDHARSH000000) [@here](app://space-mention/here) [@rowboat](app://space-mention/rowboat)')
+        expect(rewriteMentionLinks(`ping ${tok('01HXAMPLEULIDHARSH000000', 'Harsh')} [@here](#here) [@spinball](#spinball)`))
+            .toBe('ping [@Harsh](app://space-member/01HXAMPLEULIDHARSH000000) [@here](app://space-mention/here) [@spinball](app://space-mention/spinball)')
         expect(rewriteMentionLinks('`' + tok('x', 'X') + '` stays')).toBe('`' + tok('x', 'X') + '` stays')
         expect(parseSpaceMemberAppUrl('app://space-member/01HXAMPLEULIDHARSH000000')).toBe('01HXAMPLEULIDHARSH000000')
         expect(parseSpaceMemberAppUrl('app://space-file/o/s/a.md')).toBeNull()
@@ -329,7 +329,7 @@ describe('unread changes', () => {
     it('marks a change unread when it landed after the mark (an offset) and was not my own direct edit', () => {
         const theirs = cs({ id: 'c2', committedAt: '2026-08-19T18:04:00Z', offset: 20 })
         const mine = cs({ id: 'self', committedAt: '2026-08-19T17:00:00Z', offset: 10, attribution: { memberId: 'me', actingMode: 'direct' } })
-        const myAgent = cs({ id: 'agent', committedAt: '2026-08-19T17:30:00Z', offset: 15, attribution: { memberId: 'me', actingMode: 'agent', agentName: 'Rowboat' } })
+        const myAgent = cs({ id: 'agent', committedAt: '2026-08-19T17:30:00Z', offset: 15, attribution: { memberId: 'me', actingMode: 'agent', agentName: 'Spinrun' } })
         expect(isUnreadChange(theirs, 5, 'me')).toBe(true)
         expect(isUnreadChange(theirs, 20, 'me')).toBe(false)
         expect(isUnreadChange(mine, 0, 'me')).toBe(false)

@@ -37,4 +37,5 @@ export * as rowboatAccount from './rowboat-account.js';
 export * as turnFollower from './turn-follower.js';
 export * as spaces from './spaces.js';
 export * from './brand.js';
+export * from './mention.js';
 export { PrefixLogger };

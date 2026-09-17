@@ -7,12 +7,13 @@ import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Markdown } from 'tiptap-markdown'
 import { mentionToken, type MentionRef } from '@x/shared/dist/spaces.js'
+import { brand } from '@x/shared/dist/brand.js'
 
 // The Spaces composer's TipTap setup. The editor is the input surface only —
 // markdown stays the wire format: tiptap-markdown parses drafts/seeds INTO
 // the doc, and composerMarkdown() serializes the doc back out on every
 // update, so everything downstream of the composer (drafts, slash commands,
-// @rowboat detection, buildBody) keeps operating on the same markdown string
+// @spinball detection, buildBody) keeps operating on the same markdown string
 // a textarea used to hold. StarterKit's input rules give the editor behavior
 // of `**bold**` converting live as you type.
 
@@ -41,7 +42,7 @@ const ChatFormatKeys = Extension.create({
  * backslash has nothing to escape and renders as itself. That is where the
  * trailing backslashes in sent messages came from, and every plain-text
  * surface off the same body (copies, quotes, excerpts, thread titles, the
- * text handed to @rowboat) showed them unconditionally. A newline carries the
+ * text handed to @spinball) showed them unconditionally. A newline carries the
  * break instead — the composer parses one straight back to a hard break
  * (markdown-it `breaks`), and so does every renderer of a space body. Inside
  * a table a newline would end the row, so those keep the HTML break.
@@ -76,7 +77,7 @@ const ChatStarterKit = StarterKit.extend({
     },
 })
 
-type MentionKind = 'member' | 'space' | 'here' | 'rowboat'
+type MentionKind = 'member' | 'space' | 'here' | 'spinball'  // wire handle is brand.mentionHandle
 
 interface MentionAttrs {
     kind: MentionKind
@@ -89,7 +90,7 @@ function refOf(attrs: MentionAttrs): MentionRef {
     return { kind: attrs.kind }
 }
 
-/** The pill's text: `#Name` for a space reference, `@Name` for a person, `@here` / `@rowboat` for the fixed addresses. */
+/** The pill's text: `#Name` for a space reference, `@Name` for a person, `@here` / `@spinball` for the fixed addresses. */
 function pillText(attrs: MentionAttrs): string {
     if (attrs.kind === 'space') return `#${attrs.label}`
     return `@${attrs.kind === 'member' ? attrs.label : attrs.kind}`
@@ -99,7 +100,7 @@ function pillText(attrs: MentionAttrs): string {
  * A mention as ONE node (the Discord/Slack composer shape): an inline atom
  * carrying kind + id + label, rendered as a pill, deleted in one backspace,
  * serialized to the wire's link token (`[@Name](#member:<id>)`, `[@here](#here)`,
- * `[@rowboat](#rowboat)`, `[#Name](#space:<id>)` — protocol mentions.ts) and
+ * `[@spinball](#spinball)`, `[#Name](#space:<id>)` — protocol mentions.ts) and
  * parsed back from it, so drafts, seeds, and the inline edit box round-trip.
  * The autocomplete inserts it; nothing ever rewrites typed text into an address.
  */
@@ -139,7 +140,7 @@ export const MentionNode = Node.create({
                 },
             },
             { tag: 'a[href="#here"]', priority: 1001, getAttrs: () => ({ kind: 'here', id: null, label: 'here' }) },
-            { tag: 'a[href="#rowboat"]', priority: 1001, getAttrs: () => ({ kind: 'rowboat', id: null, label: 'rowboat' }) },
+            { tag: `a[href="#${brand.mentionHandle}"]`, priority: 1001, getAttrs: () => ({ kind: 'spinball' as MentionKind, id: null, label: brand.mentionHandle }) },
             {
                 tag: 'span[data-mention]',
                 priority: 1001,

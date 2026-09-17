@@ -91,7 +91,7 @@ export async function initiateConnection(toolkitSlug: string): Promise<{
                 toolkit: { slug: toolkitSlug },
                 auth_config: {
                     type: 'use_composio_managed_auth',
-                    name: `rowboat-${toolkitSlug}`,
+                    name: `spinrun-${toolkitSlug}`,
                 },
             });
             authConfigId = created.auth_config.id;

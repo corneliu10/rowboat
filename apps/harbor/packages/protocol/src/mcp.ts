@@ -25,7 +25,7 @@ import { SearchKind, SearchLimit, SearchResults } from './search.js';
 //      convention required), read_asset bundles recent history, and a
 //      propose_change conflict returns current content + history, so ANY
 //      well-behaved agent gets read-before-write and retry for free.
-//   2. Rowboat's own agent uses these exact tools — no privileged path.
+//   2. Spinrun's own agent uses these exact tools — no privileged path.
 // The agent navigates the same conversation model as the UI (annotation model
 // 2026-09-01): one stream of root messages, flat threads behind reply chips,
 // topics as archivable annotation rows on threads.
