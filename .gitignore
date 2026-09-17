@@ -12,3 +12,12 @@ data/
 .agents/
 .claude/skills/
 skills-lock.json
+
+# spike/base lane isolation: tool caches/homes and app runtime workdirs live
+# inside the checkout and must never be committed (see docs/fork/00-baseline.md).
+# out/ bundles and dist/ output are already ignored by the nested .gitignore
+# files in apps/x; ~/.rowboat data lives outside the repo by default.
+.local-home/
+.cache/
+.run/
+.sandbox/
