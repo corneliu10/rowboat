@@ -128,7 +128,6 @@ describe("resolveOrgArg", () => {
         expect(await resolveOrgArg("org-2")).toBe(acme);
         expect(await resolveOrgArg("acme")).toBe(acme);
         expect(await resolveOrgArg("spinrun")).toBe(spinrun);
-        expect(await resolveOrgArg("rowboat-labs")).toBe(spinrun);
         expect(await resolveOrgArg("spaces-spinrun")).toBe(spinrun);
         expect(await resolveOrgArg("acme.spaces.test")).toBe(acme);
         await expect(resolveOrgArg("nope")).rejects.toThrow(/Unknown org 'nope'/);

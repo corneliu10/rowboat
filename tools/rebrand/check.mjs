@@ -33,6 +33,8 @@ function fileSkipped(file) {
   if (file === 'apps/x/packages/core/src/application/browser-skills/loader.test.ts') return true;
   // File paths containing rowboat (identifiers: rowboat-account.ts, rowboat-app.json, etc.)
   if (/rowboat/i.test(file)) return true;
+  // The gate itself necessarily names the word it greps for (patterns + comments).
+  if (file === 'tools/rebrand/check.mjs') return true;
   return false;
 }
 

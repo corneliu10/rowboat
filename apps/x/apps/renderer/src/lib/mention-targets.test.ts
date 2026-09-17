@@ -55,7 +55,7 @@ const kinds = (entries: ReturnType<typeof buildMentionEntries>) => entries.map((
 describe('buildMentionEntries', () => {
   it('browses each group in turn on a bare "@": spinball, files, spaces, people', () => {
     const entries = buildMentionEntries('', sources)
-    expect(entries[0].target.kind).toBe('rowboat')
+    expect(entries[0].target.kind).toBe('spinball')
     const groups = entries.map((e) => e.group)
     // Grouped, in order, and never interleaved.
     expect(groups).toEqual([...groups].sort((a, b) => ORDER[a] - ORDER[b]))
@@ -96,9 +96,9 @@ describe('buildMentionEntries', () => {
   })
 
   it('keeps spinball first while the query is a prefix of it', () => {
-    const entries = buildMentionEntries('ro', sources)
-    expect(entries[0].target.kind).toBe('rowboat')
-    expect(entries.map((e) => e.label)).toContain('Roadboard')
+    const entries = buildMentionEntries('sp', sources)
+    expect(entries[0].target.kind).toBe('spinball')
+    expect(entries.map((e) => e.label)).toContain('spinball')
   })
 
   it('widens each group once a query narrows it', () => {

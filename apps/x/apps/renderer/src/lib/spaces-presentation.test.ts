@@ -57,7 +57,7 @@ describe('initials / monograms', () => {
     })
     it('derives an org monogram from the address, falling back to the name', () => {
         expect(orgMonogram({ name: 'Spinrun', address: 'rowboat.team' })).toBe('RT')
-        expect(orgMonogram({ name: 'Spinrun (dev)', address: 'localhost:4272' })).toBe('RL')
+        expect(orgMonogram({ name: 'Spinrun (dev)', address: 'localhost:4272' })).toBe('SP')
     })
 })
 

@@ -60,7 +60,7 @@ describe("filesystem files", () => {
 
     const resolved = files.resolveFilePath("~/spinrun-test.txt");
 
-    expect(resolved.resolvedPath).toBe(path.join(os.homedir(), "rowboat-test.txt"));
+    expect(resolved.resolvedPath).toBe(path.join(os.homedir(), "spinrun-test.txt"));
     expect(resolved.isInsideWorkspace).toBe(false);
   });
 

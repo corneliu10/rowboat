@@ -301,7 +301,8 @@ export function rewriteMentionLinks(body: string): string {
 }
 
 export const HERE_APP_URL = 'app://space-mention/here'
-export const ROWBOAT_APP_URL = 'app://space-mention/rowboat'
+// Kept name ROWBOAT_APP_URL: ripples through renderers; value is now spinball.
+export const ROWBOAT_APP_URL = 'app://space-mention/spinball'
 
 export function spaceMemberAppUrl(memberId: string): string {
     return `app://space-member/${encodeURIComponent(memberId)}`
