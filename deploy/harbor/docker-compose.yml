@@ -1,0 +1,50 @@
+# Harbor deployment-mode spike (lane e).
+# postgres:16 with a volume + harbor built from apps/harbor/Dockerfile.
+# Env comes from .env.example next to this file (copy to `.env` to override;
+# `environment` below only pins compose-level wiring, never secrets).
+#
+#   docker compose -f deploy/harbor/docker-compose.yml up --build
+#
+# The Dockerfile's build context is apps/harbor (Dockerfile:2), hence the
+# relative context below. Host port 4273 avoids the dev stub on 4272
+# (`cd apps/harbor/packages/server && pnpm dev`).
+name: harbor-e-harbor
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: harbor
+      POSTGRES_DB: harbor
+      # Local spike only: trust auth so no password lives in a tracked file.
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - harbor-e-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U harbor -d harbor']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  harbor:
+    build:
+      context: ../../apps/harbor
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env.example
+    environment:
+      # Compose wiring (not secrets): the server reads DATABASE_URL from the
+      # env file, which already points at `postgres:5432`.
+      PORT: '4272'
+    ports:
+      - '4273:4272'
+    volumes:
+      - harbor-e-blobs:/blobs
+
+volumes:
+  harbor-e-pgdata:
+  harbor-e-blobs:
