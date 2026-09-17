@@ -110,3 +110,59 @@ For each file another lane also edits, the hunk verbatim in a diff block.
 - Mobile `assets/images/icon.png` + `splash-icon.png` (1024) + `android-icon-foreground.png` (512) replaced with Spinrun rasters at matching sizes (background/monochrome solids have no logo and were left; `app.json` name/scheme were already Spinrun).
 - `apps/x/apps/main/icons/install-loading.gif` regenerated via `gen-install-loading.sh` with `FONT=/System/Library/Fonts/Geneva.ttf` (ImageMagickallation via brew; script text was already `Installing Spinrun` from Step 5, icon is now Spinrun): 110 frames, 480×320, 7397 bytes.
 - `npm run rebrand:check` still exits 0 (binaries carry no `rowboat` word hits); `about-dialog.test.tsx` 3/3 pass.
+## Follow-up F2
+Branch `spike/f-rebrand`, six one-commit items on top of `8d91b16f`. `git status` was clean, `git pull --ff-only origin spike/f-rebrand` already up to date. Guard rails as lane F (repo-local, no secrets — `git diff --cached | grep -nE 'sk-ant-|spr_|phc_|AKIA'` before every commit, push to origin only, LICENSE/NOTICE untouched — `git diff origin/spike/integration -- LICENSE NOTICE` empty (0 lines), minimal diffs, no PR).
+### Commits
+- `111ab2f3` F2 item 1: google-setup.md Spinrun prose + gate checks root md (README, google-setup)
+- `d3812a67` F2 item 2: code-session branch prefix spinrun/ via CODE_SESSION_BRANCH_PREFIX in shared
+- `f1cbba52` F2 item 3: meetings folder spinrun/ via MEETINGS_FOLDER, dual-read prompt, hook test
+- `1f77eb39` F2 item 4: API_URL api.spinrun.ai, APEX_URL spaces.spinrun.ai, stub README, dead-backend check
+- `163399f8` F2 item 5: Spinrun describe copy, CFBundleDisplayName, spinrun-toolkit, install-arch comment
+- `91811bf4` F2 item 6: tighten gate (line-start //, specific ids, rowboatlabs.com hard failure) + prose fixes
+### 1. google-setup.md
+- `google-setup.md:1` `# Connecting Google to Spinrun`; `:3` `Spinrun requires Google OAuth credentials…`; `:24` `` `Spinrun Integration` ``; `:29-31` first image plus new line `Screenshots below show the previous UI.` (screenshots kept, same `assets/google-setup/*.png` paths); `:67` `` `Spinrun` ``; `:97` `connect with Spinrun`; `:119` `` `Spinrun` ``; `:140` `into Spinrun`; `:142` `![Enter credentials in Spinrun](…)`. `grep -niE '\browboat\b' google-setup.md` clean.
+- `tools/rebrand/check.mjs` `fileSkipped`: added `proposal.md` skip, replaced `if (file.endsWith('.md') && file !== 'README.md')` with checked `README.md`/`google-setup.md`, skipped `apps/x/`/`apps/harbor/`/`docs/` md, checked all other md (e.g. `tools/control-plane-stub/README.md` passes via identifiers). `node tools/rebrand/check.mjs` exits 0.
+### 2. Branch prefix
+- `apps/x/packages/shared/src/brand.ts:21` `export const CODE_SESSION_BRANCH_PREFIX = \`${brand.executableName}/\`;` (resolves `spinrun/`).
+- `apps/x/packages/core/src/background-tasks/code-sessions.ts:4` imports it; `:294` `session.worktree?.branch ?? CODE_SESSION_BRANCH_PREFIX + session.id` (`??` fallback stays, stored branches kept).
+- `apps/x/packages/core/src/code-mode/sessions/service.ts:6` imports it; `:224` `` `${CODE_SESSION_BRANCH_PREFIX}${sessionId}` ``.
+- Tests: `apps/x/packages/shared/src/brand.test.ts` asserts `CODE_SESSION_BRANCH_PREFIX === 'spinrun/'` and `=== brand.executableName + '/'` (shared 326/326); `apps/x/packages/core/src/code-mode/sessions/workspaces.test.ts` new `creates new worktree branches under the spinrun/ prefix` expects `spinrun/s2` in `created.worktree.branch` and `worktreeAdd` arg (13/13 with file). Legacy `rowboat/s1` fixtures stay (stored branches, gate-allowlisted `"rowboat/…"`).
+### 3. Meetings folder
+- `apps/x/packages/shared/src/brand.ts:25` `export const MEETINGS_FOLDER = brand.executableName;` (`spinrun`).
+- `apps/x/apps/renderer/src/hooks/useMeetingTranscription.ts:7` imports it; `:525` `` `knowledge/Meetings/${MEETINGS_FOLDER}/…` ``; `:532` suffixed variant same. Old notes stay on disk (no migration).
+- `apps/x/packages/core/src/knowledge/sources/repo.ts:4` imports it; `:47-49` comment plus `artifactDir: path.join('knowledge', 'Meetings', MEETINGS_FOLDER)` (id `rowboat-meetings` stays for compat, quoted allowlist).
+- `apps/x/packages/core/src/knowledge/inline_task_agent.ts:186` example now `` `knowledge/Meetings/spinrun/2026-03-30/…` `` plus `also read the legacy \`knowledge/Meetings/rowboat/<YYYY-MM-DD>/\``.
+- Tests: shared `meetings folder follows the executable name` (5/5 in brand.test.ts); new `apps/x/apps/renderer/src/hooks/useMeetingTranscription.test.ts` (2/2) asserts `MEETINGS_FOLDER === 'spinrun'` and template resolves `knowledge/Meetings/spinrun/2026-03-30/meeting-….md`.
+### 4. Defaults + dead-backend check
+- `apps/x/packages/core/src/config/env.ts:1-2` `process.env.API_URL || 'https://api.spinrun.ai'` (dead today, intended).
+- `apps/x/apps/mobile/src/lib/spaces/account.tsx:13` `?? 'https://spaces.spinrun.ai'` (dead today, intended).
+- `tools/control-plane-stub/README.md:1,3-4` title `defaults updated lane F2`, stand-in for `https://api.spinrun.ai`.
+- Dead-backend re-run (stub off, 2 min): `cd apps/x && env -u API_URL ROWBOAT_TELEMETRY=off npm run dev:sandbox -- --no-deps --workdir $PWD/.sandbox/f2-dead --name f2-dead` (ports server=53803 apps=53804 vite=53805), `/tmp/f2-dead.log` 337 lines. Only backend error is the sign-in path: `[OAuth] Starting connection flow for rowboat…` → `OAuth connection failed: TypeError: fetch failed` (`oauth-flows.js:308` ← `oauth:connect`), `[cause]: Error: getaddrinfo ENOTFOUND api.spinrun.ai` (`hostname: 'api.spinrun.ai'`), `grep -c "fetch failed"` = 1. `grep rowboatlabs` = zero hits (app does not phone Rowboat by default). Remainder is local first-run noise (ENOENT `recent-work-dirs.json`/`exa-search.json`, Google/Microsoft credential watchers `Sleeping…`, GraphBuilder/NoteTagging/InlineTasks idle). Quit cleanly (`[sandbox] app exited (code 0)`), no leftover `f2-dead` processes; workdir under git-ignored `.sandbox/`.
+### 5. Minor
+- `apps/x/packages/shared/src/rowboat-app.ts:35` `RESERVED. Spinrun MUST NOT execute this in V1.`; `:37` `Minimum compatible Spinrun version…` (field name `minRowboatVersion` stays, camelCase gate-invisible).
+- `apps/x/apps/main/forge.config.cjs:236` `CFBundleDisplayName: brand.productName,` (see Not verified for plutil deviation).
+- `apps/x/packages/core/src/composio/flows.ts:94` `` name: `spinrun-${toolkitSlug}` `` (`user_id: 'rowboat-user'` stays, quoted allowlist).
+- `apps/x/scripts/install-arch.sh:2` `# Build the Spinrun desktop app…` (`ROWBOAT_SPACES`, `rowboat.conf` path stay, identifier allowlists).
+### 6. Tighten the gate
+- `tools/rebrand/check.mjs`: `/\/\/.*rowboat/i` → `/^\s*\/\/.*rowboat/i` (line-start only; `^\s*(//|#|*|<!--)` already covers full-line comments); dropped broad `/rowboat (provider|mode|…)/i`, replaced with specific `provider: "rowboat"`, `flavor: "rowboat"`, `which: "rowboat"`, `onboardingPath`, `config['rowboat']` (quoted/`rowboat:` shapes were already covered; prose in `//`/`*` comments stays covered by the line pattern).
+- Added hard failure `ROWBOATLABS_URL = /https?:\/\/[^\s'"]*rowboatlabs\.com/i` with no allowlist except `fileSkipped` (NOTICE, `docs/fork/`, `proposal.md`, `apps/x/*.md`, fixtures) and README attribution line. `tools/control-plane-stub/README.md` old-URL parenthetical removed in same commit so the checked file carries zero such URLs.
+- Required prose fixes (9 hits, else gate-red): `apps/x/packages/core/src/auth/tokens.ts:26` `Refreshing Spinrun access token`; `catalog.test.ts:279,289,302` `Spinrun provider` descriptions (quoted `'rowboat'` ids stay); `initial-selection.test.ts:108` `(Spinrun auto-select)`, `:111,118` `Spinrun initial pick`, `:124` `Spinrun task overrides` (`{ rowboat: … }`, `'rowboat'` args stay); `repo.test.ts:108` `Spinrun provider` (`'rowboat'` args stay).
+- `npm run rebrand:check` in `apps/x` exits 0 (`rebrand:check OK — no uncovered whole-word "rowboat" hits`, zero URL failures).
+### Tests
+- Typecheck 6/6 exit 0: `typecheck:shared`, `typecheck:core`, `typecheck:server`, `typecheck:client`, `typecheck:renderer` (apps/x), Harbor `pnpm typecheck` (protocol + server).
+- `test:shared` 21 files / 326 pass (was 324; +branch +meetings); `test:server` (apps/x) 4 / 27 pass; `test:renderer` 120 / 1021 pass (was 119/1019; +transcription test file); `apps/main` vitest 3 / 15 pass; Harbor server `vitest run --maxWorkers=2` 25 / 381 pass, 1 skipped.
+- `test:core` load-flaky as baseline (`docs/fork/00-baseline.md` §Red tests): full runs 6–7 failed / ~1000 passed (persistent `chatgpt-auth.test.ts` ×3, `catalog.test.ts` (runtime/tools) ×1, `status-tracker.test.ts` ×1; flakes `google-client-factory`, `git/service`, `orgs-oauth`/`orgs-session` timeouts). Touched files pass in isolation: `workspaces` + `initial-selection` + `repo` 3 files / 34 pass; `models/catalog.test.ts` 16/16.
+- `npm run rebrand:check` exits 0. `git diff origin/spike/integration -- LICENSE NOTICE` empty.
+### Package
+- `cd apps/x/apps/main && SKIP_CODE_SIGNING=1 ROWBOAT_SKIP_CODE_SIGNING=1 NODE_OPTIONS=--max-old-space-size=6144 npm run package` exit 0 (`out/Spinrun-darwin-arm64/Spinrun.app`, 423M). `plutil -p …/Info.plist`: `CFBundleName => Spinrun`, `CFBundleIdentifier => ai.spinrun.desktop`, executable `Contents/MacOS/spinrun`. See Not verified for DisplayName.
+- Window title / menu / onboarding re-confirmed from source (unchanged by F2): `apps/x/apps/renderer/index.html:7` `<title>Spinrun</title>`; `apps/x/apps/main/src/menu.ts:168` `About Spinrun`, `:358` `Spinrun on GitHub`, `:374` `About Spinrun`; `welcome-step.tsx:23` `Welcome to Spinrun`.
+### Decisions
+- `CODE_SESSION_BRANCH_PREFIX` and `MEETINGS_FOLDER` live in `shared/src/brand.ts` (built from `brand.executableName`), exported via existing `export * from './brand.js'`; core/renderer import from `@x/shared/dist/brand.js` (rebuilt `shared` dist before tests).
+- `rowboat-meetings` source id stays (on-disk config compat); only `artifactDir` moves to spinrun. Stored `rowboat/*` branches and `Meetings/rowboat/` notes stay (dual-read prompt).
+- Mobile `ACCOUNT_KEY`/`ORGS_CACHE_KEY` (`rowboat.spaces…`) stay (storage keys, gate-allowlisted); only `APEX_URL` default moves.
+- Composio `user_id: 'rowboat-user'` stays (connection identity, allowlisted); only the managed-auth display `name` becomes `spinrun-<toolkit>`.
+### Not verified
+- `CFBundleDisplayName`: `forge.config.cjs:236` sets `CFBundleDisplayName: brand.productName` (`node -e` resolves `Spinrun`), package exit 0, but `plutil`/`Info.plist` shows `<string>spinrun</string>` (lowercase, same as lane-F baseline without the key). Packager appears to derive DisplayName from `executableName`, overriding `extendInfo`. Implemented as prompted; actual value recorded here, not faked to `Spinrun`.
+- No screenshot (same blocker as lane F: headless session, `screencapture` no display); title/menu/headline read from source.
+- No full chat turn (no provider keys); dead-backend run above is the extent of live proof.
+- Pushed below; no PR (per guard rails).
