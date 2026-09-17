@@ -3,6 +3,7 @@ import { IModelConfigRepo } from "./repo.js";
 import { listGatewayModels } from "./gateway.js";
 import { getRowboatConfig } from "../config/rowboat.js";
 import { selectInitialModel, selectInitialTaskModels } from "./initial-selection.js";
+import { MANAGED_LLM_ENABLED } from "./managed.js";
 import { normalizeModelRecommendation } from "@x/shared/dist/rowboat-account.js";
 import { capture } from "../analytics/posthog.js";
 import { markRecommendationSeen } from "./recommendation-update.js";
@@ -31,6 +32,10 @@ import { markRecommendationSeen } from "./recommendation-update.js";
 export const ROWBOAT_IMAGE_MODEL = "google/gemini-2.5-flash-image";
 
 export async function applyRowboatInitialSelection(): Promise<void> {
+    // Fork switch: managed provider disabled → never auto-select rowboat.
+    // Initial selection falls back to the first configured BYOK provider
+    // (BYOK connect flow) or to "none" with the settings prompt.
+    if (!MANAGED_LLM_ENABLED()) return;
     const repo = container.resolve<IModelConfigRepo>("modelConfigRepo");
     const cfg = await repo.getConfig().catch(() => null);
     await seedAssistantModel(repo, cfg);

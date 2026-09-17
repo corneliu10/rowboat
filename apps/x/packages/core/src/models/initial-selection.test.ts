@@ -1,5 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { selectInitialModel, selectInitialTaskModels } from './initial-selection.js';
+import { MANAGED_LLM_ENABLED } from './managed.js';
+
+beforeEach(() => {
+    // Managed-on by default so the pre-existing rowboat picks pin the
+    // enabled behavior; off-cases set ROWBOAT_MANAGED_LLM explicitly.
+    process.env.ROWBOAT_MANAGED_LLM = 'on';
+});
 
 describe('selectInitialModel', () => {
     const recommendations = {
@@ -95,5 +102,40 @@ describe('selectInitialTaskModels', () => {
             .toEqual({
                 chatTitle: { provider: 'rowboat', model: 'google/gemini-3.5-flash', effort: 'low' },
             });
+    });
+});
+
+describe('MANAGED_LLM_ENABLED switch (rowboat auto-select)', () => {
+    const nested = { rowboat: { assistantModel: 'google/gemini-3.5-flash', taskModels: {} } };
+
+    it('when on, a rowboat initial pick is returned', () => {
+        process.env.ROWBOAT_MANAGED_LLM = 'on';
+        expect(MANAGED_LLM_ENABLED()).toBe(true);
+        expect(selectInitialModel('rowboat', ['a', 'google/gemini-3.5-flash'], nested))
+            .toEqual({ model: 'google/gemini-3.5-flash' });
+    });
+
+    it('when off, a rowboat initial pick falls back to null (first BYOK or none)', () => {
+        process.env.ROWBOAT_MANAGED_LLM = 'off';
+        expect(MANAGED_LLM_ENABLED()).toBe(false);
+        expect(selectInitialModel('rowboat', ['a', 'google/gemini-3.5-flash'], nested)).toBeNull();
+    });
+
+    it('when off, rowboat task overrides fall back to {} (inherit assistant)', () => {
+        process.env.ROWBOAT_MANAGED_LLM = 'off';
+        const gatewayList = ['google/gemini-3.5-flash', 'google/gemini-3.1-flash-lite'];
+        const withTasks = {
+            rowboat: {
+                assistantModel: 'google/gemini-3.5-flash',
+                taskModels: { knowledgeGraph: 'google/gemini-3.1-flash-lite' },
+            },
+        };
+        expect(selectInitialTaskModels('rowboat', 'rowboat', gatewayList, withTasks, { model: 'google/gemini-3.5-flash' }))
+            .toEqual({});
+    });
+
+    it('when off, BYOK flavors still fall back to their first listed model', () => {
+        process.env.ROWBOAT_MANAGED_LLM = 'off';
+        expect(selectInitialModel('ollama', ['llama3', 'qwen3'], undefined)).toEqual({ model: 'llama3' });
     });
 });

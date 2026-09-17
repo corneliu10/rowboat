@@ -40,6 +40,7 @@ vi.mock('../di/container.js', () => ({
 }));
 
 import { getImageModelCatalog, getModelCatalog, __resetModelCatalogForTests } from './catalog.js';
+import { MANAGED_LLM_ENABLED } from './managed.js';
 
 // v2 config: providers keyed by instance id, flavor explicit inside (the
 // helper defaults flavor to the key — one instance per flavor today).
@@ -59,6 +60,9 @@ function serveConfig(
 beforeEach(() => {
   vi.clearAllMocks();
   __resetModelCatalogForTests();
+  // Managed-provider switch: existing tests pin the enabled behavior;
+  // dedicated off/on tests below cover both values explicitly.
+  process.env.ROWBOAT_MANAGED_LLM = 'on';
   mocks.isSignedIn.mockResolvedValue(false);
   mocks.getChatGPTStatus.mockResolvedValue({ signedIn: false });
   mocks.listOnboardingModels.mockResolvedValue({ providers: [] });
@@ -252,5 +256,57 @@ describe('getImageModelCatalog', () => {
     const catalog = await getImageModelCatalog();
     expect(catalog.providers[0]).toMatchObject({ id: 'openai', status: 'error', models: [] });
     expect(catalog.providers[0].error).toMatch(/catalog unavailable/i);
+  });
+});
+
+describe('MANAGED_LLM_ENABLED (ROWBOAT_MANAGED_LLM, default off)', () => {
+  it('reads on/1/true as enabled and everything else (including unset) as disabled', async () => {
+    const { MANAGED_LLM_ENV_VAR } = await import('./managed.js');
+    expect(MANAGED_LLM_ENV_VAR).toBe('ROWBOAT_MANAGED_LLM');
+    process.env.ROWBOAT_MANAGED_LLM = 'on';
+    expect(MANAGED_LLM_ENABLED()).toBe(true);
+    process.env.ROWBOAT_MANAGED_LLM = '1';
+    expect(MANAGED_LLM_ENABLED()).toBe(true);
+    process.env.ROWBOAT_MANAGED_LLM = 'true';
+    expect(MANAGED_LLM_ENABLED()).toBe(true);
+    process.env.ROWBOAT_MANAGED_LLM = 'off';
+    expect(MANAGED_LLM_ENABLED()).toBe(false);
+    delete process.env.ROWBOAT_MANAGED_LLM;
+    expect(MANAGED_LLM_ENABLED()).toBe(false);
+    process.env.ROWBOAT_MANAGED_LLM = 'on';
+  });
+
+  it('when on, a signed-in user is offered the rowboat provider', async () => {
+    process.env.ROWBOAT_MANAGED_LLM = 'on';
+    mocks.isSignedIn.mockResolvedValue(true);
+    serveConfig({ ollama: { baseURL: 'http://localhost:11434' } });
+    mocks.listModelsForProvider.mockResolvedValue(['llama3']);
+
+    const catalog = await getModelCatalog();
+    expect(catalog.providers.map((p) => p.id)).toContain('rowboat');
+  });
+
+  it('when off, a signed-in user is NOT listed with the rowboat provider (BYOK fallback)', async () => {
+    process.env.ROWBOAT_MANAGED_LLM = 'off';
+    __resetModelCatalogForTests();
+    mocks.isSignedIn.mockResolvedValue(true);
+    mocks.getChatGPTStatus.mockResolvedValue({ signedIn: false });
+    serveConfig({ ollama: { baseURL: 'http://localhost:11434' } });
+    mocks.listModelsForProvider.mockResolvedValue(['llama3']);
+
+    const catalog = await getModelCatalog();
+    expect(catalog.providers.map((p) => p.id)).toEqual(['ollama']);
+    expect(mocks.listGatewayModels).not.toHaveBeenCalled();
+  });
+
+  it('when off, the image catalog also hides the rowboat provider', async () => {
+    process.env.ROWBOAT_MANAGED_LLM = 'off';
+    __resetModelCatalogForTests();
+    mocks.isSignedIn.mockResolvedValue(true);
+    serveConfig({ openrouter: { apiKey: 'sk-1' } });
+
+    const catalog = await getImageModelCatalog();
+    expect(catalog.providers.map((p) => p.id)).not.toContain('rowboat');
+    expect(mocks.listGatewayImageModels).not.toHaveBeenCalled();
   });
 });
