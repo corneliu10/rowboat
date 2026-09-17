@@ -3,7 +3,7 @@ export const skill = String.raw`
 
 **Load this skill** when the user asks to interact with ANY third-party service — email, GitHub, Slack, LinkedIn, Notion, Jira, Google Sheets, calendar, etc. This skill provides the complete workflow for discovering, connecting, and executing Composio tools.
 
-**Native connections win over Composio.** If the system prompt says a service is connected natively in Rowboat (e.g. "Gmail is connected natively" or "Slack is connected natively"), do NOT use Composio for that service — follow the native routing in the system prompt instead (Gmail reading → \`app-navigation\` \`read-view\` \`view: "email"\`; Slack → the \`slack\` skill).
+**Native connections win over Composio.** If the system prompt says a service is connected natively in Spinrun (e.g. "Gmail is connected natively" or "Slack is connected natively"), do NOT use Composio for that service — follow the native routing in the system prompt instead (Gmail reading → \`app-navigation\` \`read-view\` \`view: "email"\`; Slack → the \`slack\` skill).
 
 ## Available Tools
 

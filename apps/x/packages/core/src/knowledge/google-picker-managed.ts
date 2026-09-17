@@ -6,13 +6,13 @@ import { importGoogleDocWithToken } from '../knowledge/google_docs.js';
 import type { GoogleDocListItem } from '../knowledge/google_docs.js';
 
 // Managed (rowboat-mode) OAuth-redirect Picker. Unlike BYOK, the OAuth runs on
-// the Rowboat backend with the COMPANY Google client — the desktop never holds
+// the Spinrun backend with the COMPANY Google client — the desktop never holds
 // a client_id/secret or an API key. The desktop just opens the start URL, waits
 // for the deep link, claims the picked file ids, and downloads them with the
 // user's EXISTING managed Google token (which already holds drive.file from the
 // main connect). No Picker API key, appId, ngrok, or local OAuth.
 //
-// Backend contract (Rowboat webapp/api — NOT this repo). Mirrors the existing
+// Backend contract (Spinrun webapp/api — NOT this repo). Mirrors the existing
 // managed Google-connect (start URL → park under session → deep-link back):
 //
 //   GET  ${webappUrl}/oauth/google/picker/start
@@ -28,7 +28,7 @@ import type { GoogleDocListItem } from '../knowledge/google_docs.js';
 //        client, so the desktop's existing managed token can read it.)
 //
 //   POST ${API_URL}/v1/google-oauth/claim-picked   body { session }
-//        Authenticated with the user's Rowboat bearer. Returns
+//        Authenticated with the user's Spinrun bearer. Returns
 //        { fileIds: string[], tokens: { access_token, ... } } — a fresh
 //        drive.file token minted during the picker's own authorization.
 

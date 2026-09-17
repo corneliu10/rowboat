@@ -191,7 +191,7 @@ export class GoogleClientFactory {
             const message = error instanceof Error ? error.message : 'Failed to refresh token for Google';
             await oauthRepo.upsert(this.PROVIDER_NAME, { error: message });
             console.error('[OAuth] Failed to refresh token for Google:', error);
-            // Walk cause chain so we can see e.g. `Not signed into Rowboat`
+            // Walk cause chain so we can see e.g. `Not signed into Spinrun`
             // showing up under a generic `fetch failed` outer error.
             let cause: unknown = error;
             while (cause != null && typeof cause === 'object' && 'cause' in cause) {
@@ -387,7 +387,7 @@ export class GoogleClientFactory {
     }
 
     /**
-     * Rowboat OAuth2Client — no client_id/secret, no refresh_token.
+     * Spinrun OAuth2Client — no client_id/secret, no refresh_token.
      * Library auto-refresh is disabled by absence of refresh_token; our
      * proactive refresh in getClient() is the only refresh path.
      *

@@ -3,7 +3,7 @@ export const skill = String.raw`
 
 Load this skill whenever the user asks for a **presentation, slide deck, pitch deck, slides, a deck, or a .pptx** — "make me a deck about X", "put together a pitch deck", "turn this note into slides", "add a slide about Y", "restyle my deck".
 
-Presentations in Rowboat are real PowerPoint files built with the \`deck-*\` tools. The result opens automatically in Rowboat's slide editor, where the user can edit text, drag shapes, reorder slides, change the theme, and present — and it opens in PowerPoint, Keynote and Google Slides too.
+Presentations in Spinrun are real PowerPoint files built with the \`deck-*\` tools. The result opens automatically in Spinrun's slide editor, where the user can edit text, drag shapes, reorder slides, change the theme, and present — and it opens in PowerPoint, Keynote and Google Slides too.
 
 ## Absolute rules
 

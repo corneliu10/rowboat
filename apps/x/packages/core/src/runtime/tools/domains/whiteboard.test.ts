@@ -8,7 +8,7 @@ import { parseWhiteboardSnapshot, serializeWhiteboardSnapshot, type WbElement } 
 // the same executeTool hop the projected spaces tools use. These tests stand
 // in for the org with a scripted MCP server.
 
-const ORG = { id: "org-1", name: "Rowboat", address: "rowboat.spaces.test" };
+const ORG = { id: "org-1", name: "Spinrun", address: "rowboat.spaces.test" };
 const SPACE = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
 
 const uploadBlob = vi.fn(async () => ({ hash: "b".repeat(64), size: 1, mime: "application/json" }));

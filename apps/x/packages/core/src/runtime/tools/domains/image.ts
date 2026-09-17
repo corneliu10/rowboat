@@ -1,6 +1,6 @@
 // Builtin tools: image generation domain. Renders with the image model the
 // user picked in model settings (models.json `imageModel`, seeded with the
-// Rowboat gateway's default on sign-in) — the same durable
+// Spinrun gateway's default on sign-in) — the same durable
 // { provider, model } selection text models use. Nothing is resolved at
 // runtime and nothing falls back: the configured provider's error is the
 // tool's error. Unavailable until an image model is configured.
@@ -90,7 +90,7 @@ function makeBackend(config: z.infer<typeof LlmProvider>): ImageBackend | null {
     }
 }
 
-const NO_IMAGE_MODEL_ERROR = "No image model configured. Pick one under model settings → Image model: signed-in users can use the Rowboat gateway; otherwise choose an OpenRouter, Google, OpenAI, Ollama, or OpenAI-compatible provider and one of its image models.";
+const NO_IMAGE_MODEL_ERROR = "No image model configured. Pick one under model settings → Image model: signed-in users can use the Spinrun gateway; otherwise choose an OpenRouter, Google, OpenAI, Ollama, or OpenAI-compatible provider and one of its image models.";
 
 type ImageResolution =
     | { ok: true; backend: ImageBackend; model: string }
@@ -115,7 +115,7 @@ async function resolveImageBackend(): Promise<ImageResolution> {
         if (!(await isSignedIn())) {
             return {
                 ok: false,
-                error: "The configured image model runs on the Rowboat gateway, but you are signed out. Sign in, or pick another image model in model settings.",
+                error: "The configured image model runs on the Spinrun gateway, but you are signed out. Sign in, or pick another image model in model settings.",
             };
         }
         return {
@@ -232,7 +232,7 @@ function describeImageError(error: unknown, modelId: string, flavor: ImageFlavor
     }
     if (statusCode === 402 || message.includes("402")) {
         if (flavor === "rowboat") {
-            return `Your Rowboat account reported a billing problem (HTTP 402) — check your plan and credits. (${message})`;
+            return `Your Spinrun account reported a billing problem (HTTP 402) — check your plan and credits. (${message})`;
         }
         return flavor === "openrouter"
             ? `OpenRouter account is out of credits (HTTP 402). Add credits at openrouter.ai to generate images. (${message})`
@@ -240,14 +240,14 @@ function describeImageError(error: unknown, modelId: string, flavor: ImageFlavor
     }
     if (isModelNotFoundError(error)) {
         if (flavor === "rowboat") {
-            return `Image model '${modelId}' was not found on the Rowboat gateway — it may not be on the gateway's image allowlist (GET /v1/llm/models?output_modalities=image lists it). Pick a listed model in model settings. (${message})`;
+            return `Image model '${modelId}' was not found on the Spinrun gateway — it may not be on the gateway's image allowlist (GET /v1/llm/models?output_modalities=image lists it). Pick a listed model in model settings. (${message})`;
         }
         const pullHint = flavor === "ollama" ? ` Pull it first: ollama pull ${modelId}.` : "";
         return `Image model '${modelId}' was not found on ${flavor} (HTTP 404).${pullHint} (${message})`;
     }
     if (statusCode === 401 || statusCode === 403 || /unauthorized|API_KEY_INVALID|invalid.{0,10}api.?key|incorrect api key/i.test(message)) {
         if (flavor === "rowboat") {
-            return `The Rowboat gateway rejected the request as unauthorized — your sign-in may have expired. Sign in again. (${message})`;
+            return `The Spinrun gateway rejected the request as unauthorized — your sign-in may have expired. Sign in again. (${message})`;
         }
         return `The ${flavor} provider rejected the request as unauthorized — its API key may be invalid or missing. Check the ${flavor} entry in model settings. (${message})`;
     }
@@ -350,7 +350,7 @@ export const imageTools: z.infer<typeof BuiltinToolsSchema> = {
             prompt: z.string().describe('A vivid, self-contained description of the image to generate. Include the subject, style, setting, and any important details.'),
             filename: z.string().optional().describe('Short kebab-case basename for the saved file, without extension (e.g. "sunset-over-lake"). Derived from the prompt when omitted.'),
             aspectRatio: z.string().optional().describe('Aspect ratio of the image as width:height — common values are "1:1", "16:9", "9:16", "4:3" — or "auto". Only pass this when the user asks for a specific shape.'),
-            model: z.string().optional().describe('Image model id to use INSTEAD of the configured one, on the SAME configured provider (the provider cannot be changed per call). Use that provider\'s naming: Rowboat gateway / OpenRouter "vendor/model" (e.g. "google/gemini-2.5-flash-image", "x-ai/grok-imagine-image-quality", "bytedance-seed/seedream-4.5"), Google "gemini-…" (e.g. "gemini-2.5-flash-image"), OpenAI "gpt-image-…", Ollama a locally pulled model name. Pass ONLY when the user explicitly names an image model (e.g. "use gpt-image-1", "make it with Grok"); omit otherwise to use the configured model.'),
+            model: z.string().optional().describe('Image model id to use INSTEAD of the configured one, on the SAME configured provider (the provider cannot be changed per call). Use that provider\'s naming: Spinrun gateway / OpenRouter "vendor/model" (e.g. "google/gemini-2.5-flash-image", "x-ai/grok-imagine-image-quality", "bytedance-seed/seedream-4.5"), Google "gemini-…" (e.g. "gemini-2.5-flash-image"), OpenAI "gpt-image-…", Ollama a locally pulled model name. Pass ONLY when the user explicitly names an image model (e.g. "use gpt-image-1", "make it with Grok"); omit otherwise to use the configured model.'),
         }),
         isAvailable: async () => (await resolveImageBackend()).ok,
         execute: async (
@@ -375,7 +375,7 @@ export const imageTools: z.infer<typeof BuiltinToolsSchema> = {
             if (modelOverride && !MODEL_ID_SHAPE.test(modelOverride)) {
                 return {
                     success: false,
-                    error: `Invalid image model id '${modelOverride}'. Use the configured provider's naming — Rowboat gateway / OpenRouter "vendor/model" (e.g. "google/gemini-2.5-flash-image", "x-ai/grok-imagine-image-quality"), Google "gemini-…", OpenAI "gpt-image-…", Ollama a locally pulled model name.`,
+                    error: `Invalid image model id '${modelOverride}'. Use the configured provider's naming — Spinrun gateway / OpenRouter "vendor/model" (e.g. "google/gemini-2.5-flash-image", "x-ai/grok-imagine-image-quality"), Google "gemini-…", OpenAI "gpt-image-…", Ollama a locally pulled model name.`,
                 };
             }
 

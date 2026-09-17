@@ -1,7 +1,7 @@
 export const skill = String.raw`
 # PDF Slides (explicit PDF requests only)
 
-**STOP — is this actually a PDF request?** A normal "make me a presentation / slide deck / pitch deck / some slides" request is NOT. Those are PowerPoint decks: load the \`create-presentations\` skill and build them with \`deck-create\`, which produces a real editable .pptx the user can open in Rowboat's slide editor and in PowerPoint/Keynote.
+**STOP — is this actually a PDF request?** A normal "make me a presentation / slide deck / pitch deck / some slides" request is NOT. Those are PowerPoint decks: load the \`create-presentations\` skill and build them with \`deck-create\`, which produces a real editable .pptx the user can open in Spinrun's slide editor and in PowerPoint/Keynote.
 
 Use THIS skill only when the user explicitly asks for a **PDF** — "as a PDF", "a printable handout", "something I can email as a PDF" — or explicitly asks for HTML slides. A PDF is flat output: the user cannot edit it in the slide editor afterwards. If a request mentions both, ask which they want, or build the .pptx (editable) and offer the PDF second.
 

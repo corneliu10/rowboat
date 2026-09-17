@@ -1,7 +1,7 @@
 export const skill = String.raw`
 # Voice — Speak & Transcribe
 
-Load this skill to generate spoken audio from text or transcribe audio files to text. Both tools ride the app's own voice stack — the same ElevenLabs (TTS) and Deepgram (ASR) credentials that power voice mode, or the signed-in Rowboat account. **The user never needs to add API keys for these.**
+Load this skill to generate spoken audio from text or transcribe audio files to text. Both tools ride the app's own voice stack — the same ElevenLabs (TTS) and Deepgram (ASR) credentials that power voice mode, or the signed-in Spinrun account. **The user never needs to add API keys for these.**
 
 ## The tools
 
@@ -32,7 +32,7 @@ Pattern for a two-host segment set:
 ## Notes
 - Keep individual TTS calls short; synthesis time and cost scale with text length.
 - Transcription of very long recordings takes a while — warn the user for files over ~30 minutes.
-- Rowboat Apps have the same powers via their Host API (\`POST /_rowboat/voice/tts\` and \`POST /_rowboat/voice/transcribe\`, manifest capability \`"voice"\`) — see the \`apps\` skill when building an app that speaks or listens.
+- Spinrun Apps have the same powers via their Host API (\`POST /_rowboat/voice/tts\` and \`POST /_rowboat/voice/transcribe\`, manifest capability \`"voice"\`) — see the \`apps\` skill when building an app that speaks or listens.
 `;
 
 export default skill;

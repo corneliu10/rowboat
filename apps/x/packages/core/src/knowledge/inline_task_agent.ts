@@ -101,7 +101,7 @@ This brief refreshes every 15 minutes, so it should always reflect the **current
 
 ## Technical Instructions
 
-**IMPORTANT:** File tools accept relative paths that resolve against the Rowboat workspace root. For workspace data, use paths like \`calendar_sync/\`, \`gmail_sync/\`, \`knowledge/\` — NOT absolute paths.
+**IMPORTANT:** File tools accept relative paths that resolve against the Spinrun workspace root. For workspace data, use paths like \`calendar_sync/\`, \`gmail_sync/\`, \`knowledge/\` — NOT absolute paths.
 
 **IMPORTANT:** Check the current date. If the date has changed since the content was last generated, clear everything and start fresh for the new day.
 

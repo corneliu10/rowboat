@@ -177,7 +177,7 @@ const definitions: SkillDefinition[] = [
   {
     id: "app-navigation",
     title: "App Navigation",
-    summary: "Navigate the app UI - open notes, switch views, answer from an installed Rowboat app's data and surface it, filter/search the knowledge base, manage saved views, and point at the user's shared screen during calls.",
+    summary: "Navigate the app UI - open notes, switch views, answer from an installed Spinrun app's data and surface it, filter/search the knowledge base, manage saved views, and point at the user's shared screen during calls.",
     content: appNavigationSkill,
     tools: ["app-navigation", "app-read-data", "app-set-data", "screen-pointer"],
   },
@@ -190,8 +190,8 @@ const definitions: SkillDefinition[] = [
   },
   {
     id: "apps",
-    title: "Rowboat Apps",
-    summary: "Build a Rowboat App the user opens inside Rowboat — a static web app on its own origin, powered by their integrations and an optional background agent. Use when the user asks to make/build/create an app or dashboard; for ambiguous 'show me X' requests, confirm whether they want an app first.",
+    title: "Spinrun Apps",
+    summary: "Build a Spinrun App the user opens inside Spinrun — a static web app on its own origin, powered by their integrations and an optional background agent. Use when the user asks to make/build/create an app or dashboard; for ambiguous 'show me X' requests, confirm whether they want an app first.",
     content: appsSkill,
     tools: [
       "app-navigation",
@@ -348,7 +348,7 @@ export function buildCatalogFromEntries(
       : []),
   ].join("\n"));
   return [
-    "# Rowboat Skill Catalog",
+    "# Spinrun Skill Catalog",
     "",
     "Use this catalog to see which specialized skills you can load. Each entry lists the exact skill file plus a short description of when it helps.",
     "",

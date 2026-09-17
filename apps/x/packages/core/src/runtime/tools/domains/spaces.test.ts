@@ -104,7 +104,7 @@ describe("the projected agent face", () => {
 });
 
 describe("resolveOrgArg", () => {
-    const rowboat = { id: "org-1", name: "Rowboat Labs", address: "rowboat.spaces.test" };
+    const rowboat = { id: "org-1", name: "Spinrun", address: "rowboat.spaces.test" };
     const acme = { id: "org-2", name: "Acme", address: "acme.spaces.test" };
 
     it("refuses when nothing is set up", async () => {
@@ -120,7 +120,7 @@ describe("resolveOrgArg", () => {
 
     it("requires the argument with several orgs, naming them", async () => {
         orgsState.orgs = [rowboat, acme];
-        await expect(resolveOrgArg(undefined)).rejects.toThrow(/"Rowboat Labs", "Acme"/);
+        await expect(resolveOrgArg(undefined)).rejects.toThrow(/"Spinrun", "Acme"/);
     });
 
     it("matches by id, name (any case), address, slug, or server name", async () => {

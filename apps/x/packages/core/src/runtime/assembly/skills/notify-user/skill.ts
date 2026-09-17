@@ -12,12 +12,12 @@ Load this skill when you need to send a desktop notification to the user — e.g
 Triggers a native macOS notification. The call returns immediately; it does not block waiting for the user to click.
 
 ### Parameters
-- **\`title\`** (optional, defaults to \`"Rowboat"\`) — bold headline at the top.
+- **\`title\`** (optional, defaults to \`"Spinrun"\`) — bold headline at the top.
 - **\`message\`** (required) — body text. Keep it short — macOS truncates after a couple of lines.
 - **\`link\`** (optional) — URL to open when the user clicks the notification. Two kinds accepted:
   - **\`https://...\` / \`http://...\`** — opens in the default browser
-  - **\`rowboat://...\`** — opens a view inside Rowboat (see deep links below)
-  - If omitted, clicking the notification focuses the Rowboat app.
+  - **\`rowboat://...\`** — opens a view inside Spinrun (see deep links below)
+  - If omitted, clicking the notification focuses the Spinrun app.
 
 ### Examples
 
@@ -38,7 +38,7 @@ External link:
 }
 \`\`\`
 
-Deep link into a Rowboat note:
+Deep link into a Spinrun note:
 \`\`\`json
 {
   "message": "Daily brief is ready",
@@ -48,7 +48,7 @@ Deep link into a Rowboat note:
 
 ## Deep links: \`rowboat://\`
 
-Use these as the \`link\` parameter to land the user on a specific view in Rowboat instead of an external site. URL-encode paths/names that contain spaces or special characters.
+Use these as the \`link\` parameter to land the user on a specific view in Spinrun instead of an external site. URL-encode paths/names that contain spaces or special characters.
 
 | Target | Format | Example |
 |---|---|---|

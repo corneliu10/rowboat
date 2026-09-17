@@ -175,10 +175,10 @@ describe("loadDiskSkills", () => {
   it("prefers the rowboat root when the same skill id exists in both roots", async () => {
     writeSkill(rowboatSkillsRoot, "dup", [
       "---",
-      "name: Rowboat Dup",
+      "name: Spinrun Dup",
       "description: From the rowboat root.",
       "---",
-      "Rowboat body.",
+      "Spinrun body.",
     ].join("\n"));
     writeSkill(agentsSkillsRoot, "dup", [
       "---",
@@ -192,7 +192,7 @@ describe("loadDiskSkills", () => {
     const skills = loadDiskSkills();
 
     expect(skills).toHaveLength(1);
-    expect(skills[0].title).toBe("Rowboat Dup");
+    expect(skills[0].title).toBe("Spinrun Dup");
     expect(skills[0].dir).toBe(path.join(rowboatSkillsRoot, "dup"));
   });
 
