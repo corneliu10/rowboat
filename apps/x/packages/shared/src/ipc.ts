@@ -187,6 +187,7 @@ export const ipcSchemas = {
       installationId: z.string(),
       apiUrl: z.string(),
       appVersion: z.string(),
+      telemetryEnabled: z.boolean(),
     }),
   },
   'workspace:getRoot': {

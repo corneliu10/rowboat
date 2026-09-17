@@ -1153,6 +1153,7 @@ export function setupIpcHandlers() {
         installationId: getInstallationId(),
         apiUrl: API_URL,
         appVersion: app.getVersion(),
+        telemetryEnabled: process.env.ROWBOAT_TELEMETRY !== 'off',
       };
     },
     'workspace:getRoot': async () => {

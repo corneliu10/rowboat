@@ -1,6 +1,6 @@
 {
     "name": "rowboat",
-    "productName": "Rowboat",
+    "productName": "Spinrun Desktop",
     "description": "AI coworker with memory",
     "type": "module",
     "version": "0.1.0",
@@ -44,6 +44,7 @@
         "@electron-forge/publisher-s3": "^7.10.2",
         "@types/electron-squirrel-startup": "^1.0.2",
         "@types/node": "^25.0.3",
+        "vitest": "catalog:",
         "electron": "^39.2.7",
         "esbuild": "^0.24.2"
     }
