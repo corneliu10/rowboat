@@ -42,6 +42,61 @@ always-on reads (`GET /v1/config`, and `GET /v1/me` once a token exists).
 | 28 | `about-dialog.tsx:10-13`, `settings-dialog.tsx:330-349` | `https://www.rowboatlabs.com/*`, `mailto:contact@rowboatlabs.com` | website / support / terms / privacy links | dead links only | KEEP | S |
 | 29 | `apps/mobile/.../account.tsx:13` | default `https://spaces.x.rowboatlabs.com` | mobile Spaces apex (mobile is parked per `SEPARATION_PLAN.md`) | out of scope | KEEP | — |
 
+## Proof
+
+Both runs: `npm run dev:sandbox -- --no-deps` from `apps/x` (so `--workdir`
+resolved under `apps/x/.sandbox/`, still git-ignored), fresh signed-out
+workdirs, no `--seed-config`, `POSTHOG_KEY`/`VITE_PUBLIC_POSTHOG_KEY` absent.
+UI surfaces (chat, notes, email, meetings, browser, code, settings) could
+NOT be opened: the dev Electron instance never presented a controllable
+window from this session (see Screenshots). Evidence is server/main logs
+plus the client's own config code run in node against each backend.
+
+### (a) Dead backend — `API_URL=http://127.0.0.1:1`, `--name lane-a-dead`
+
+Ports auto-picked `server=60791 apps=60792 vite=60793` → probed `200/401/421`.
+Backend-naming error lines (every one, `grep -iE 'oauth|billing|fetch failed'`):
+
+- `[main] [OAuth] Starting connection flow for rowboat...` followed by
+  `[main] OAuth connection failed: TypeError: fetch failed` (`[cause]: Error: bad port`),
+  stack `getRowboatConfig (packages/core/dist/config/rowboat.js:8)`
+  ← `getProviderConfig (auth/providers.js:135)`
+  ← `connectProvider (oauth-flows.js:308)` ← `oauth:connect (server/dist/core-deps.js:921)`.
+- Client's own code in plain node: `getRemoteConfig()` → `TypeError: fetch failed`;
+  `getRowboatConfig()` → `TypeError: fetch failed`; `curl /v1/config` → exit 7.
+- Non-backend lines (local first-run noise, not failures): `ENOENT` reads of
+  `recent-work-dirs.json` / `exa-search.json`; Google/Microsoft credential
+  watchers `Sleeping...` (no creds in env).
+
+### (b) Stub — `API_URL=http://127.0.0.1:4300`, `--name lane-a-stub`
+
+Stub first (`control-plane stub listening on http://127.0.0.1:4300`, shape
+verified by `node --test`: 3/3). Ports `server=61452 apps=61453 vite=61454`
+→ `401/421/200`. Now clean:
+
+- Stub request log: `GET /v1/config -> 200` ×4, nothing else.
+- Zero `fetch failed` / `TypeError` / `OAuth connection failed` lines in the
+  239-line run log (vs 2 + 1 failed connect in the dead run).
+- Client's own code vs stub: `getRemoteConfig()` →
+  `{"appUrl":"http://127.0.0.1:4300","supabaseUrl":"","websocketApiUrl":"","spacesApexUrl":null}`;
+  `getRowboatConfig()` → `plans = 1, spacesApexUrl = null`.
+- Still failing / blocked by design: full chat turn (no provider keys in env —
+  `No assistant model configured`); Spaces (`spacesApexUrl: null` →
+  `Spaces is not available for this environment yet`); gateway / voice-TTS /
+  Composio-proxy / Google-OAuth (stub answers 404 for all non-`/v1/config`,
+  non-`/v1/me` paths).
+
+### Screenshots
+
+`docs/fork/img/01-*.png`: **absent, deliberately**. `screencapture -x` works
+in this session, but the captured frame showed the operator's private desktop
+(Synara window, personal projects) — the dev Electron window never presented
+itself on screen — so committing it would publish private screen contents to
+the fork. File deleted after inspection; `img/` holds only `.gitkeep`.
+Interactive use (five minutes across surfaces) was therefore impossible;
+see report §Not verified. Do not re-take blindly — confirm the Rowboat
+window is frontmost first, or capture in a display session owned by the lane.
+
 Not backend calls (checked while grepping, recorded so the next lane doesn't re-hunt):
 `auth/oauth-flows.ts` revoke fetches (#27) hit Google, not Rowboat.
 `todo/fileops.test.ts:125` (`arjun@rowboatlabs.com`) is a test fixture string.
