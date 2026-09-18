@@ -226,3 +226,55 @@ no model key on the desktop (lane G) and a metered spinrun endpoint behind it (l
   `prompt_tokens_details.{cached_tokens, audio_tokens, video_tokens}`. There is no cache-write field.
 - An aborted generation does report usage through `GET /v1/generation?id=<gen id>`, so settlement by
   generation lookup after a client abort is viable.
+
+
+---
+
+# Lane G: the original managed-gateway design, locally (validated 2026-09-18)
+
+Branch `spike/g-managed-llm` (3 commits), merged here. The desktop holds no model key: it calls
+`${API_URL}/v1/llm` with a Spinrun bearer, and the control-plane stub forwards to Vercel AI Gateway with the
+platform key held in the stub's environment only.
+
+## What changed
+
+- `auth/static-key.ts` `staticSpinrunKey()` reads env `SPINRUN_API_KEY` (must start with `spr_`);
+  `auth/tokens.ts` `getAccessToken()` returns it first; `account/account.ts` `isSignedIn()` is true when it is
+  present. `auth/oauth-flows.ts` untouched. Three hunks.
+- With `ROWBOAT_MANAGED_LLM=on` the catalog lists the managed provider (shown as "Spinrun") and seeds the
+  assistant model from `GET /v1/llm/models`; `config/models.json` needs no provider entry and no `apiKey`.
+- `tools/control-plane-stub/server.mjs`: `POST /v1/llm/chat/completions` (body whitelist, `reasoning` reduced,
+  `max_tokens` capped at 8192, `stream_options.include_usage` forced, incoming auth and `x-rowboat-*` headers
+  dropped, bytes piped through, upstream aborted on client close), `GET /v1/llm/models`, `POST /v1/llm/images`
+  → 501, `STUB_LLM_FORCE=401|402|429`. Binds to 127.0.0.1, logs one line per request, never a body or a key.
+- `docs/fork/08-managed-llm.md` is the wire contract a real Spinrun endpoint has to satisfy.
+
+## Reviewer's own runs
+
+| Check | Result |
+|---|---|
+| Branch history | both real key values absent; the two pattern hits are fake fixtures in test files |
+| Workdir | gateway key nowhere; `spr_` key only in `config/mcp.json`; `models.json` is `{providers:{}, assistantModel:{rowboat, …}}` with no `apiKey` |
+| Process environments during the replay | gateway key present in the stub process, absent from the app process (`ps eww`) |
+| PONG turn on the managed provider | `turn_completed`, text `PONG`, provider `rowboat`, 7 s |
+| Connections during that turn | app: no remote peer; stub: `64.239.123.65:443` = `ai-gateway.vercel.sh` |
+| Forced 402 | `turn_failed`, "Insufficient credits [status 402 …]", stub answered with zero upstream calls |
+| Build | typecheck 5/5; shared 326, server 27, renderer 1021; core 90 files, 1011 pass, failures only in `catalog.test.ts` and `spaces/client.test.ts` (baseline); lane G's three new core test files 21/21 by name; stub 13/13; `rebrand:check` exit 0 |
+
+## Findings
+
+1. **Leftover processes.** The lane left its stub (with the gateway key in its environment, listening on
+   127.0.0.1:4300) and its headless app server running after it reported completion. For about half an hour
+   the stub was a local relay to the gateway key for any process presenting an `spr_`-prefixed bearer. The
+   reviewer stopped both. The stub is a spike tool and must never be deployed or left running.
+2. **Prompt weight.** One one-word turn produced four upstream calls carrying about 76k prompt tokens in
+   total (18k to 29k per step: system prompt plus tool list, and a title call). On a Sonnet-class model that
+   is a meaningful cost per trivial turn, so lane H's pricing has to assume prompt caching works end to end
+   (`cache_control` is sent by the client; the gateway reports `prompt_tokens_details.cached_tokens`).
+3. **Where the bearer goes.** Every consumer of `getAccessToken()` builds its URL from `API_URL` (billing,
+   credits, Composio, web search, voice, Google backend OAuth, the LLM gateway); voice also uses
+   `websocketApiUrl` from the remote config the same backend serves. So the `spr_` key is sent to whatever
+   `API_URL` names, and nowhere else. A `desktop`-kind key (lane H) is what bounds that.
+4. **Static key is a spike device.** The product path is OAuth: the app's existing PKCE + DCR flow already
+   targets a Supabase Auth issuer read from `/v1/config`, and spinrun's Supabase Auth is an OAuth server.
+5. Still on the free-tier gateway team, so the model was `google/gemini-2.5-flash-lite`; Sonnet untested.
