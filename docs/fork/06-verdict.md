@@ -278,3 +278,43 @@ platform key held in the stub's environment only.
 4. **Static key is a spike device.** The product path is OAuth: the app's existing PKCE + DCR flow already
    targets a Supabase Auth issuer read from `/v1/config`, and spinrun's Supabase Auth is an OAuth server.
 5. Still on the free-tier gateway team, so the model was `google/gemini-2.5-flash-lite`; Sonnet untested.
+
+
+---
+
+# Lane H: the real metered `/v1/llm` endpoint in the spinrun monorepo (reviewed 2026-09-18)
+
+Lives in the spinrun repo, not here: branch `feat/llm-proxy` at `38be389d`, pushed, no PR, not merged, not
+deployed, migration written and never applied. Recorded here because it is the last gate of this verdict.
+
+## What it is
+
+`POST /v1/llm/chat/completions`, `GET /v1/llm/models`, `POST /v1/llm/images` (501) in the web app, satisfying
+`08-managed-llm.md`. Pass-through to Vercel AI Gateway with the platform key; a new API-key kind `desktop` is
+the only credential that may spend; catalog, plan and zero-data-retention gate; credits reserved before the
+upstream call and settled exactly once (streamed usage, or a generation lookup when usage is incomplete or
+the client aborted); a settings card mints and revokes the desktop key.
+
+## Review result
+
+- Fresh, uncached: 16/16 test tasks (web 1410, gateway 762, agents-runtime 641, providers 575, agent 322,
+  zero failures), typecheck 17/17, migration version check clean, lane test files 31/31 by name.
+- First review found two medium issues (body buffered before rate limit and auth; internal error text in two
+  503s and a revoked-key race answering 503 instead of the identical 401) and five small ones. All seven were
+  fixed in a follow-up, each with a named test, and re-verified by reading the code.
+- Left as notes: the 413 from the capped body reader lacks `x-request-id`; the scope-refusal error keys on
+  Postgres `42501`, so an RPC permission misconfiguration would also read as "Invalid API key" (the log line
+  still shows the key id).
+
+## What still stands between this and "go" for the product
+
+1. Owner: validate the migration on staging inside a rolled-back transaction (the DO block must find the old
+   CHECK), apply it, deploy the branch to a preview with `AI_GATEWAY_API_KEY` from the team production bills to.
+2. Mint a desktop key on the new settings card; run one turn from this fork's managed provider against the
+   preview (`API_URL=<preview origin>`, stub off); confirm the `agent_model_usage` row (`feature = 'llm-proxy'`,
+   key id set, settled), the credit delta, and that an ordinary `spr_` key gets the 401.
+3. Live checks only a deployment can answer: SSE not buffered on the domain, `request.signal` firing on client
+   disconnect, and whether Anthropic streams report cache-write tokens (the fixture was a Gemini stream; until
+   then every request carrying `cache_control` settles through the generation lookup).
+4. Decisions for the owner: any plan, including free, can mint a desktop key; desktop keys do not expire and
+   also authenticate on the MCP endpoint with the owner's reach.
