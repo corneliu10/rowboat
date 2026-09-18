@@ -318,3 +318,27 @@ the client aborted); a settings card mints and revokes the desktop key.
    then every request carrying `cache_control` settles through the generation lookup).
 4. Decisions for the owner: any plan, including free, can mint a desktop key; desktop keys do not expire and
    also authenticate on the MCP endpoint with the owner's reach.
+
+
+## Lane H3 (2026-09-18): billing simplified to check, call, charge
+
+Owner decision: v1 of `/v1/llm` does not reserve credits. Branch `feat/llm-proxy` is now at `f10c42a2`; the
+reviewed reserve-then-settle version is kept as tag `llm-proxy-reserve-settle` (`38be389d`).
+
+- Before the call: if the workspace cannot fit one credit, 402 and no upstream call. After the call: one
+  charge of the real cost, taken from the gateway's `usage.cost`, else from the generation lookup
+  (`totalCost`, retried for about fifteen seconds), else from the catalog price table. Converted with the
+  existing billing config (FX, markup, price of a credit), rounded up, one-credit floor.
+- The migration is two additive statements: key kind `desktop` allowed, and a `credit_rates` row
+  `llm_proxy` at one credit per unit. No SQL function is replaced; `usage-billing.ts` and `usage-pricing.ts`
+  are byte-identical to main, so production agent billing is untouched.
+- Accepted trade-offs: bounded overrun by calls already in flight when credits run out; a call is unbilled
+  if the process dies between answer and charge, or if a very long stream leaves too little of the 300 s
+  ceiling for the lookup (logged with its generation id, reconcilable from AI Gateway reporting); desktop
+  usage shows in the monthly credit total, not as its own line in the per-kind breakdown or the per-model ledger.
+- Reviewer's fresh run: 16/16 test tasks (web 1412, agent 321, gateway 762, agents-runtime 641, zero
+  failures), typecheck 17/17, lane files 40/40 and 29/29 by name, twelve billing tests covering pre-check,
+  unlimited plans, stream and non-stream charge, abort via lookup, lookup failure, price-table fallback,
+  failed charge RPC, and no charge on upstream errors. SDK type checked: `totalCost` and `usage` are both USD.
+- Owner steps now: dry-run and apply the two-statement migration, mint a desktop key, run one managed turn
+  from this fork against the endpoint, check the credit delta; confirm `usage.cost` on an Anthropic stream.
