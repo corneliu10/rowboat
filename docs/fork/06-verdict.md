@@ -173,3 +173,56 @@ upstream sync stays possible.
 2. `google-setup.md` screenshots still show the previous UI (one line above them says so).
 3. Same blockers as before: no screenshot (no display access from the agent session) and no full chat turn
    (no provider keys); lane C and plan steps 8 and 9 remain the missing half of the go/no-go.
+
+
+---
+
+# Lane C2: spinrun MCP + AI Gateway, the missing half of the go/no-go (validated 2026-09-18)
+
+Branch `spike/c2-mcp-aigateway` (3 commits, docs + one smoke script, no source change), merged here.
+
+## What ran, and what the reviewer re-ran
+
+| Item | Lane result | Reviewer's own run |
+|---|---|---|
+| MCP outside the app | `tools/spinrun-mcp-smoke.mjs` exit 0, header form `x-spinrun-key` + `x-spinrun-client`, 24 tools | same: exit 0, 24 tools |
+| Model turn on AI Gateway (built-in `aigateway` provider, control plane = stub) | `PONG`, `aigateway/google/gemini-2.5-flash-lite`, ~5 s | `turn_completed`, text `PONG` read from the persisted turn file, same model, 7 s |
+| Spinrun tool turn | `spinrun_list_apps` after approval, answered with the 11 connected apps | not repeated (read-only production call; transcript in `03-spinrun-mcp.md`) |
+| Discover then run | `spinrun_app_github` then `spinrun_run_tool`, answered from the result: works | not repeated |
+| Phone-home during turns | 6 remote IPs, all Vercel edge or the MCP host; zero to Rowboat's API, PostHog, the updater | one peer during the turn, `64.239.109.193:443` = `ai-gateway.vercel.sh`; zero forbidden hosts |
+| Key leakage | only `config/mcp.json` and `config/models.json` under the workdir | same two files; both key values absent from branch history, fixtures and the reviewer's logs |
+| Build | typecheck 5/5; shared 326, server 27, renderer 1021; core 1013 + 1 baseline fail | typecheck 5/5; shared 326, server 27, renderer 1021; core 1008 pass, 6 fail in baseline or known load-flaky files; `rebrand:check` exit 0 |
+
+## Updated verdict: GO for the experiment, product path gated on lanes G and H
+
+Plan steps 8 (a real turn that calls a spinrun tool) and 9 (no contact with Rowboat's API, PostHog or the
+updater while it runs) now pass, on top of steps 3 and 7. The pass criteria of the spike are met. What this
+proves: the fork runs with Rowboat's control plane replaced by a stub, spinrun as its tool backend with no
+code change, and spinrun's AI Gateway as its model path. What it does not prove yet: the managed design with
+no model key on the desktop (lane G) and a metered spinrun endpoint behind it (lane H).
+
+## Findings carried forward
+
+1. **Gateway team.** The key `spinrun-desktop-spike` lives in the Vercel team `corneliu-0124032d` (free tier):
+   every Anthropic Sonnet id answers `403 RestrictedModelsError`, so the turns ran on
+   `google/gemini-2.5-flash-lite`. Before lane H's preview test, use a key from the team whose gateway
+   spinrun's production bills to, or top this team up.
+2. **Config file modes.** The app writes `config/models.json` and `config/mcp.json` as `0644` with plaintext
+   keys. Only the `0700` spike workdir protected them here; the default `~/.rowboat` would not. Write them
+   `0600` (small fix in the two repos' save paths) before anything ships.
+3. **Approval line.** The ISMS approval quoted in `reports/c2-mcp-aigateway.md` still contains the literal
+   `<slug>` placeholder for the workspace. The owner needs to fill it in; the key lists Airtable, Pipedrive,
+   Google Ads and Meta Ads, which is not the QA workspace.
+4. **Tool-argument shape.** On this small model the agent needed exact-shape coaching for `executeMcpTool`
+   (`toolName`, not `name`); malformed arguments fail closed to a generic permission ask
+   (`real-permission-checker.ts:88`), which is safe but opaque. Re-check on Sonnet.
+5. **Static keys.** Rowboat's MCP client has no OAuth flow, so the `spr_` key sits in plaintext config.
+
+## Wire facts for lane H (from `docs/fork/fixtures/`)
+
+- Top-level `reasoning: {effort}` is accepted by `https://ai-gateway.vercel.sh/v1/chat/completions`.
+- Stream chunk ids are `gen_…`, so the first chunk yields the generation id.
+- Final `usage` keys: `prompt_tokens`, `completion_tokens`, `total_tokens`, `cost`, `is_byok`,
+  `prompt_tokens_details.{cached_tokens, audio_tokens, video_tokens}`. There is no cache-write field.
+- An aborted generation does report usage through `GET /v1/generation?id=<gen id>`, so settlement by
+  generation lookup after a client abort is viable.
