@@ -177,6 +177,22 @@ turn with the exact commands above. Malformed shapes return `invalid_request` wi
 It cannot drive a turn from a script in this environment either — same missing-provider blocker — so it was
 documented, not executed.
 
+### Addendum 2026-09-18 (lane C2): reading a turn headlessly
+
+With a provider configured, the full turn works over plain RPC
+(`apps/x/apps/server/src/core-deps.ts:165-179`): `POST /rpc/sessions:create`
+`{}` → `{sessionId}`; `POST /rpc/sessions:sendMessage`
+`{sessionId, input:{role:"user",content}, config:{agent:{agentId:"copilot"}}}`
+→ `{turnId}`; then poll `POST /rpc/sessions:getTurn {turnId}` until the
+events contain a terminal `turn_completed` (reply text in `output`),
+`turn_failed` (`error`), or a pending `tool_permission_required` (answer with
+`POST /rpc/sessions:respondToPermission {turnId, toolCallId,
+decision:"allow"|"deny"}` and keep polling). The app-reported model id comes
+from `sessions:list`/`sessions:get` (`lastModel`). The WS alternative is the
+`sessions:events` broadcast (`server.ts:193`), but polling `getTurn` is
+sufficient and is what lane C2 used (PONG + three agent turns, permission
+ask→answer exchanges included).
+
 ## Red tests
 
 Clean-checkout failures, `packages/core` (`npx vitest run`), **nothing fixed**. Full suite (2026-09-16):
