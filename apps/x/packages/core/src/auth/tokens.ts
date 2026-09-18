@@ -1,5 +1,6 @@
 import container from '../di/container.js';
 import { IOAuthRepo, isAppSignIn, rowboatSession } from './repo.js';
+import { staticSpinrunKey } from './static-key.js';
 import { IClientRegistrationRepo } from './client-repo.js';
 import { getProviderConfig } from './providers.js';
 import * as oauthClient from './oauth-client.js';
@@ -72,6 +73,10 @@ async function sessionToken(tokens: OAuthTokens, opts?: { forceRefresh?: boolean
 
 /** The app's account token. Throws when signed out — including a spaces-only session. */
 export async function getAccessToken(): Promise<string> {
+    // Spike (lane G): static bearer wins over OAuth. The desktop holds NO
+    // model key; SPINRUN_API_KEY (spr_…) is the Spinrun bearer for /v1/llm.
+    const staticKey = staticSpinrunKey();
+    if (staticKey) return staticKey;
     const oauthRepo = container.resolve<IOAuthRepo>('oauthRepo');
     const connection = await oauthRepo.read('rowboat');
     const session = rowboatSession(connection);
